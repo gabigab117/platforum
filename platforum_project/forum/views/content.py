@@ -22,7 +22,6 @@ class Topic(models.Model):
 
 class Message(models.Model):
     message = models.CharField(max_length=10000, verbose_name="Message")
-    # Penser à créer une propriété (return user.username if user else "User banni")
     user = models.ForeignKey(to=AUTH_USER_MODEL, verbose_name="Auteur", on_delete=models.SET_NULL, null=True)
     topic = models.ForeignKey(to=Topic, verbose_name="Sujet", on_delete=models.CASCADE)
 
