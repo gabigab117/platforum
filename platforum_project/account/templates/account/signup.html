@@ -8,11 +8,14 @@
 
 <div class="container-fluid">
     <div class="row justify-content-around">
-        <div class="col-4 border shadow-lg">
+        <div class="col-4 shadow-lg p-3">
+            <h3 class="text-center">Inscription</h3>
             <form method="post">
                 {% csrf_token %}
                 {{ form|crispy }}
-
+                <div class="d-flex justify-content-center">
+<button type="submit" class="btn btn-outline-primary">Inscription</button>
+                </div>
             </form>
         </div>
         <div class="col-4 text-center shadow-lg">
