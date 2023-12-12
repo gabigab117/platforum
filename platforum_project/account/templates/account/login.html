@@ -1,0 +1,27 @@
+{% extends "base_site.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Login{% endblock %}
+
+{% block body %}
+
+<div class="container-fluid">
+    <div class="row justify-content-around">
+        <div class="col-4 shadow-lg position-relative">
+            <h3 class="text-center">Connexion</h3>
+            <form method="post" class="position-absolute top-50 start-50 translate-middle">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-outline-primary">Connexion</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-4 text-center shadow-lg">
+            <img src="{% static 'assets/login-min.png' %}" style="width: 500px; height: auto;">
+
+        </div>
+    </div>
+</div>
+{% endblock %}
