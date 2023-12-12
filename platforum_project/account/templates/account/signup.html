@@ -1,0 +1,24 @@
+{% extends "base_site.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Signup{% endblock %}
+
+{% block body %}
+
+<div class="container-fluid">
+    <div class="row justify-content-around">
+        <div class="col-4 border shadow-lg">
+            <form method="post">
+                {% csrf_token %}
+                {{ form|crispy }}
+
+            </form>
+        </div>
+        <div class="col-4 text-center shadow-lg">
+            <img src="{% static 'assets/login-min.png' %}" style="width: 500px; height: auto;">
+
+        </div>
+    </div>
+</div>
+{% endblock %}

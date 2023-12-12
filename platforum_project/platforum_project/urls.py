@@ -7,6 +7,7 @@ from platforum_project import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('landing.urls')),
+    path('account/', include('account.urls')),
 ]
 
 if settings.DEBUG:

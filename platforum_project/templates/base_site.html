@@ -27,7 +27,7 @@
                 </li>
                 {% if not request.user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link" href="#">S'inscrire</a>
+                    <a class="nav-link" href="{% url 'account:signup' %}">S'inscrire</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Connexion</a>
