@@ -7,4 +7,8 @@ class Forum(models.Model):
                                      verbose_name="Administrateur")
     name = models.CharField(max_length=100, verbose_name="Nom du Forum")
     description = models.CharField(max_length=1000, verbose_name="Description")
+    creation = models.DateField(auto_now_add=True, verbose_name="Date de création")
     # Champ field pour le domaine, blabla ou autre
+
+    def __str__(self):
+        return f"{self.name} - {self.forum_master.username}"
