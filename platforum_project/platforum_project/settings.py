@@ -146,6 +146,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Users
 AUTH_USER_MODEL = "account.CustomUser"
 
+# Login
+LOGIN_URL = "account:login"
+
 # Crispy
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
