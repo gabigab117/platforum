@@ -40,4 +40,4 @@ class PersonalMessaging(models.Model):
                                  related_name="user_two_personal_messaging")
 
     def __str__(self):
-        return f"Discussion entre {self.user_one} et {self.user_two}"
+        return f"Discussion entre {self.user_one.username} et {self.user_two.uername}"
