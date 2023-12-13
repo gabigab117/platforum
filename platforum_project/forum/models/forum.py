@@ -12,3 +12,13 @@ class Forum(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.forum_master.username}"
+
+
+class Theme(models.Model):
+    name = models.CharField(max_length=100, verbose_name="Nom")
+
+    class Meta:
+        verbose_name = "Thème"
+
+    def __str__(self):
+        return self.name
