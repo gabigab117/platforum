@@ -6,6 +6,7 @@ class Forum(models.Model):
     forum_master = models.ForeignKey(to=AUTH_USER_MODEL, on_delete=models.PROTECT,
                                      verbose_name="Administrateur")
     name = models.CharField(max_length=100, verbose_name="Nom du Forum")
+    theme = models.ForeignKey(to="Theme", verbose_name="Thème", on_delete=models.PROTECT)
     description = models.CharField(max_length=1000, verbose_name="Description")
     creation = models.DateField(auto_now_add=True, verbose_name="Date de création")
     # Champ field pour le domaine, blabla ou autre
