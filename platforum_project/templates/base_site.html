@@ -11,7 +11,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg bg-body-tertiary shadow mb-5">
+<nav class="navbar navbar-expand-lg shadow mb-5" style="background-color: rgba(25, 135, 84, 0.30);">
     <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'landing:index' %}">
             <img src="{% static 'assets/logo.png' %}" alt="Bootstrap" width="40">
@@ -74,18 +74,15 @@
 
 <div class="container-fluid text-center shadow-lg mb-5 rounded">
 
-    <div class="card text-bg-success p-3">
-        <div class="card-body">
-            <h1>PlatForum : Votre espace, votre forum, votre voix !</h1>
-        </div>
-    </div>
+    <h1 class="display-1 p-4">Plat<span style="color: rgba(25, 135, 84);">Forum</span> <img src="{% static 'assets/header.png' %}" width="200px" height="auto"></h1>
+
 </div>
 
 
 {% block body %}{% endblock %}
 
 <div class="container-fluid position-absolute bottom-0 text-center">
-<footer>Je suis le footer</footer>
+    <footer>Je suis le footer</footer>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
