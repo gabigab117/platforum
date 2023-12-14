@@ -1,3 +1,8 @@
 from django.shortcuts import render
+from .forms import CreateForumForm
 
-# Create your views here.
+
+def create_forum(request):
+    # Créer en cascade en une fois : Forum, AccountForum de l'admin, Categorie Test, Sujet Test
+    form = CreateForumForm()
+    return render(request, "forum/create-forum.html", context={"form": form})
