@@ -37,7 +37,7 @@ class SubCategory(models.Model):
 class Topic(models.Model):
     title = models.CharField(max_length=100, verbose_name="Titre")
     # Système d'alerte si sub_category est null
-    sub_category = models.ForeignKey(to=SubCategory, on_delete=models.SET_NULL, null=True)
+    sub_category = models.ForeignKey(to=SubCategory, on_delete=models.CASCADE)
     # Si le modérateur souhaite clôturer le sujet sans le supprimer
     closed = models.BooleanField(default=False, verbose_name="Clôturé")
     user = models.ForeignKey(to=AUTH_USER_MODEL, verbose_name="Auteur", on_delete=models.SET_NULL, null=True)
@@ -56,7 +56,7 @@ class Topic(models.Model):
 
     @classmethod
     def create_topic_test(cls, sub_category, user):
-        return cls.objects.create(title="Bienvenu(e)", category=sub_category, user=user)
+        return cls.objects.create(title="Bienvenu(e)", sub_category=sub_category, user=user)
 
 
 class Message(models.Model):
