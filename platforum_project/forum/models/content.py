@@ -19,13 +19,30 @@ class Category(models.Model):
         return cls.objects.create(name="Catégorie Test", forum=forum)
 
 
+class SubCategory(models.Model):
+    name = models.CharField(max_length=50, verbose_name="Sous catégorie")
+    category = models.ForeignKey(to=Category, on_delete=models.CASCADE, verbose_name="Catégorie")
+
+    def __str__(self):
+        return f"{self.name} - {self.category}"
+
+    @classmethod
+    def create_test_subcategory(cls, category):
+        return cls.objects.create(name="Sous catégorie Test", category=category)
+
+    class Meta:
+        verbose_name = "Sous catégorie"
+
+
 class Topic(models.Model):
     title = models.CharField(max_length=100, verbose_name="Titre")
-    category = models.ForeignKey(to=Category, on_delete=models.SET_NULL, null=True)
+    # Système d'alerte si sub_category est null
+    sub_category = models.ForeignKey(to=SubCategory, on_delete=models.SET_NULL, null=True)
     # Si le modérateur souhaite clôturer le sujet sans le supprimer
     closed = models.BooleanField(default=False, verbose_name="Clôturé")
     user = models.ForeignKey(to=AUTH_USER_MODEL, verbose_name="Auteur", on_delete=models.SET_NULL, null=True)
     creation = models.DateTimeField(auto_now_add=True, verbose_name="Date de publication")
+    pin = models.BooleanField(default=False, verbose_name="Epinglé")
 
     class Meta:
         verbose_name = "Sujet"
@@ -38,8 +55,8 @@ class Topic(models.Model):
         return self.user.username if self.user else "Utilisateur banni"
 
     @classmethod
-    def create_topic_test(cls, category, user):
-        return cls.objects.create(title="Bienvenu(e)", category=category, user=user)
+    def create_topic_test(cls, sub_category, user):
+        return cls.objects.create(title="Bienvenu(e)", category=sub_category, user=user)
 
 
 class Message(models.Model):
