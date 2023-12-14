@@ -1,5 +1,6 @@
 from django.db import models
 from .forum import Forum
+from forum.default_data.messages import welcome_message
 from platforum_project.settings import AUTH_USER_MODEL
 
 
@@ -12,6 +13,10 @@ class Category(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.forum.name}"
+
+    @classmethod
+    def create_test_category(cls, forum):
+        return cls.objects.create(name="Catégorie Test", forum=forum)
 
 
 class Topic(models.Model):
@@ -32,6 +37,10 @@ class Topic(models.Model):
     def author(self):
         return self.user.username if self.user else "Utilisateur banni"
 
+    @classmethod
+    def create_topic_test(cls, category, user):
+        return cls.objects.create(title="Bienvenu(e)", category=category, user=user)
+
 
 class Message(models.Model):
     message = models.CharField(max_length=10000, verbose_name="Message")
@@ -49,6 +58,10 @@ class Message(models.Model):
 
     def __str__(self):
         return f"{self.user} - {self.creation}"
+
+    @classmethod
+    def message_test(cls, topic, user):
+        return cls.objects.create(message=welcome_message(user), user=user, topic=topic)
 
 
 class PersonalMessaging(models.Model):
