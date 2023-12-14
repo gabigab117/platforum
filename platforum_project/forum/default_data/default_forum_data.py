@@ -9,3 +9,4 @@ def create_forum_with_data(form, user):
     sub_category = SubCategory.create_test_subcategory(category)
     topic = Topic.create_topic_test(sub_category, user)
     Message.message_test(topic, user)
+    return forum
