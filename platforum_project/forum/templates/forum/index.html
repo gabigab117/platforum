@@ -1,45 +1,35 @@
-{% extends "base_site.html" %}
+{% extends "base_forum.html" %}
 {% load static %}
 
 {% block title %}Forum de {{ forum.forum_master.username }}{% endblock %}
 
 {% block body %}
 
-<div class="container shadow-lg rounded border p-5 mb-5 text-center">
-
-    <div class="row">
-        <h2 class="mb-4"><span style="color: rgba(25, 135, 84);"><strong>{{ forum.name }}</strong></span>
-        </h2>
-        <h3 class="mb-5">Bienvenu(e) sur le forum de <span style="color: rgba(25, 135, 84);"><strong>{{ forum.forum_master.username }}</strong></span>
-        </h3>
-
-        <p>{{ forum.description }}</p>
-
-        <div class="col">
-
-
-        </div>
-
-
-    </div>
-
-
-</div>
 
 {% for category in categories %}
-<div class="container shadow-lg rounded border p-5">
+<div class="container shadow-lg rounded border p-5 mb-5">
 
 
     <div class="card">
-        <div class="card-header" style="background-color: rgba(136, 204, 136);">
-            <strong>{{ category.name }}</strong>
-        </div>
-        <ul class="list-group list-group-flush">
-            {% for subcategory in category.subcategories.all %}
-            <li class="list-group-item"> {{ subcategory.name }}</li>
-            {% endfor %}
+        <div class="card-header justify-content-between d-flex fw-bold" style="background-color: rgba(136, 204, 136);">
+            <div>{{ category.name }}</div>
+            <div>Sujets</div>
+            <div>Messages</div>
+            <div>Dernier message</div>
 
-        </ul>
+        </div>
+
+        {% for subcategory in category.subcategories.all %}
+        <div class="justify-content-between d-flex">
+            <div>{{ subcategory.name }}</div>
+            <div>{{ subcategory.topic_set.all.count }}</div>
+            <div>{{ subcategory.topic_set.last }}</div>
+            <div>{{ subcategory.number_of_messages }}</div>
+        </div>
+
+        {% endfor %}
+
+
     </div>
 
 </div>
