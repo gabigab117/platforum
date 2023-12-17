@@ -31,6 +31,10 @@ class SubCategory(models.Model):
     def create_test_subcategory(cls, category):
         return cls.objects.create(name="Sous catégorie Test", category=category)
 
+    @property
+    def number_of_messages(self):
+        return Message.objects.filter(topic__sub_category=self).count
+
     class Meta:
         verbose_name = "Sous catégorie"
 
@@ -47,6 +51,7 @@ class Topic(models.Model):
 
     class Meta:
         verbose_name = "Sujet"
+        ordering = ['-creation']
 
     def __str__(self):
         return f"{self.title} - {self.user.username}"
@@ -65,7 +70,7 @@ class Message(models.Model):
     user = models.ForeignKey(to=AUTH_USER_MODEL, verbose_name="Auteur", on_delete=models.SET_NULL, null=True)
     topic = models.ForeignKey(to=Topic, verbose_name="Sujet", on_delete=models.CASCADE, null=True)
     personal_messaging = models.ForeignKey(to="PersonalMessaging", on_delete=models.CASCADE,
-                                           verbose_name="Messagerie Personnel", null=True)
+                                           verbose_name="Messagerie Personnel", null=True, blank=True)
     personal = models.BooleanField(verbose_name="Personnel", default=False)
     creation = models.DateTimeField(auto_now_add=True, verbose_name="Date de publication")
     update = models.DateTimeField(auto_now=True, verbose_name="Modifié le", null=True)
@@ -80,6 +85,9 @@ class Message(models.Model):
     @classmethod
     def message_test(cls, topic, user):
         return cls.objects.create(message=welcome_message(user), user=user, topic=topic)
+
+    class Meta:
+        ordering = ['-creation']
 
 
 class PersonalMessaging(models.Model):
