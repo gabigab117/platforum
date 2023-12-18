@@ -1,4 +1,6 @@
 from django.db import models
+from django.utils.text import slugify
+
 from .forum import Forum
 from forum.default_data.messages import welcome_message
 from platforum_project.settings import AUTH_USER_MODEL
@@ -21,6 +23,7 @@ class Category(models.Model):
 
 class SubCategory(models.Model):
     name = models.CharField(max_length=50, verbose_name="Sous catégorie")
+    slug = models.SlugField(blank=True)
     category = models.ForeignKey(to=Category, on_delete=models.CASCADE, verbose_name="Catégorie",
                                  related_name="subcategories")
 
@@ -41,6 +44,11 @@ class SubCategory(models.Model):
 
     class Meta:
         verbose_name = "Sous catégorie"
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
 
 
 class Topic(models.Model):
