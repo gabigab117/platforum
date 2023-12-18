@@ -10,23 +10,24 @@
 <div class="container shadow-lg rounded border p-5 mb-5">
 
 
-    <div class="card">
-        <div class="card-header justify-content-between d-flex fw-bold" style="background-color: rgba(136, 204, 136);">
-            <div>{{ category.name }}</div>
-            <div>Sujets</div>
-            <div>Messages</div>
-            <div>Dernier sujet commenté</div>
+    <div class="card text-center">
+        <div class="card-header row fw-bold mx-0" style="background-color: rgba(136, 204, 136);">
+            <div class="col-3">{{ category.name }}</div>
+            <div class="col-3">Sujets</div>
+            <div class="col-3">Messages</div>
+            <div class="col-3">Dernier sujet commenté</div>
 
         </div>
 
         {% for subcategory in category.subcategories.all %}
-        <div class="justify-content-between d-flex">
-            <div>{{ subcategory.name }}</div>
-            <div>{{ subcategory.topic_set.all.count }}</div>
-            <div>{{ subcategory.number_of_messages }}</div>
-            <div>{{ subcategory.last_topic_commented }}</div>
+        <div class="row">
+            <div class="justify-content-between d-flex">
+                <div class="col-3">{{ subcategory.name }}</div>
+                <div class="col-3">{{ subcategory.topic_set.all.count }}</div>
+                <div class="col-3">{{ subcategory.number_of_messages }}</div>
+                <div class="col-3">{{ subcategory.last_topic_commented }}</div>
+            </div>
         </div>
-
         {% endfor %}
 
 
