@@ -11,3 +11,10 @@ def index(request, slug):
     forum = get_object_or_404(Forum, slug=slug)
     categories = Category.objects.filter(forum=forum)
     return render(request, "forum/index.html", context={"forum": forum, "categories": categories})
+
+
+def sub_category_view(request, pk, slug_forum, slug_sub_category):
+    forum = get_object_or_404(Forum, slug=slug_forum)
+    sub_category = get_object_or_404(SubCategory, pk=pk)
+    return render(request, "forum/sub-category.html", context={"sub_category": sub_category,
+                                                               "forum": forum})
