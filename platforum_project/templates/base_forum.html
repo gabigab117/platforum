@@ -23,45 +23,35 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Accueil PlatForum</a>
+                    <a class="nav-link active" aria-current="page" href="{% url 'landing:index' %}">Accueil
+                        PlatForum</a>
                 </li>
-                {% if not request.user.is_authenticated %}
+                <!-- Penser à la condition pour faire en sorte que l'utilisateur appartienne au forum... ou non -->
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'account:signup' %}">S'inscrire</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'account:login' %}">Connexion</a>
-                </li>
-                {% else %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'account:logout' %}">Déconnexion</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                       aria-expanded="false">
-                        {{ request.user }}
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Mon profil</a></li>
-                        <li><a class="dropdown-item" href="#">Mes forums</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="#">Créer un forum</a></li>
-                    </ul>
-                </li>
-                {% endif %}
-                {% if request.user.is_superuser %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'admin:index' %}">Administration</a>
-                </li>
-                {% endif %}
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Contact</a>
+                    <a class="nav-link" href="{% url 'account:signup' %}">Profil</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">A propos</a>
+                    <a class="nav-link" href="{% url 'account:signup' %}">Notifications</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'account:login' %}">Messagerie privée</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'account:login' %}">Liste des membres</a>
+                </li>
+                <!-- Ici le else pour qu'il demande accès au forum par exemple -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'account:logout' %}">Devenir membre de ce forum</a>
+                </li>
+
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contacter l'administrateur</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Créer son forum</a>
+                </li>
+
 
             </ul>
             <form class="d-flex" role="search">
@@ -74,8 +64,10 @@
 
 <div class="container-fluid text-center shadow-lg mb-5 rounded p-5">
 
-    <h1 class="display-1 p-4">{{ forum.name }}<img src="{% static 'assets/header.png' %}" width="200px" height="auto"></h1>
-    <strong>par</strong> <h2><span style="color: rgba(25, 135, 84);">{{ forum.forum_master.username }}</span></h2>
+    <h1 class="display-1 p-4">{{ forum.name }}<img src="{% static 'assets/header.png' %}" width="200px" height="auto">
+    </h1>
+    <strong>par</strong>
+    <h2><span style="color: rgba(25, 135, 84);">{{ forum.forum_master.username }}</span></h2>
     <hr>
     <p>{{ forum.description }}</p>
 
