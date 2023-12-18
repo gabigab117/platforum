@@ -22,7 +22,7 @@
         {% for subcategory in category.subcategories.all %}
         <div class="row">
             <div class="justify-content-between d-flex">
-                <div class="col-3">{{ subcategory.name }}</div>
+                <div class="col-3"><a href="{% url 'forum:sub-category' slug_forum=forum.slug pk=subcategory.pk slug_sub_category=subcategory.slug %}">{{ subcategory.name }}</a></div>
                 <div class="col-3">{{ subcategory.topic_set.all.count }}</div>
                 <div class="col-3">{{ subcategory.number_of_messages }}</div>
                 <div class="col-3">{{ subcategory.last_topic_commented }}</div>

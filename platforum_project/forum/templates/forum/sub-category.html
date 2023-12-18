@@ -1,0 +1,38 @@
+{% extends "base_forum.html" %}
+{% load static %}
+
+{% block title %}{{ sub_category.name }}{% endblock %}
+
+{% block body %}
+
+
+
+<div class="container shadow-lg rounded border p-5 mb-5">
+
+
+    <div class="card text-center">
+        <div class="card-header row fw-bold mx-0" style="background-color: rgba(136, 204, 136);">
+            <div class="col-4">Sujets</div>
+            <div class="col-4">Messages</div>
+            <div class="col-4">Dernier message</div>
+
+
+        </div>
+
+
+        <div class="row">
+            <div class="justify-content-between d-flex">
+                <div class="col-4"></div>
+                <div class="col-4"></div>
+                <div class="col-4"></div>
+
+            </div>
+        </div>
+
+
+
+    </div>
+
+</div>
+
+{% endblock %}
