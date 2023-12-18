@@ -35,6 +35,10 @@ class SubCategory(models.Model):
     def number_of_messages(self):
         return Message.objects.filter(topic__sub_category=self).count
 
+    @property
+    def last_topic_commented(self):
+        return Message.objects.filter(topic__sub_category=self).last().topic.title
+
     class Meta:
         verbose_name = "Sous catégorie"
 
