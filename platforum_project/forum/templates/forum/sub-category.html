@@ -6,29 +6,36 @@
 {% block body %}
 
 
-
 <div class="container shadow-lg rounded border p-5 mb-5">
+
+    <div class="row mb-2" style="color: rgba(25, 135, 84);"><h5>{{ sub_category.name }}</h5></div>
+    <div class="row mb-2">
+        <div class="col-2"><a href="{% url 'forum:add-topic' slug_forum=forum.slug pk=sub_category.pk slug_sub_category=sub_category.slug %}" class="btn btn-success">Nouveau
+            sujet</a></div>
+    </div>
 
 
     <div class="card text-center">
         <div class="card-header row fw-bold mx-0" style="background-color: rgba(136, 204, 136);">
             <div class="col-4">Sujets</div>
             <div class="col-4">Messages</div>
-            <div class="col-4">Dernier message</div>
+            <div class="col-4">Dernier message par</div>
 
 
         </div>
 
+        {% for topic in topics %}
 
-        <div class="row">
+        <div class="row border-bottom p-2 mx-0">
             <div class="justify-content-between d-flex">
-                <div class="col-4"></div>
-                <div class="col-4"></div>
-                <div class="col-4"></div>
+                <div class="col-4"><a class="topic-link" href="">{{ topic.title }}</a></div>
+                <div class="col-4">{{ topic.number_of_messages }}</div>
+                <div class="col-4">{{ topic.last_message }}</div>
 
             </div>
         </div>
 
+        {% endfor %}
 
 
     </div>
