@@ -1,0 +1,19 @@
+{% extends "base_forum.html" %}
+{% load static %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+
+
+
+<div class="container shadow-lg rounded border p-5 mb-5">
+
+{% for message in messages %}
+    {{ message.message }}
+    {% endfor %}
+
+
+</div>
+
+{% endblock %}
