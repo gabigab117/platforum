@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.utils.text import slugify
 
 from platforum_project.settings import AUTH_USER_MODEL
@@ -20,6 +21,9 @@ class Forum(models.Model):
         if not self.slug:
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse("forum:index", kwargs={"slug": self.slug})
 
 
 class Theme(models.Model):
