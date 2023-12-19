@@ -1,0 +1,32 @@
+{% extends "base_forum.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}Nouveau sujet dans {{ sub_category.name }}{% endblock %}
+
+{% block body %}
+
+
+<div class="container shadow-lg rounded border p-5 mb-5">
+    <div class="row">
+        <div class="col-12 text-center">
+            <h3>Nouveau sujet dans <span style="color: rgba(25, 135, 84);">{{ sub_category.name }}</span></h3>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <form method="post">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <div class="text-center">
+                <input type="submit" value="Soumettre" class="btn btn-success">
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
