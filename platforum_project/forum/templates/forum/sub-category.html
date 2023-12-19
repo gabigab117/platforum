@@ -10,7 +10,9 @@
 
     <div class="row mb-2" style="color: rgba(25, 135, 84);"><h5>{{ sub_category.name }}</h5></div>
     <div class="row mb-2">
-        <div class="col-2"><a href="{% url 'forum:add-topic' slug_forum=forum.slug pk=sub_category.pk slug_sub_category=sub_category.slug %}" class="btn btn-success">Nouveau
+        <div class="col-2"><a
+                href="{% url 'forum:add-topic' slug_forum=forum.slug pk=sub_category.pk slug_sub_category=sub_category.slug %}"
+                class="btn btn-success">Nouveau
             sujet</a></div>
     </div>
 
@@ -28,7 +30,8 @@
 
         <div class="row border-bottom p-2 mx-0">
             <div class="justify-content-between d-flex">
-                <div class="col-4"><a class="topic-link" href="">{{ topic.title }}</a></div>
+                <div class="col-4"><a class="topic-link"
+                                      href="{% url 'forum:topic' slug_forum=forum.slug pk=sub_category.pk slug_sub_category=sub_category.slug pk_topic=topic.pk slug_topic=topic.slug %}">{{ topic.title }}</a></div>
                 <div class="col-4">{{ topic.number_of_messages }}</div>
                 <div class="col-4">{{ topic.last_message }}</div>
 
