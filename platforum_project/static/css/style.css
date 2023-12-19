@@ -4,4 +4,14 @@ body {
     font-family: 'Roboto Serif', sans-serif;
 }
 
+.cat-link {
+    color: rgba(12, 67, 42);
+    text-decoration: None;
+}
+
+.topic-link {
+    color: rgba(12, 67, 42);
+    text-decoration: None;
+}
+
 
