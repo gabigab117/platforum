@@ -72,6 +72,14 @@ class Topic(models.Model):
     def author(self):
         return self.user.username if self.user else "Utilisateur banni"
 
+    @property
+    def number_of_messages(self):
+        return Message.objects.filter(topic=self).count()
+
+    @property
+    def last_message(self):
+        return Message.objects.filter(topic=self).last().user.username
+
     @classmethod
     def create_topic_test(cls, sub_category, user):
         return cls.objects.create(title="Bienvenu(e)", sub_category=sub_category, user=user)
