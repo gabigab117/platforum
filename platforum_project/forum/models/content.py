@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.utils.text import slugify
 
 from .forum import Forum
@@ -53,6 +54,7 @@ class SubCategory(models.Model):
 
 class Topic(models.Model):
     title = models.CharField(max_length=100, verbose_name="Titre")
+    slug = models.SlugField(blank=True)
     # Système d'alerte si sub_category est null
     sub_category = models.ForeignKey(to=SubCategory, on_delete=models.CASCADE)
     # Si le modérateur souhaite clôturer le sujet sans le supprimer
@@ -83,6 +85,11 @@ class Topic(models.Model):
     @classmethod
     def create_topic_test(cls, sub_category, user):
         return cls.objects.create(title="Bienvenu(e)", sub_category=sub_category, user=user)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
 
 
 class Message(models.Model):
