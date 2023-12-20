@@ -14,11 +14,13 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-12">
+    <div class="row justify-content-center">
+        <div class="col-8">
             <form method="post">
                 {% csrf_token %}
-                {{ form|crispy }}
+                {{ form.media }}
+
+                    {{ form|crispy }}
                 <div class="text-center">
                 <input type="submit" value="Soumettre" class="btn btn-success">
                 </div>
