@@ -12,7 +12,7 @@ class CreateForumForm(forms.ModelForm):
 
 
 class CreateTopic(forms.ModelForm):
-    message = forms.CharField(label="Message", max_length=1000, widget=CKEditorUploadingWidget)
+    message = forms.CharField(label="", max_length=1000, widget=CKEditorUploadingWidget)
 
     class Meta:
         model = Topic
