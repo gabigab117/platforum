@@ -2,6 +2,8 @@ from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
 
+from ckeditor_uploader.fields import RichTextUploadingField
+
 from .forum import Forum
 from forum.default_data.messages import welcome_message
 from platforum_project.settings import AUTH_USER_MODEL
@@ -104,7 +106,7 @@ class Topic(models.Model):
 
 
 class Message(models.Model):
-    message = models.CharField(max_length=10000, verbose_name="Message")
+    message = RichTextUploadingField(verbose_name="Message")
     user = models.ForeignKey(to=AUTH_USER_MODEL, verbose_name="Auteur", on_delete=models.SET_NULL, null=True)
     topic = models.ForeignKey(to=Topic, verbose_name="Sujet", on_delete=models.CASCADE, null=True)
     personal_messaging = models.ForeignKey(to="PersonalMessaging", on_delete=models.CASCADE,
