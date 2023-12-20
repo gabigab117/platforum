@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 
 from forum.models import Forum, Category, ForumAccount, SubCategory, Topic, Message
-from forum.forms import CreateTopic
+from forum.forms import CreateTopic, PostMessage
 
 
 def index(request, slug):
@@ -55,10 +55,19 @@ def topic_view(request, slug_forum, pk, slug_sub_category, pk_topic, slug_topic)
     topic = get_object_or_404(Topic, pk=pk_topic)
     messages = Message.objects.filter(topic=topic)
     account = ForumAccount.objects.get(forum=forum, user=user)
+
+    if request.method == "POST":
+        form = PostMessage(request.POST)
+        if form.is_valid():
+            Message.objects.create(message=form.cleaned_data["message"], user=user, topic=topic)
+            return redirect(topic)
+    else:
+        form = PostMessage()
     return render(request, "forum/topic.html", context={
         "forum": forum,
         "sub_category": sub_category,
         "topic": topic,
         "messages": messages,
         "account": account,
+        "form": form
     })

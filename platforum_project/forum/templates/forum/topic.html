@@ -1,4 +1,5 @@
 {% extends "base_forum.html" %}
+{% load crispy_forms_tags %}
 {% load static %}
 
 {% block title %}{{ topic.title }}{% endblock %}
@@ -16,7 +17,7 @@
             Par {{ message.user.username }} <img class="rounded" src="{{ account.thumbnail_url }}" height="50" width="auto">
         </div>
         <div class="card-body">
-            <p class="card-text">{{ message.message }}</p>
+            <p class="card-text">{{ message.message|safe }}</p>
 
         </div>
         <div class="card-footer text-body-secondary">
@@ -27,6 +28,39 @@
         </div>
     </div>
     {% endfor %}
+
+</div>
+<!-- Le formulaire pour répondre -->
+<div class="container rounded p-5 mb-5 border shadow-lg">
+
+        <div class="row">
+        <div class="col-12 text-center">
+            <h3>Réponse au sujet :  <span style="color: rgba(25, 135, 84);">{{ topic.title }}</span></h3>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.media }}
+                <div class="text-center">
+                    {{ form|crispy }}
+
+                    <input type="submit" value="Soumettre" class="btn btn-success">
+                </div>
+            </form>
+        </div>
+
+    </div>
+    <div class="row" style="color: red;">
+        {% if form.errors %}
+
+        {{ form.errors }}
+
+{% endif %}
+
+    </div>
 
 </div>
 

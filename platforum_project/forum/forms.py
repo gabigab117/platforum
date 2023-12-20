@@ -2,7 +2,7 @@ from django import forms
 
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
-from forum.models import Forum, Topic
+from forum.models import Forum, Topic, Message
 
 
 class CreateForumForm(forms.ModelForm):
@@ -12,8 +12,12 @@ class CreateForumForm(forms.ModelForm):
 
 
 class CreateTopic(forms.ModelForm):
-    message = forms.CharField(label="", max_length=1000, widget=CKEditorUploadingWidget)
+    message = forms.CharField(label="", max_length=10000, widget=CKEditorUploadingWidget)
 
     class Meta:
         model = Topic
         fields = ["title", "message"]
+
+
+class PostMessage(forms.Form):
+    message = forms.CharField(max_length=10000, label="", widget=CKEditorUploadingWidget)
