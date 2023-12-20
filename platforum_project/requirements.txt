@@ -1,0 +1,9 @@
+asgiref==3.7.2
+crispy-bootstrap5==2023.10
+Django==5.0
+django-ckeditor==6.7.0
+django-crispy-forms==2.1
+django-environ==0.11.2
+django-js-asset==2.2.0
+Pillow==10.1.0
+sqlparse==0.4.4
