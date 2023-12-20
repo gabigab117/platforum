@@ -112,6 +112,7 @@ class Message(models.Model):
     personal = models.BooleanField(verbose_name="Personnel", default=False)
     creation = models.DateTimeField(auto_now_add=True, verbose_name="Date de publication")
     update = models.DateTimeField(auto_now=True, verbose_name="Modifié le", null=True)
+    update_counter = models.IntegerField(default=0, verbose_name="Nombre de maj")
 
     @property
     def author(self):
@@ -124,8 +125,14 @@ class Message(models.Model):
     def message_test(cls, topic, user):
         return cls.objects.create(message=welcome_message(user), user=user, topic=topic)
 
+    def save(self, *args, **kwargs):
+        if Message.objects.filter(pk=self.pk).exists():
+            self.update_counter += 1
+
+        super().save(*args, **kwargs)
+
     class Meta:
-        ordering = ['-creation']
+        ordering = ['creation']
 
 
 class PersonalMessaging(models.Model):
