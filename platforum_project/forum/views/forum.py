@@ -37,7 +37,7 @@ def add_topic(request, slug_forum, pk, slug_sub_category):
             topic.sub_category = sub_category
             topic.save()
             Message.objects.create(message=form.cleaned_data["message"], user=user, topic=topic)
-            return redirect("landing:index")
+            return redirect(topic)
 
     else:
         form = CreateTopic()
