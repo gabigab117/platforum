@@ -1,0 +1,44 @@
+{% extends "base_forum.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}Modifier {{ message.topic.title }}{% endblock %}
+
+{% block body %}
+
+
+
+<div class="container rounded p-5 mb-5 border shadow-lg">
+
+        <div class="row">
+        <div class="col-12 text-center">
+            <h3>Modifier mon message</h3>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.media }}
+                <div class="text-center">
+                    {{ form|crispy }}
+
+                    <input type="submit" value="Modifier" class="btn btn-success">
+                </div>
+            </form>
+        </div>
+
+    </div>
+    <div class="row" style="color: red;">
+        {% if form.errors %}
+
+        {{ form.errors }}
+
+{% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

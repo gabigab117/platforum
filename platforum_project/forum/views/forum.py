@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
+from django.views.generic import UpdateView
 
 from forum.models import Forum, Category, ForumAccount, SubCategory, Topic, Message
 from forum.forms import CreateTopic, PostMessage
@@ -59,7 +60,10 @@ def topic_view(request, slug_forum, pk, slug_sub_category, pk_topic, slug_topic)
     if request.method == "POST":
         form = PostMessage(request.POST)
         if form.is_valid():
-            Message.objects.create(message=form.cleaned_data["message"], user=user, topic=topic)
+            message = form.save(commit=False)
+            message.topic = topic
+            message.user = user
+            message.save()
             return redirect(topic)
     else:
         form = PostMessage()
@@ -71,3 +75,8 @@ def topic_view(request, slug_forum, pk, slug_sub_category, pk_topic, slug_topic)
         "account": account,
         "form": form
     })
+
+
+class UpdateMessage(UpdateView):
+    form_class = PostMessage
+
