@@ -54,9 +54,11 @@ def topic_view(request, slug_forum, pk, slug_sub_category, pk_topic, slug_topic)
     sub_category = get_object_or_404(SubCategory, pk=pk)
     topic = get_object_or_404(Topic, pk=pk_topic)
     messages = Message.objects.filter(topic=topic)
+    account = ForumAccount.objects.get(forum=forum, user=user)
     return render(request, "forum/topic.html", context={
         "forum": forum,
         "sub_category": sub_category,
         "topic": topic,
-        "messages": messages
+        "messages": messages,
+        "account": account,
     })
