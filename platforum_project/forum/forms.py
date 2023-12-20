@@ -19,5 +19,9 @@ class CreateTopic(forms.ModelForm):
         fields = ["title", "message"]
 
 
-class PostMessage(forms.Form):
+class PostMessage(forms.ModelForm):
     message = forms.CharField(max_length=10000, label="", widget=CKEditorUploadingWidget)
+
+    class Meta:
+        model = Message
+        fields = ["message"]
