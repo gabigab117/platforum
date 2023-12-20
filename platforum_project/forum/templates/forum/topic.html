@@ -1,18 +1,32 @@
 {% extends "base_forum.html" %}
 {% load static %}
 
-{% block title %}{% endblock %}
+{% block title %}{{ topic.title }}{% endblock %}
 
 {% block body %}
 
 
+<div class="container rounded p-5 mb-5 border shadow-lg">
 
-<div class="container shadow-lg rounded border p-5 mb-5">
+    {% for message in messages %}
 
-{% for message in messages %}
-    {{ message.message }}
+
+    <div class="card text-center shadow-lg mb-3">
+        <div class="card-header" style="background-color: rgba(136, 204, 136);">
+            Par {{ message.user.username }} <img class="rounded" src="{{ account.thumbnail_url }}" height="50" width="auto">
+        </div>
+        <div class="card-body">
+            <p class="card-text">{{ message.message }}</p>
+
+        </div>
+        <div class="card-footer text-body-secondary">
+            Le {{ message.creation }}
+            {% if message.update_counter > 0 %}
+            <i>Modifié le {{ message.update }}</i>
+            {% endif %}
+        </div>
+    </div>
     {% endfor %}
-
 
 </div>
 
