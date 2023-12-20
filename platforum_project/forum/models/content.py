@@ -91,6 +91,17 @@ class Topic(models.Model):
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
 
+    def get_absolute_url(self):
+        sub_category = self.sub_category
+        forum = sub_category.category.forum
+        return reverse("forum:topic", kwargs={
+            "slug_forum": forum.slug,
+            "pk": sub_category.pk,
+            "slug_sub_category": sub_category.slug,
+            "pk_topic": self.pk,
+            "slug_topic": self.slug
+        })
+
 
 class Message(models.Model):
     message = models.CharField(max_length=10000, verbose_name="Message")
