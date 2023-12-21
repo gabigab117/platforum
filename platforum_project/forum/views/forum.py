@@ -1,7 +1,5 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse_lazy
-from django.views.generic import UpdateView
 
 from forum.models import Forum, Category, ForumAccount, SubCategory, Topic, Message
 from forum.forms import CreateTopic, PostMessage
