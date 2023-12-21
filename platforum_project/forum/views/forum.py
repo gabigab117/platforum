@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse_lazy
 from django.views.generic import UpdateView
 
 from forum.models import Forum, Category, ForumAccount, SubCategory, Topic, Message
@@ -75,8 +76,3 @@ def topic_view(request, slug_forum, pk, slug_sub_category, pk_topic, slug_topic)
         "account": account,
         "form": form
     })
-
-
-class UpdateMessage(UpdateView):
-    form_class = PostMessage
-
