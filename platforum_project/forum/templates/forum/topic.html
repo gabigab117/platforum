@@ -14,14 +14,44 @@
 
     <div class="card text-center shadow-lg mb-3">
         <div class="card-header" style="background-color: rgba(136, 204, 136);">
-            Par {{ message.user.username }} <img class="rounded" src="{{ account.thumbnail_url }}" height="50" width="auto">
+            Par {{ message.user.username }} <img class="rounded" src="{{ account.thumbnail_url }}" height="50"
+                                                 width="auto">
         </div>
         <div class="card-body">
             <div class="d-flex justify-content-end">
                 {% if request.user == message.user %}
-                <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Modifier" href="{% url 'forum:update-message' slug_forum=forum.slug pk=sub_category.pk slug_sub_category=sub_category.slug pk_topic=topic.pk slug_topic=topic.slug pk_message=message.pk %}"><img class="rounded" src="{% static 'assets/update.png' %}" height="40" width="auto"></a>
-                {% endif %}
+                <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Modifier"
+                   href="{% url 'forum:update-message' slug_forum=forum.slug pk=sub_category.pk slug_sub_category=sub_category.slug pk_topic=topic.pk slug_topic=topic.slug pk_message=message.pk %}"><img
+                        class="rounded" src="{% static 'assets/update.png' %}" height="40" width="auto"></a>
+
+                <!-- Button trigger modal -->
+                <button type="button" class="btn-close" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Supprimer le message</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Cette action est irréversible
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-success" data-bs-dismiss="modal">Retour</button>
+                                <button type="button" class="btn btn-danger">Confirmer</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                <!-- Enf of Modal -->
+
+                {% endif %}
+            </div>
             {{ message.message|safe }}
 
         </div>
@@ -38,9 +68,9 @@
 <!-- Le formulaire pour répondre -->
 <div class="container rounded p-5 mb-5 border shadow-lg">
 
-        <div class="row">
+    <div class="row">
         <div class="col-12 text-center">
-            <h3>Réponse au sujet :  <span style="color: rgba(25, 135, 84);">{{ topic.title }}</span></h3>
+            <h3>Réponse au sujet : <span style="color: rgba(25, 135, 84);">{{ topic.title }}</span></h3>
         </div>
     </div>
 
@@ -63,7 +93,7 @@
 
         {{ form.errors }}
 
-{% endif %}
+        {% endif %}
 
     </div>
 
