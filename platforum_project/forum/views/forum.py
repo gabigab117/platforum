@@ -99,3 +99,7 @@ def update_message(request, slug_forum, pk, slug_sub_category, pk_topic, slug_to
         "message": message,
         "form": form
     })
+
+
+def delete_message(request):
+    pass
