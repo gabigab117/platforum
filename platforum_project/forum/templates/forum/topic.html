@@ -17,7 +17,12 @@
             Par {{ message.user.username }} <img class="rounded" src="{{ account.thumbnail_url }}" height="50" width="auto">
         </div>
         <div class="card-body">
-            <p class="card-text">{{ message.message|safe }}</p>
+            <div class="d-flex justify-content-end">
+                {% if request.user == message.user %}
+                <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Modifier" href="{% url 'forum:update-message' slug_forum=forum.slug pk=sub_category.pk slug_sub_category=sub_category.slug pk_topic=topic.pk slug_topic=topic.slug pk_message=message.pk %}"><img class="rounded" src="{% static 'assets/update.png' %}" height="40" width="auto"></a>
+                {% endif %}
+                </div>
+            {{ message.message|safe }}
 
         </div>
         <div class="card-footer text-body-secondary">
