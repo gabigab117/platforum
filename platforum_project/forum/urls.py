@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import create_forum, index, sub_category_view, add_topic, topic_view
+from .views import create_forum, index, sub_category_view, add_topic, topic_view, update_message
 
 app_name = "forum"
 urlpatterns = [
@@ -7,5 +7,9 @@ urlpatterns = [
     path('<str:slug>/index/', index, name="index"),
     path('<str:slug_forum>/sub-category/<int:pk>/<str:slug_sub_category>', sub_category_view, name="sub-category"),
     path('<str:slug_forum>/<int:pk>/<str:slug_sub_category>/add/', add_topic, name="add-topic"),
-    path('<str:slug_forum>/<int:pk>/<str:slug_sub_category>/<int:pk_topic>/<str:slug_topic>', topic_view, name="topic"),
+    path('<str:slug_forum>/<int:pk>/<str:slug_sub_category>/<int:pk_topic>/<str:slug_topic>/', topic_view,
+         name="topic"),
+    path('<str:slug_forum>/<int:pk>/<str:slug_sub_category>/<int:pk_topic>/<str:slug_topic>/<int:pk_message>/',
+         update_message,
+         name="update-message"),
 ]
