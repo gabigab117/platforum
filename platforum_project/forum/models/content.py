@@ -68,7 +68,7 @@ class Topic(models.Model):
         ordering = ['-creation']
 
     def __str__(self):
-        return f"{self.title} - {self.user.username}"
+        return f"{self.title} - {self.user.username} - {self.sub_category.category.forum}"
 
     @property
     def author(self):
