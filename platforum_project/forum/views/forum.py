@@ -1,7 +1,9 @@
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
 from django.forms import model_to_dict
 from django.shortcuts import render, get_object_or_404, redirect
 
+from platforum_project.func.security import user_permission
 from forum.models import Forum, Category, ForumAccount, SubCategory, Topic, Message
 from forum.forms import CreateTopic, PostMessage
 
@@ -101,5 +103,10 @@ def update_message(request, slug_forum, pk, slug_sub_category, pk_topic, slug_to
     })
 
 
-def delete_message(request):
-    pass
+@require_POST
+def delete_message(request, pk_topic, pk_message):
+    message = get_object_or_404(Message, pk=pk_message)
+    user_permission(message, request.user)
+    message.delete()
+
+    return redirect(Topic.objects.get(pk=pk_topic))
