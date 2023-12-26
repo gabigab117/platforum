@@ -21,10 +21,11 @@ def sub_category_view(request, pk, slug_forum, slug_sub_category):
     # Bouton nouveau sujet
     forum = get_object_or_404(Forum, slug=slug_forum)
     sub_category = get_object_or_404(SubCategory, pk=pk)
-    topics = Topic.objects.filter(sub_category=sub_category)
+    topics = Topic.objects.filter(sub_category=sub_category, pin=False)
+    pin_topics = Topic.objects.filter(sub_category=sub_category, pin=True)
     return render(request, "forum/sub-category.html", context={"sub_category": sub_category,
                                                                "forum": forum,
-                                                               "topics": topics})
+                                                               "topics": topics, "pin_topics": pin_topics})
 
 
 def add_topic(request, slug_forum, pk, slug_sub_category):
@@ -108,5 +109,4 @@ def delete_message(request, pk_topic, pk_message):
     message = get_object_or_404(Message, pk=pk_message)
     user_permission(message, request.user)
     message.delete()
-
     return redirect(Topic.objects.get(pk=pk_topic))
