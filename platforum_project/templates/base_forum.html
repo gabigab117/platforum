@@ -34,7 +34,7 @@
                     <a class="nav-link" href="{% url 'account:signup' %}">Notifications</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'account:login' %}">Messagerie privée</a>
+                    <a class="nav-link" href="{% url 'forum:private-messaging' slug_forum=forum.slug %}">Messagerie privée</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'account:login' %}">Liste des membres</a>

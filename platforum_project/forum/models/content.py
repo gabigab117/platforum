@@ -106,8 +106,8 @@ class Topic(models.Model):
 class Message(models.Model):
     message = models.TextField(verbose_name="Message")
     user = models.ForeignKey(to=AUTH_USER_MODEL, verbose_name="Auteur", on_delete=models.SET_NULL, null=True)
-    topic = models.ForeignKey(to=Topic, verbose_name="Sujet", on_delete=models.CASCADE, null=True)
-    personal_messaging = models.ForeignKey(to="PersonalMessaging", on_delete=models.CASCADE,
+    topic = models.ForeignKey(to=Topic, verbose_name="Sujet", on_delete=models.CASCADE, null=True, blank=True)
+    conversation = models.ForeignKey(to="Conversation", on_delete=models.CASCADE,
                                            verbose_name="Messagerie Personnel", null=True, blank=True)
     personal = models.BooleanField(verbose_name="Personnel", default=False)
     creation = models.DateTimeField(auto_now_add=True, verbose_name="Date de publication")
@@ -135,15 +135,24 @@ class Message(models.Model):
         ordering = ['creation']
 
 
-class PersonalMessaging(models.Model):
+class Conversation(models.Model):
     # A gérer avec un get or create
-    user_one = models.ForeignKey(to=AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="Utilisateur 1",
-                                 related_name="user_one_personal_messaging")
-    user_two = models.ForeignKey(to=AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="Utilisateur 2",
-                                 related_name="user_two_personal_messaging")
+    user = models.ForeignKey(to=AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="Utilisateur",
+                             related_name="messaging")
+    contacts = models.ManyToManyField(to=AUTH_USER_MODEL, verbose_name="Contacts")
+    forum = models.ForeignKey(to=Forum, on_delete=models.CASCADE, verbose_name="Forum")
+    subject = models.CharField(max_length=50, verbose_name="Sujet")
 
     def __str__(self):
-        return f"Discussion entre {self.user_one.username} et {self.user_two.uername}"
+        return f"Discussion de {self.user.username} - {self.forum}"
 
     class Meta:
-        verbose_name = "Messagerie"
+        verbose_name = "Conversation"
+
+    @property
+    def number_of_messages(self):
+        return Message.objects.filter(conversation=self).count()
+
+    @property
+    def last_message(self):
+        return Message.objects.filter(conversation=self).last().user.username
