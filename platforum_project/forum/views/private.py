@@ -19,7 +19,7 @@ def personal_messaging(request, slug_forum):
     })
 
 
-def conversation_view(request, slug_forum, pk_conversation):
+def conversation_view(request, slug_forum, slug_conversation, pk_conversation):
     user = request.user
     forum = get_object_or_404(Forum, slug=slug_forum)
     conversation = get_object_or_404(Conversation, pk=pk_conversation)

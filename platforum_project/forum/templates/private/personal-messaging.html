@@ -31,7 +31,7 @@
         <div class="row border-bottom p-2 mx-0">
             <div class="justify-content-between d-flex">
                 <div class="col-4"><a class="topic-link"
-                                      href="{% url 'forum:conversation' slug_forum=forum.slug pk_conversation=my_conversation.pk %}">{{ my_conversation.subject }}</a></div>
+                                      href="{% url 'forum:conversation' slug_forum=forum.slug slug_conversation=my_conversation.slug pk_conversation=my_conversation.pk %}">{{ my_conversation.subject }}</a></div>
                 <div class="col-4">{{ my_conversation.number_of_messages }}</div>
                 <div class="col-4">{{ my_conversation.last_message }}</div>
 
@@ -60,7 +60,7 @@
         <div class="row border-bottom p-2 mx-0">
             <div class="justify-content-between d-flex">
                 <div class="col-4"><a class="topic-link"
-                                      href="{% url 'forum:conversation' slug_forum=forum.slug pk_conversation=conversation.pk %}">{{ conversation.subject }}</a></div>
+                                      href="{% url 'forum:conversation' slug_forum=forum.slug slug_conversation=conversation.slug pk_conversation=conversation.pk %}">{{ conversation.subject }}</a></div>
                 <div class="col-4">{{ conversation.number_of_messages }}</div>
                 <div class="col-4">{{ conversation.last_message }}</div>
 
