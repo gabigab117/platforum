@@ -142,9 +142,15 @@ class Conversation(models.Model):
     contacts = models.ManyToManyField(to=AUTH_USER_MODEL, verbose_name="Contacts")
     forum = models.ForeignKey(to=Forum, on_delete=models.CASCADE, verbose_name="Forum")
     subject = models.CharField(max_length=50, verbose_name="Sujet")
+    slug = models.SlugField(blank=True)
 
     def __str__(self):
         return f"Discussion de {self.user.username} - {self.forum}"
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.subject)
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = "Conversation"
@@ -156,3 +162,7 @@ class Conversation(models.Model):
     @property
     def last_message(self):
         return Message.objects.filter(conversation=self).last().user.username
+
+    def get_absolute_url(self):
+        return reverse("forum:conversation", kwargs={"slug_forum": self.forum.slug,
+                                                     "pk_conversation": self.pk})
