@@ -1,44 +1,76 @@
 {% extends "base_forum.html" %}
 {% load static %}
 
-{% block title %}Messagerie sur {{ forum.name }} - {{ request.user }}{% endblock %}
+{% block title %}Boite personnelle {{ request.user }}{% endblock %}
 
 {% block body %}
 
 
 <div class="container rounded p-5 mb-5">
 
-    <div class="row mb-2 justify-content-start"><div><h4 style="color: rgba(25, 135, 84);">Messagerie personnelle </h4></div> <div>de <span
-            style="color: red;">{{ request.user }}</span></div> <div>sur <strong>{{ forum.name }}</strong></div></div>
+    <div class="row mb-2" style="color: rgba(25, 135, 84);"><h4>Conversation(s) initiée(s)</h4></div>
     <div class="row mb-2">
-        <div class="col-2"><a href="" class="btn btn-success">Nouveau message</a></div>
+        <div class="col-3"><a
+                href=""
+                class="btn btn-success">Nouvelle conversation</a></div>
     </div>
 
-    <!-- Messages personnels -->
-{% if conversations %}
-
+    <!-- Sujets épinglés -->
+    {% if my_conversations %}
     <div class="card text-center shadow-lg mb-5">
-        <div class="card-header row fw-bold mx-0" style="background-color: rgba(25, 135, 84);">
+        <div class="card-header row fw-bold mx-0" style="background-color: rgba(255, 218, 185, 1);">
             <div class="col-4">Sujets</div>
             <div class="col-4">Messages</div>
             <div class="col-4">Dernier message par</div>
 
 
         </div>
-{% for conversation in conversations %}
+
+        {% for my_conversation in my_conversations %}
 
         <div class="row border-bottom p-2 mx-0">
             <div class="justify-content-between d-flex">
-                <div class="col-4"><a class="topic-link" href="">{{ conversation.subject }}</a></div>
+                <div class="col-4"><a class="topic-link"
+                                      href="{% url 'forum:conversation' slug_forum=forum.slug pk_conversation=my_conversation.pk %}">{{ my_conversation.subject }}</a></div>
+                <div class="col-4">{{ my_conversation.number_of_messages }}</div>
+                <div class="col-4">{{ my_conversation.last_message }}</div>
+
+            </div>
+        </div>
+
+        {% endfor %}
+
+
+    </div>
+    {% endif %}
+    <div class="row mb-2" style="color: rgba(25, 135, 84);"><h4>Autre(s) conversation(s)</h4></div>
+    {% if conversations %}
+    <!-- Sujets -->
+    <div class="card text-center shadow-lg">
+        <div class="card-header row fw-bold mx-0" style="background-color: rgba(136, 204, 136);">
+            <div class="col-4">Sujets</div>
+            <div class="col-4">Messages</div>
+            <div class="col-4">Dernier message par</div>
+
+
+        </div>
+
+        {% for conversation in conversations %}
+
+        <div class="row border-bottom p-2 mx-0">
+            <div class="justify-content-between d-flex">
+                <div class="col-4"><a class="topic-link"
+                                      href="{% url 'forum:conversation' slug_forum=forum.slug pk_conversation=conversation.pk %}">{{ conversation.subject }}</a></div>
                 <div class="col-4">{{ conversation.number_of_messages }}</div>
                 <div class="col-4">{{ conversation.last_message }}</div>
 
             </div>
         </div>
-{% endfor %}
+
+        {% endfor %}
+
 
     </div>
-
 {% endif %}
 </div>
 

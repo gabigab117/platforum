@@ -1,0 +1,122 @@
+{% extends "base_forum.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}{{ conversation.subject }}{% endblock %}
+
+{% block body %}
+
+<div class="container p-5 mb-4">
+    <div class="row justify-content-between">
+        <div class="col-4 shadow-lg">
+            <h2>Conversation</h2>
+            <h3 style="color: green;">{{ conversation.subject }}</h3>
+        </div>
+        <div class="col-4 shadow-lg">
+            <p><strong>Initiée par</strong> <span style="color: red;">{{ conversation.user.username }}</span></p>
+            <p><strong>Avec</strong> {% for contact in contacts %}<span style="color: blue;">{{ contact.username }}</span> {% endfor %}</p>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="container rounded p-5 mb-5 border shadow-lg">
+
+    {% for message in messages %}
+
+
+    <div class="card text-center shadow-lg mb-3">
+        <div class="card-header" style="background-color: rgba(136, 204, 136);">
+            Par {{ message.user.username }} <img class="rounded" src="{{ account.thumbnail_url }}" height="50"
+                                                 width="auto">
+        </div>
+        <div class="card-body">
+            <div class="d-flex justify-content-end">
+                {% if request.user == message.user %}
+                <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Modifier"
+                   href="{% url 'forum:update-message-conversation' slug_forum=forum.slug slug_conversation=conversation.slug pk_conversation=conversation.pk pk_message=message.pk %}"><img
+                        class="rounded" src="{% static 'assets/update.png' %}" height="40" width="auto"></a>
+
+                <!-- Button trigger modal -->
+                <button type="button" class="btn-close" data-bs-toggle="modal"
+                        data-bs-target="#deletemodal{{ message.pk }}">
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="deletemodal{{ message.pk }}" tabindex="-1"
+                     aria-labelledby="Delete{{ message.pk }}"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="Delete{{ message.pk }}">Supprimer le message</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Cette action est irréversible
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-success" data-bs-dismiss="modal">Retour</button>
+                                <form method="post" action="">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger">Confirmer</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Enf of Modal -->
+
+                {% endif %}
+            </div>
+            {{ message.message|safe }}
+
+        </div>
+        <div class="card-footer text-body-secondary">
+            Le {{ message.creation }}
+            {% if message.update_counter > 0 %}
+            <i>Modifié le {{ message.update }}</i>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+
+</div>
+<!-- Le formulaire pour répondre -->
+<div class="container rounded p-5 mb-5 border shadow-lg">
+
+    <div class="row">
+        <div class="col-12 text-center">
+            <h3>Répondre à la conversation : <span style="color: rgba(25, 135, 84);">{{ conversation.subject }}</span>
+            </h3>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.media }}
+                <div class="text-center">
+                    {{ form|crispy }}
+
+                    <input type="submit" value="Soumettre" class="btn btn-success">
+                </div>
+            </form>
+        </div>
+
+    </div>
+    <div class="row" style="color: red;">
+        {% if form.errors %}
+
+        {{ form.errors }}
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}
