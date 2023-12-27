@@ -87,6 +87,7 @@ def update_message(request, slug_forum, pk, slug_sub_category, pk_topic, slug_to
     topic = get_object_or_404(Topic, pk=pk_topic)
     account = ForumAccount.objects.get(forum=forum, user=user)
     message = get_object_or_404(Message, pk=pk_message)
+    user_permission(message, user)
 
     if request.method == "POST":
         form = PostMessage(request.POST)
