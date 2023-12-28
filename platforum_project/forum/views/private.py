@@ -1,6 +1,7 @@
 from django.core.exceptions import PermissionDenied
 from django.forms import model_to_dict
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.http import require_POST
 
 from forum.models import Conversation, Forum, ForumAccount, Message
 from forum.forms import PostMessage
@@ -61,3 +62,12 @@ def update_message_conversation(request, slug_forum, slug_conversation, pk_conve
         form = PostMessage(initial=model_to_dict(message))
     return render(request, "private/update-message.html", context={"forum": forum, "form": form,
                                                                    "conversation": conversation})
+
+
+@require_POST
+def delete_message_conversation(request, pk_conversation, pk_message):
+    conversation = get_object_or_404(Conversation, pk=pk_conversation)
+    message = get_object_or_404(Message, pk=pk_message)
+    user_permission(message, request.user)
+    message.delete()
+    return redirect(conversation)

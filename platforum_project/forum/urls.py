@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import create_forum, index, sub_category_view, add_topic, topic_view, update_message, delete_message, \
-    personal_messaging, conversation_view, update_message_conversation
+    personal_messaging, conversation_view, update_message_conversation, delete_message_conversation
 
 app_name = "forum"
 urlpatterns = [
@@ -13,11 +13,13 @@ urlpatterns = [
     path('<str:slug_forum>/<int:pk>/<str:slug_sub_category>/<int:pk_topic>/<str:slug_topic>/<int:pk_message>/',
          update_message,
          name="update-message"),
-    path('delete/<int:pk_topic>/<int:pk_message>/', delete_message, name="delete-message"),
+    path('delete-message/<int:pk_topic>/<int:pk_message>/', delete_message, name="delete-message"),
     path('<str:slug_forum>/private-messaging/', personal_messaging, name="private-messaging"),
     path('<str:slug_forum>/private-messaging/<str:slug_conversation>/<int:pk_conversation>/', conversation_view,
          name="conversation"),
     path('<str:slug_forum>/update-message/<str:slug_conversation>/<int:pk_conversation>/<int:pk_message>',
          update_message_conversation,
          name="update-message-conversation"),
+    path('delete-message-conversation/<int:pk_conversation>/<int:pk_message>/', delete_message_conversation,
+         name="delete-message-conversation"),
 ]

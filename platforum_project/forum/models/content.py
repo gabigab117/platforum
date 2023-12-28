@@ -37,7 +37,7 @@ class SubCategory(models.Model):
 
     @property
     def number_of_messages(self):
-        return Message.objects.filter(topic__sub_category=self).count
+        return Message.objects.filter(topic__sub_category=self).count()
 
     @property
     def last_topic_commented(self):
@@ -165,4 +165,5 @@ class Conversation(models.Model):
 
     def get_absolute_url(self):
         return reverse("forum:conversation", kwargs={"slug_forum": self.forum.slug,
+                                                     "slug_conversation": self.slug,
                                                      "pk_conversation": self.pk})
