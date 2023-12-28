@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
+from django.utils import timezone
 
 from .forum import Forum
 from forum.default_data.messages import welcome_message
@@ -62,10 +63,11 @@ class Topic(models.Model):
     user = models.ForeignKey(to=AUTH_USER_MODEL, verbose_name="Auteur", on_delete=models.SET_NULL, null=True)
     creation = models.DateTimeField(auto_now_add=True, verbose_name="Date de publication")
     pin = models.BooleanField(default=False, verbose_name="Epinglé")
+    last_activity = models.DateTimeField(auto_now=True, verbose_name="Activité récente")
 
     class Meta:
         verbose_name = "Sujet"
-        ordering = ['-creation']
+        ordering = ['-last_activity']
 
     def __str__(self):
         return f"{self.title} - {self.user.username} - {self.sub_category.category.forum}"
@@ -108,7 +110,7 @@ class Message(models.Model):
     user = models.ForeignKey(to=AUTH_USER_MODEL, verbose_name="Auteur", on_delete=models.SET_NULL, null=True)
     topic = models.ForeignKey(to=Topic, verbose_name="Sujet", on_delete=models.CASCADE, null=True, blank=True)
     conversation = models.ForeignKey(to="Conversation", on_delete=models.CASCADE,
-                                           verbose_name="Messagerie Personnel", null=True, blank=True)
+                                     verbose_name="Messagerie Personnel", null=True, blank=True)
     personal = models.BooleanField(verbose_name="Personnel", default=False)
     creation = models.DateTimeField(auto_now_add=True, verbose_name="Date de publication")
     update = models.DateTimeField(auto_now=True, verbose_name="Modifié le", null=True)
@@ -128,7 +130,9 @@ class Message(models.Model):
     def save(self, *args, **kwargs):
         if Message.objects.filter(pk=self.pk).exists():
             self.update_counter += 1
-
+        if not Message.objects.filter(pk=self.pk).exists():
+            self.topic.last_activity = timezone.now()
+            self.topic.save()
         super().save(*args, **kwargs)
 
     class Meta:
