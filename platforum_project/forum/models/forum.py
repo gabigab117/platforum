@@ -11,7 +11,7 @@ class Forum(models.Model):
     name = models.CharField(max_length=100, verbose_name="Nom du Forum", unique=True)
     slug = models.SlugField(blank=True)
     theme = models.ForeignKey(to="Theme", verbose_name="Thème", on_delete=models.PROTECT)
-    description = models.CharField(max_length=1000, verbose_name="Description")
+    description = models.CharField(max_length=3000, verbose_name="Description")
     creation = models.DateField(auto_now_add=True, verbose_name="Date de création")
 
     def __str__(self):
