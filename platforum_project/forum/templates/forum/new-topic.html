@@ -8,6 +8,7 @@
 
 
 <div class="container shadow-lg rounded border p-5 mb-5">
+    <div class="row mb-2"><div class="col-3"><a href="{% url 'forum:sub-category' slug_forum=forum.slug pk=sub_category.pk slug_sub_category=sub_category.slug %}"><img src="{% static 'assets/return.png' %}" height="40" width="auto"></a></div> </div>
     <div class="row">
         <div class="col-12 text-center">
             <h3>Nouveau sujet dans <span style="color: rgba(25, 135, 84);">{{ sub_category.name }}</span></h3>

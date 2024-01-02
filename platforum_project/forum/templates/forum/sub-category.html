@@ -8,6 +8,8 @@
 
 <div class="container rounded p-5 mb-5">
 
+    <div class="row mb-2"><div class="col-3"><a href="{% url 'forum:index' slug=forum.slug %}"><img src="{% static 'assets/return.png' %}" height="40" width="auto"></a></div> </div>
+
     <div class="row mb-2" style="color: rgba(25, 135, 84);"><h4>{{ sub_category.name }}</h4></div>
     <div class="row mb-2">
         <div class="col-2"><a
