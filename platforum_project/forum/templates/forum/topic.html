@@ -11,6 +11,7 @@
         <div class="col-4 shadow-lg">
             <h2>Sujet</h2>
             <h3 style="color: green;">{{ topic.title }}</h3>
+            <a href="{% url 'forum:sub-category' slug_forum=forum.slug pk=sub_category.pk slug_sub_category=sub_category.slug %}"><img src="{% static 'assets/return.png' %}" height="40" width="auto"></a>
         </div>
 
     </div>
