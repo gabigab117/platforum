@@ -101,7 +101,8 @@ def update_message(request, slug_forum, pk, slug_sub_category, pk_topic, slug_to
         "forum": forum,
         "topic": topic,
         "message": message,
-        "form": form
+        "form": form,
+        "sub_category": sub_category
     })
 
 
