@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import create_forum, index, sub_category_view, add_topic, topic_view, update_message, delete_message, \
-    personal_messaging, conversation_view, update_message_conversation, delete_message_conversation
+    personal_messaging, conversation_view, update_message_conversation, delete_message_conversation, profile_forum
 
 app_name = "forum"
 urlpatterns = [
@@ -22,4 +22,5 @@ urlpatterns = [
          name="update-message-conversation"),
     path('delete-message-conversation/<int:pk_conversation>/<int:pk_message>/', delete_message_conversation,
          name="delete-message-conversation"),
+    path('<str:slug_forum>/profile', profile_forum, name="profile")
 ]

@@ -2,7 +2,7 @@ from django import forms
 
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
-from forum.models import Forum, Topic, Message
+from forum.models import Forum, Topic, Message, ForumAccount
 
 
 class CreateForumForm(forms.ModelForm):
@@ -25,3 +25,11 @@ class PostMessage(forms.ModelForm):
     class Meta:
         model = Message
         fields = ["message"]
+
+
+class ProfileUpdateForm(forms.ModelForm):
+    thumbnail = forms.ImageField(label="Modifier ma photo de profil")
+
+    class Meta:
+        model = ForumAccount
+        fields = ["thumbnail"]

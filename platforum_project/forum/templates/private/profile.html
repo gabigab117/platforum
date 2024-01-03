@@ -1,0 +1,45 @@
+{% extends "base_forum.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}Profil de {{ account.user.username }}{% endblock %}
+
+{% block body %}
+
+
+<div class="container shadow-lg rounded border p-5 mb-5">
+    <div class="row text-center justify-content-center">
+        <div class="col-6">
+            <h2 class="mb-2">Compte de <span style="color: rgba(25, 135, 84);">{{ account.user.username }}</span></h2>
+            <h5 class="mb-5">A rejoint le forum le <span style="color: blue;">{{ account.joined }}</span></h5>
+            <img src="{{ account.thumbnail_url }}" width="100" height="auto" class="rounded mb-5">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <input type="submit" value="Modifier" class="btn btn-success">
+            </form>
+        </div>
+    </div>
+
+
+</div>
+
+<div class="container shadow-lg rounded border p-5 mb-5">
+    <div class="row text-center justify-content-center">
+        <h2>Vos dernières contributions</h2>
+        <div class="col-6">
+            {% if messages %}
+            <div class="list-group">
+            {% for message in messages %}
+                <a href="{% url 'forum:topic' slug_forum=forum.slug pk=message.topic.sub_category.pk slug_sub_category=message.topic.sub_category.slug pk_topic=message.topic.pk slug_topic=message.topic.slug %}" class="list-group-item list-group-item-action list-group-item-success">Dans {{ message.topic.title }} le {{ message.creation }}</a>
+                {% endfor %}
+            </div>
+            {% else %}
+            <h6>Vous n'avez pas encore posté de message</h6>
+            {% endif %}
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
