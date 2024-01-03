@@ -136,7 +136,7 @@ class Message(models.Model):
         super().save(*args, **kwargs)
 
     class Meta:
-        ordering = ['creation']
+        ordering = ['-creation']
 
 
 class Conversation(models.Model):
