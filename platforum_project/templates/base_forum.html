@@ -28,7 +28,7 @@
                 </li>
                 <!-- Penser à la condition pour faire en sorte que l'utilisateur appartienne au forum... ou non -->
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'account:signup' %}">Profil</a>
+                    <a class="nav-link" href="{% url 'forum:profile' slug_forum=forum.slug %}">Profil</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'account:signup' %}">Notifications</a>
@@ -68,8 +68,8 @@
     </h1>
     <strong>par</strong>
     <h2><span style="color: rgba(25, 135, 84);">{{ forum.forum_master.username }}</span></h2>
-    <hr>
-    <p>{{ forum.description }}</p>
+    {% block head %}{% endblock %}
+
 
 </div>
 
