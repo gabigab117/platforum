@@ -41,7 +41,7 @@
                 </li>
                 <!-- Ici le else pour qu'il demande accès au forum par exemple -->
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'account:logout' %}">Devenir membre de ce forum</a>
+                    <a class="nav-link" href="{% url 'forum:signup' slug_forum=forum.slug pk_forum=forum.pk %}">Devenir membre de ce forum</a>
                 </li>
 
 

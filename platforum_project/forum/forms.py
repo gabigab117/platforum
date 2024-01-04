@@ -33,3 +33,11 @@ class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = ForumAccount
         fields = ["thumbnail"]
+
+
+class SignupForumForm(forms.ModelForm):
+    thumbnail = forms.ImageField(label="Photo de profil")
+
+    class Meta:
+        model = ForumAccount
+        fields = ["thumbnail"]

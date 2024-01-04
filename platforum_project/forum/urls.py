@@ -1,10 +1,12 @@
 from django.urls import path
 from .views import create_forum, index, sub_category_view, add_topic, topic_view, update_message, delete_message, \
-    personal_messaging, conversation_view, update_message_conversation, delete_message_conversation, profile_forum
+    personal_messaging, conversation_view, update_message_conversation, delete_message_conversation, profile_forum, \
+    signup_forum
 
 app_name = "forum"
 urlpatterns = [
     path('create-forum/', create_forum, name="create-forum"),
+    path('<str:slug_forum>/<int:pk_forum>/signup/', signup_forum, name="signup"),
     path('<str:slug>/index/', index, name="index"),
     path('<str:slug_forum>/sub-category/<int:pk>/<str:slug_sub_category>', sub_category_view, name="sub-category"),
     path('<str:slug_forum>/<int:pk>/<str:slug_sub_category>/add/', add_topic, name="add-topic"),
@@ -22,5 +24,5 @@ urlpatterns = [
          name="update-message-conversation"),
     path('delete-message-conversation/<int:pk_conversation>/<int:pk_message>/', delete_message_conversation,
          name="delete-message-conversation"),
-    path('<str:slug_forum>/profile', profile_forum, name="profile")
+    path('<str:slug_forum>/profile/', profile_forum, name="profile")
 ]
