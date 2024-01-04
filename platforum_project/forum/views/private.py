@@ -56,7 +56,7 @@ def conversation_view(request, slug_forum, pk_forum, slug_conversation, pk_conve
         form = PostMessage(request.POST)
         if form.is_valid():
             message = form.save(commit=False)
-            message.conversation, message.user = conversation, user
+            message.conversation, message.user, message.personal = conversation, user, True
             message.save()
             return redirect(conversation)
     else:
@@ -105,7 +105,7 @@ def profile_forum(request, pk_forum, slug_forum):
     user = request.user
     forum = get_object_or_404(Forum, pk=pk_forum)
     account = active_forum_account(user, forum)
-    last_messages = Message.objects.filter(user=user, topic__sub_category__category__forum=forum)[:5]
+    last_messages = Message.objects.filter(user=user, topic__sub_category__category__forum=forum).order_by("-creation")[:5]
 
     if request.method == "POST":
         form = ProfileUpdateForm(request.POST, request.FILES)
