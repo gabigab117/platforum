@@ -27,6 +27,7 @@
                         PlatForum</a>
                 </li>
                 <!-- Penser à la condition pour faire en sorte que l'utilisateur appartienne au forum... ou non -->
+                {% if account %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'forum:profile' pk_forum=forum.pk slug_forum=forum.slug %}">Profil</a>
                 </li>
@@ -40,10 +41,11 @@
                     <a class="nav-link" href="{% url 'account:login' %}">Liste des membres</a>
                 </li>
                 <!-- Ici le else pour qu'il demande accès au forum par exemple -->
+                {% else %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'forum:signup' slug_forum=forum.slug pk_forum=forum.pk %}">Devenir membre de ce forum</a>
                 </li>
-
+                {% endif %}
 
                 <li class="nav-item">
                     <a class="nav-link" href="#">Contacter l'administrateur</a>

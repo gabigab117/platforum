@@ -4,39 +4,42 @@ from django.forms import model_to_dict
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 
+from account.models import CustomUser
 from forum.models import Conversation, Forum, ForumAccount, Message
 from forum.forms import PostMessage, ProfileUpdateForm, SignupForumForm
 
-from platforum_project.func.security import user_permission, active_forum_account
+from platforum_project.func.security import user_permission, verify_active_forum_account
 
 
 @login_required
 def signup_forum(request, slug_forum, pk_forum):
+    user: CustomUser = request.user
     forum = get_object_or_404(Forum, slug=slug_forum, pk=pk_forum)
+    account = user.retrieve_forum_account(forum)
 
     if request.method == "POST":
         form = SignupForumForm(request.POST, request.FILES)
         if form.is_valid():
-            account = form.save(commit=False)
-            account.forum = forum
-            account.user = request.user
-            account.save()
+            forum_account = form.save(commit=False)
+            forum_account.forum = forum
+            forum_account.user = user
+            forum_account.save()
             return redirect("forum:profile", pk_forum=forum.pk, slug_forum=forum.slug)
     else:
         form = SignupForumForm()
-    return render(request, "private/signup.html", context={"form": form, "forum": forum})
+    return render(request, "private/signup.html", context={"form": form, "forum": forum, "account": account})
 
 
 @login_required
 def personal_messaging(request, slug_forum, pk_forum):
     user = request.user
     forum = get_object_or_404(Forum, pk=pk_forum)
-    account = active_forum_account(user, forum)
+    account = user.retrieve_forum_account(forum)
     my_conversations = Conversation.objects.filter(forum=forum, user=user)
     conversations = Conversation.objects.filter(forum=forum, contacts=user)
     return render(request, "private/personal-messaging.html", context={
         "forum": forum,
-        "my_conversations": my_conversations, "conversations": conversations
+        "my_conversations": my_conversations, "conversations": conversations, "account": account
     })
 
 
@@ -45,7 +48,7 @@ def conversation_view(request, slug_forum, pk_forum, slug_conversation, pk_conve
     user = request.user
     forum = get_object_or_404(Forum, pk=pk_forum)
     conversation = get_object_or_404(Conversation, pk=pk_conversation)
-    account = active_forum_account(user, forum)
+    account = user.retrieve_forum_account(forum)
     messages = Message.objects.filter(conversation=conversation)
     contacts = conversation.contacts.all()
 
@@ -53,6 +56,7 @@ def conversation_view(request, slug_forum, pk_forum, slug_conversation, pk_conve
         raise PermissionDenied()
 
     if request.method == "POST":
+        verify_active_forum_account(user, forum)
         form = PostMessage(request.POST)
         if form.is_valid():
             message = form.save(commit=False)
@@ -70,7 +74,8 @@ def conversation_view(request, slug_forum, pk_forum, slug_conversation, pk_conve
 def update_message_conversation(request, slug_forum, pk_forum, slug_conversation, pk_conversation, pk_message):
     user = request.user
     forum = get_object_or_404(Forum, pk=pk_forum)
-    account = active_forum_account(user, forum)
+    verify_active_forum_account(user, forum)
+    account = user.retrieve_forum_account(forum)
     conversation = get_object_or_404(Conversation, pk=pk_conversation)
     message = get_object_or_404(Message, pk=pk_message)
     user_permission(message, user)
@@ -84,7 +89,7 @@ def update_message_conversation(request, slug_forum, pk_forum, slug_conversation
     else:
         form = PostMessage(initial=model_to_dict(message))
     return render(request, "private/update-message.html", context={"forum": forum, "form": form,
-                                                                   "conversation": conversation})
+                                                                   "conversation": conversation, "account": account})
 
 
 @require_POST
@@ -92,7 +97,7 @@ def update_message_conversation(request, slug_forum, pk_forum, slug_conversation
 def delete_message_conversation(request, pk_forum, pk_conversation, pk_message):
     user = request.user
     forum = get_object_or_404(Forum, pk=pk_forum)
-    account = active_forum_account(user, forum)
+    verify_active_forum_account(user, forum)
     conversation = get_object_or_404(Conversation, pk=pk_conversation)
     message = get_object_or_404(Message, pk=pk_message)
     user_permission(message, user)
@@ -104,7 +109,7 @@ def delete_message_conversation(request, pk_forum, pk_conversation, pk_message):
 def profile_forum(request, pk_forum, slug_forum):
     user = request.user
     forum = get_object_or_404(Forum, pk=pk_forum)
-    account = active_forum_account(user, forum)
+    account = user.retrieve_forum_account(forum)
     last_messages = Message.objects.filter(user=user, topic__sub_category__category__forum=forum).order_by("-creation")[:5]
 
     if request.method == "POST":

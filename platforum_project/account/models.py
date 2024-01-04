@@ -1,6 +1,9 @@
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
+
+from forum.models import ForumAccount
 
 
 class CustomManager(BaseUserManager):
@@ -37,3 +40,9 @@ class CustomUser(AbstractUser):
     # With REQUIRED_FIELDS : If the field is empty at the time of creation: "This field cannot be empty"
     REQUIRED_FIELDS = ["email", "last_name", "first_name"]
     objects = CustomManager()
+
+    def retrieve_forum_account(self, forum):
+        try:
+            return ForumAccount.objects.get(user=self, forum=forum)
+        except ObjectDoesNotExist:
+            return None

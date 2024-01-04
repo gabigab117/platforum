@@ -7,9 +7,9 @@ def user_permission(forum_element, user):
         raise PermissionDenied()
 
 
-def active_forum_account(user, forum):
+def verify_active_forum_account(user, forum):
     try:
-        account = ForumAccount.objects.get(user=user, forum=forum, active=True)
-        return account
+        ForumAccount.objects.get(user=user, forum=forum, active=True)
+        return True
     except ObjectDoesNotExist:
         raise PermissionDenied()
