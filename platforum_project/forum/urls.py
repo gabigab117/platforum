@@ -19,7 +19,7 @@ urlpatterns = [
         update_message,
         name="update-message"),
     path('<int:pk_forum>/delete-message/<int:pk_topic>/<int:pk_message>/', delete_message, name="delete-message"),
-    path('<str:slug_forum>/<int: pk_forum>/private-messaging/', personal_messaging, name="private-messaging"),
+    path('<str:slug_forum>/<int:pk_forum>/private-messaging/', personal_messaging, name="private-messaging"),
     path('<str:slug_forum>/<int:pk_forum>/private-messaging/<str:slug_conversation>/<int:pk_conversation>/',
          conversation_view,
          name="conversation"),
