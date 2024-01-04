@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.utils.text import slugify
 from django.utils import timezone
 
+from .account import ForumAccount
 from .forum import Forum
 from forum.default_data.messages import welcome_message
 from platforum_project.settings import AUTH_USER_MODEL
@@ -108,7 +109,7 @@ class Topic(models.Model):
 
 class Message(models.Model):
     message = models.TextField(verbose_name="Message")
-    user = models.ForeignKey(to=AUTH_USER_MODEL, verbose_name="Auteur", on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey(to=ForumAccount, verbose_name="Auteur", on_delete=models.SET_NULL, null=True)
     topic = models.ForeignKey(to=Topic, verbose_name="Sujet", on_delete=models.CASCADE, null=True, blank=True)
     conversation = models.ForeignKey(to="Conversation", on_delete=models.CASCADE,
                                      verbose_name="Messagerie Personnel", null=True, blank=True)
