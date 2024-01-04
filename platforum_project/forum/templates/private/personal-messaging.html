@@ -7,7 +7,7 @@
 
 
 <div class="container rounded p-5 mb-5">
-    <div class="row mb-2"><div class="col-3"><a href="{% url 'forum:index' slug=forum.slug %}"><img src="{% static 'assets/return.png' %}" height="40" width="auto"></a></div> </div>
+    <div class="row mb-2"><div class="col-3"><a href="{% url 'forum:index' slug=forum.slug pk_forum=forum.pk %}"><img src="{% static 'assets/return.png' %}" height="40" width="auto"></a></div> </div>
 
     <div class="row mb-2" style="color: rgba(25, 135, 84);"><h4>Conversation(s) initiée(s)</h4></div>
     <div class="row mb-2">

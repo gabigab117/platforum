@@ -23,7 +23,7 @@ class Forum(models.Model):
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse("forum:index", kwargs={"slug": self.slug})
+        return reverse("forum:index", kwargs={"slug": self.slug, "pk_forum": self.pk})
 
 
 class Theme(models.Model):
