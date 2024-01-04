@@ -3,7 +3,7 @@ from django.views.decorators.http import require_POST
 from django.forms import model_to_dict
 from django.shortcuts import render, get_object_or_404, redirect
 
-from platforum_project.func.security import user_permission, user_has_active_forum_account
+from platforum_project.func.security import user_permission, active_forum_account
 from forum.models import Forum, Category, ForumAccount, SubCategory, Topic, Message
 from forum.forms import CreateTopic, PostMessage
 
@@ -32,7 +32,7 @@ def sub_category_view(request, pk, slug_forum, slug_sub_category):
 def add_topic(request, slug_forum, pk, slug_sub_category):
     user = request.user
     forum = get_object_or_404(Forum, slug=slug_forum)
-    account = user_has_active_forum_account(user, forum)
+    account = active_forum_account(user, forum)
     sub_category = get_object_or_404(SubCategory, pk=pk)
 
     if request.method == "POST":
@@ -60,7 +60,7 @@ def topic_view(request, slug_forum, pk, slug_sub_category, pk_topic, slug_topic)
     sub_category = get_object_or_404(SubCategory, pk=pk)
     topic = get_object_or_404(Topic, pk=pk_topic)
     messages = Message.objects.filter(topic=topic)
-    account = ForumAccount.objects.get(forum=forum, user=user)
+    account = active_forum_account(user, forum)
 
     if request.method == "POST":
         form = PostMessage(request.POST)
@@ -88,7 +88,7 @@ def update_message(request, slug_forum, pk, slug_sub_category, pk_topic, slug_to
     forum = get_object_or_404(Forum, slug=slug_forum)
     sub_category = get_object_or_404(SubCategory, pk=pk)
     topic = get_object_or_404(Topic, pk=pk_topic)
-    account = user_has_active_forum_account(user, forum)
+    account = active_forum_account(user, forum)
     message = get_object_or_404(Message, pk=pk_message)
     user_permission(message, user)
 

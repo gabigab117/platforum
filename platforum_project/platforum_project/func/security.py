@@ -7,7 +7,7 @@ def user_permission(forum_element, user):
         raise PermissionDenied()
 
 
-def user_has_active_forum_account(user, forum):
+def active_forum_account(user, forum):
     try:
         account = ForumAccount.objects.get(user=user, forum=forum, active=True)
         return account
