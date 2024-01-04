@@ -1,0 +1,28 @@
+{% extends "base_forum.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}Inscription à  {{ forum.name }}{% endblock %}
+
+{% block body %}
+
+
+<div class="container shadow-lg rounded border p-5 mb-5">
+    <div class="row mb-2"><div class="col-3"><a href="{% url 'forum:index' slug=forum.slug %}"><img src="{% static 'assets/return.png' %}" height="40" width="auto"></a></div> </div>
+    <div class="row text-center justify-content-center">
+        <div class="col-6">
+
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <input type="submit" value="Inscription" class="btn btn-success">
+            </form>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+{% endblock %}
