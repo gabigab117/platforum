@@ -10,7 +10,7 @@
 <!-- Le formulaire pour répondre -->
 <div class="container rounded p-5 mb-5 border shadow-lg">
 
-    <div class="row mb-2"><div class="col-3"><a href="{% url 'forum:topic' slug_forum=forum.slug pk=sub_category.pk slug_sub_category=sub_category.slug pk_topic=topic.pk slug_topic=topic.slug %}"><img src="{% static 'assets/return.png' %}" height="40" width="auto"></a></div> </div>
+    <div class="row mb-2"><div class="col-3"><a href="{% url 'forum:topic' slug_forum=forum.slug pk_forum=forum.pk pk=sub_category.pk slug_sub_category=sub_category.slug pk_topic=topic.pk slug_topic=topic.slug %}"><img src="{% static 'assets/return.png' %}" height="40" width="auto"></a></div> </div>
 
         <div class="row">
         <div class="col-12 text-center">

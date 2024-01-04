@@ -7,7 +7,7 @@
 
 
 <div class="container rounded p-5 mb-5">
-    <div class="row mb-2"><div class="col-3"><a href="{% url 'forum:index' slug=forum.slug pk_forum=forum.pk %}"><img src="{% static 'assets/return.png' %}" height="40" width="auto"></a></div> </div>
+    <div class="row mb-2"><div class="col-3"><a href="{% url 'forum:index' slug_forum=forum.slug pk_forum=forum.pk %}"><img src="{% static 'assets/return.png' %}" height="40" width="auto"></a></div> </div>
 
     <div class="row mb-2" style="color: rgba(25, 135, 84);"><h4>Conversation(s) initiée(s)</h4></div>
     <div class="row mb-2">
@@ -32,7 +32,7 @@
         <div class="row border-bottom p-2 mx-0">
             <div class="justify-content-between d-flex">
                 <div class="col-4"><a class="topic-link"
-                                      href="{% url 'forum:conversation' slug_forum=forum.slug slug_conversation=my_conversation.slug pk_conversation=my_conversation.pk %}">{{ my_conversation.subject }}</a></div>
+                                      href="{% url 'forum:conversation' slug_forum=forum.slug pk_forum=forum.pk slug_conversation=my_conversation.slug pk_conversation=my_conversation.pk %}">{{ my_conversation.subject }}</a></div>
                 <div class="col-4">{{ my_conversation.number_of_messages }}</div>
                 <div class="col-4">{{ my_conversation.last_message }}</div>
 
@@ -61,7 +61,7 @@
         <div class="row border-bottom p-2 mx-0">
             <div class="justify-content-between d-flex">
                 <div class="col-4"><a class="topic-link"
-                                      href="{% url 'forum:conversation' slug_forum=forum.slug slug_conversation=conversation.slug pk_conversation=conversation.pk %}">{{ conversation.subject }}</a></div>
+                                      href="{% url 'forum:conversation' slug_forum=forum.slug pk_forum=forum.pk slug_conversation=conversation.slug pk_conversation=conversation.pk %}">{{ conversation.subject }}</a></div>
                 <div class="col-4">{{ conversation.number_of_messages }}</div>
                 <div class="col-4">{{ conversation.last_message }}</div>
 

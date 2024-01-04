@@ -8,18 +8,18 @@ from forum.models import Forum, Category, ForumAccount, SubCategory, Topic, Mess
 from forum.forms import CreateTopic, PostMessage
 
 
-def index(request, slug):
+def index(request, slug_forum, pk_forum):
     # Afficher les catégories et sous catégories
     user = request.user
-    forum = get_object_or_404(Forum, slug=slug)
+    forum = get_object_or_404(Forum, pk=pk_forum)
     categories = Category.objects.filter(forum=forum)
     return render(request, "forum/index.html", context={"forum": forum, "categories": categories})
 
 
-def sub_category_view(request, pk, slug_forum, slug_sub_category):
+def sub_category_view(request, pk, slug_forum, pk_forum, slug_sub_category):
     # Afficher la liste des sujets (pagination)
     # Bouton nouveau sujet
-    forum = get_object_or_404(Forum, slug=slug_forum)
+    forum = get_object_or_404(Forum, pk=pk_forum)
     sub_category = get_object_or_404(SubCategory, pk=pk)
     topics = Topic.objects.filter(sub_category=sub_category, pin=False)
     pin_topics = Topic.objects.filter(sub_category=sub_category, pin=True)
@@ -29,9 +29,9 @@ def sub_category_view(request, pk, slug_forum, slug_sub_category):
 
 
 @login_required
-def add_topic(request, slug_forum, pk, slug_sub_category):
+def add_topic(request, slug_forum, pk_forum, pk, slug_sub_category):
     user = request.user
-    forum = get_object_or_404(Forum, slug=slug_forum)
+    forum = get_object_or_404(Forum, pk=pk_forum)
     account = active_forum_account(user, forum)
     sub_category = get_object_or_404(SubCategory, pk=pk)
 
@@ -54,9 +54,9 @@ def add_topic(request, slug_forum, pk, slug_sub_category):
     })
 
 
-def topic_view(request, slug_forum, pk, slug_sub_category, pk_topic, slug_topic):
+def topic_view(request, slug_forum, pk_forum, pk, slug_sub_category, pk_topic, slug_topic):
     user = request.user
-    forum = get_object_or_404(Forum, slug=slug_forum)
+    forum = get_object_or_404(Forum, pk=pk_forum)
     sub_category = get_object_or_404(SubCategory, pk=pk)
     topic = get_object_or_404(Topic, pk=pk_topic)
     messages = Message.objects.filter(topic=topic)
@@ -83,9 +83,9 @@ def topic_view(request, slug_forum, pk, slug_sub_category, pk_topic, slug_topic)
 
 
 @login_required
-def update_message(request, slug_forum, pk, slug_sub_category, pk_topic, slug_topic, pk_message):
+def update_message(request, slug_forum, pk_forum, pk, slug_sub_category, pk_topic, slug_topic, pk_message):
     user = request.user
-    forum = get_object_or_404(Forum, slug=slug_forum)
+    forum = get_object_or_404(Forum, pk=pk_forum)
     sub_category = get_object_or_404(SubCategory, pk=pk)
     topic = get_object_or_404(Topic, pk=pk_topic)
     account = active_forum_account(user, forum)
@@ -111,8 +111,11 @@ def update_message(request, slug_forum, pk, slug_sub_category, pk_topic, slug_to
 
 @login_required
 @require_POST
-def delete_message(request, pk_topic, pk_message):
+def delete_message(request, pk_forum, pk_topic, pk_message):
+    user = request.user
+    forum = get_object_or_404(Forum, pk=pk_forum)
+    account = active_forum_account(user, forum)
     message = get_object_or_404(Message, pk=pk_message)
-    user_permission(message, request.user)
+    user_permission(message, user)
     message.delete()
     return redirect(Topic.objects.get(pk=pk_topic))

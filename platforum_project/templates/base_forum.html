@@ -28,13 +28,13 @@
                 </li>
                 <!-- Penser à la condition pour faire en sorte que l'utilisateur appartienne au forum... ou non -->
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'forum:profile' slug_forum=forum.slug %}">Profil</a>
+                    <a class="nav-link" href="{% url 'forum:profile' pk_forum=forum.pk slug_forum=forum.slug %}">Profil</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'account:signup' %}">Notifications</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'forum:private-messaging' slug_forum=forum.slug %}">Messagerie privée</a>
+                    <a class="nav-link" href="{% url 'forum:private-messaging' slug_forum=forum.slug pk_forum=forum.pk %}">Messagerie privée</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'account:login' %}">Liste des membres</a>

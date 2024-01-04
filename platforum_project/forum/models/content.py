@@ -98,6 +98,7 @@ class Topic(models.Model):
         forum = sub_category.category.forum
         return reverse("forum:topic", kwargs={
             "slug_forum": forum.slug,
+            "pk_forum": forum.pk,
             "pk": sub_category.pk,
             "slug_sub_category": sub_category.slug,
             "pk_topic": self.pk,
@@ -169,5 +170,6 @@ class Conversation(models.Model):
 
     def get_absolute_url(self):
         return reverse("forum:conversation", kwargs={"slug_forum": self.forum.slug,
+                                                     "pk_forum": self.forum.pk,
                                                      "slug_conversation": self.slug,
                                                      "pk_conversation": self.pk})

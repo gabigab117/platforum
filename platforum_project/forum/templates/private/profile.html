@@ -8,7 +8,7 @@
 
 
 <div class="container shadow-lg rounded border p-5 mb-5">
-    <div class="row mb-2"><div class="col-3"><a href="{% url 'forum:index' slug=forum.slug pk_forum:forum.pk %}"><img src="{% static 'assets/return.png' %}" height="40" width="auto"></a></div> </div>
+    <div class="row mb-2"><div class="col-3"><a href="{% url 'forum:index' slug_forum=forum.slug pk_forum=forum.pk %}"><img src="{% static 'assets/return.png' %}" height="40" width="auto"></a></div> </div>
     <div class="row text-center justify-content-center">
         <div class="col-6">
             <h2 class="mb-2">Compte de <span style="color: rgba(25, 135, 84);">{{ account.user.username }}</span></h2>
@@ -32,7 +32,7 @@
             {% if messages %}
             <div class="list-group">
             {% for message in messages %}
-                <a href="{% url 'forum:topic' slug_forum=forum.slug pk=message.topic.sub_category.pk slug_sub_category=message.topic.sub_category.slug pk_topic=message.topic.pk slug_topic=message.topic.slug %}" class="list-group-item list-group-item-action list-group-item-success">Dans {{ message.topic.title }} le {{ message.creation }}</a>
+                <a href="{% url 'forum:topic' slug_forum=forum.slug pk_forum=forum.pk pk=message.topic.sub_category.pk slug_sub_category=message.topic.sub_category.slug pk_topic=message.topic.pk slug_topic=message.topic.slug %}" class="list-group-item list-group-item-action list-group-item-success">Dans {{ message.topic.title }} le {{ message.creation }}</a>
                 {% endfor %}
             </div>
             {% else %}

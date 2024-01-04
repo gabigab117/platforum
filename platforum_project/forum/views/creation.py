@@ -11,7 +11,7 @@ def create_forum(request):
         form = CreateForumForm(request.POST)
         if form.is_valid():
             forum = create_forum_with_data(form, user)
-            return redirect("forum:index", slug=forum.slug, pk_forum=forum.pk)
+            return redirect("forum:index", slug_forum=forum.slug, pk_forum=forum.pk)
 
     form = CreateForumForm()
     return render(request, "creation/create-forum.html", context={"form": form})

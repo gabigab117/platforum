@@ -21,16 +21,16 @@ def signup_forum(request, slug_forum, pk_forum):
             account.forum = forum
             account.user = request.user
             account.save()
-            return redirect("forum:profile", slug_forum=forum.slug)
+            return redirect("forum:profile", pk_forum=forum.pk, slug_forum=forum.slug)
     else:
         form = SignupForumForm()
     return render(request, "private/signup.html", context={"form": form, "forum": forum})
 
 
 @login_required
-def personal_messaging(request, slug_forum):
+def personal_messaging(request, slug_forum, pk_forum):
     user = request.user
-    forum = get_object_or_404(Forum, slug=slug_forum)
+    forum = get_object_or_404(Forum, pk=pk_forum)
     account = active_forum_account(user, forum)
     my_conversations = Conversation.objects.filter(forum=forum, user=user)
     conversations = Conversation.objects.filter(forum=forum, contacts=user)
@@ -41,9 +41,9 @@ def personal_messaging(request, slug_forum):
 
 
 @login_required
-def conversation_view(request, slug_forum, slug_conversation, pk_conversation):
+def conversation_view(request, slug_forum, pk_forum, slug_conversation, pk_conversation):
     user = request.user
-    forum = get_object_or_404(Forum, slug=slug_forum)
+    forum = get_object_or_404(Forum, pk=pk_forum)
     conversation = get_object_or_404(Conversation, pk=pk_conversation)
     account = active_forum_account(user, forum)
     messages = Message.objects.filter(conversation=conversation)
@@ -67,9 +67,9 @@ def conversation_view(request, slug_forum, slug_conversation, pk_conversation):
 
 
 @login_required
-def update_message_conversation(request, slug_forum, slug_conversation, pk_conversation, pk_message):
+def update_message_conversation(request, slug_forum, pk_forum, slug_conversation, pk_conversation, pk_message):
     user = request.user
-    forum = get_object_or_404(Forum, slug=slug_forum)
+    forum = get_object_or_404(Forum, pk=pk_forum)
     account = active_forum_account(user, forum)
     conversation = get_object_or_404(Conversation, pk=pk_conversation)
     message = get_object_or_404(Message, pk=pk_message)
@@ -89,18 +89,21 @@ def update_message_conversation(request, slug_forum, slug_conversation, pk_conve
 
 @require_POST
 @login_required
-def delete_message_conversation(request, pk_conversation, pk_message):
+def delete_message_conversation(request, pk_forum, pk_conversation, pk_message):
+    user = request.user
+    forum = get_object_or_404(Forum, pk=pk_forum)
+    account = active_forum_account(user, forum)
     conversation = get_object_or_404(Conversation, pk=pk_conversation)
     message = get_object_or_404(Message, pk=pk_message)
-    user_permission(message, request.user)
+    user_permission(message, user)
     message.delete()
     return redirect(conversation)
 
 
 @login_required
-def profile_forum(request, slug_forum):
+def profile_forum(request, pk_forum, slug_forum):
     user = request.user
-    forum = get_object_or_404(Forum, slug=slug_forum)
+    forum = get_object_or_404(Forum, pk=pk_forum)
     account = active_forum_account(user, forum)
     last_messages = Message.objects.filter(user=user, topic__sub_category__category__forum=forum)[:5]
 

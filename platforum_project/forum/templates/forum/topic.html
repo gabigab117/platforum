@@ -11,7 +11,7 @@
         <div class="col-4 shadow-lg">
             <h2>Sujet</h2>
             <h3 style="color: green;">{{ topic.title }}</h3>
-            <a href="{% url 'forum:sub-category' slug_forum=forum.slug pk=sub_category.pk slug_sub_category=sub_category.slug %}"><img src="{% static 'assets/return.png' %}" height="40" width="auto"></a>
+            <a href="{% url 'forum:sub-category' slug_forum=forum.slug pk_forum=forum.pk pk=sub_category.pk slug_sub_category=sub_category.slug %}"><img src="{% static 'assets/return.png' %}" height="40" width="auto"></a>
         </div>
 
     </div>
@@ -33,7 +33,7 @@
             <div class="d-flex justify-content-end">
                 {% if request.user == message.user %}
                 <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Modifier"
-                   href="{% url 'forum:update-message' slug_forum=forum.slug pk=sub_category.pk slug_sub_category=sub_category.slug pk_topic=topic.pk slug_topic=topic.slug pk_message=message.pk %}"><img
+                   href="{% url 'forum:update-message' slug_forum=forum.slug pk_forum=forum.pk pk=sub_category.pk slug_sub_category=sub_category.slug pk_topic=topic.pk slug_topic=topic.slug pk_message=message.pk %}"><img
                         class="rounded" src="{% static 'assets/update.png' %}" height="40" width="auto"></a>
 
                 <!-- Button trigger modal -->
@@ -55,7 +55,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-success" data-bs-dismiss="modal">Retour</button>
-                                <form method="post" action="{% url 'forum:delete-message' pk_topic=topic.pk pk_message=message.pk %}">
+                                <form method="post" action="{% url 'forum:delete-message' pk_forum=forum.pk pk_topic=topic.pk pk_message=message.pk %}">
                                     {% csrf_token %}
                                 <button type="submit" class="btn btn-danger">Confirmer</button>
                                 </form>

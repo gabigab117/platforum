@@ -8,12 +8,12 @@
 
 <div class="container rounded p-5 mb-5">
 
-    <div class="row mb-2"><div class="col-3"><a href="{% url 'forum:index' slug=forum.slug pk_forum=forum.pk %}"><img src="{% static 'assets/return.png' %}" height="40" width="auto"></a></div> </div>
+    <div class="row mb-2"><div class="col-3"><a href="{% url 'forum:index' slug_forum=forum.slug pk_forum=forum.pk %}"><img src="{% static 'assets/return.png' %}" height="40" width="auto"></a></div> </div>
 
     <div class="row mb-2" style="color: rgba(25, 135, 84);"><h4>{{ sub_category.name }}</h4></div>
     <div class="row mb-2">
         <div class="col-2"><a
-                href="{% url 'forum:add-topic' slug_forum=forum.slug pk=sub_category.pk slug_sub_category=sub_category.slug %}"
+                href="{% url 'forum:add-topic' slug_forum=forum.slug pk_forum=forum.pk pk=sub_category.pk slug_sub_category=sub_category.slug %}"
                 class="btn btn-success">Nouveau
             sujet</a></div>
     </div>
@@ -34,7 +34,7 @@
         <div class="row border-bottom p-2 mx-0">
             <div class="justify-content-between d-flex">
                 <div class="col-4"><a class="topic-link"
-                                      href="{% url 'forum:topic' slug_forum=forum.slug pk=sub_category.pk slug_sub_category=sub_category.slug pk_topic=pin_topic.pk slug_topic=pin_topic.slug %}">{{ pin_topic.title }}</a></div>
+                                      href="{% url 'forum:topic' slug_forum=forum.slug pk_forum=forum.pk pk=sub_category.pk slug_sub_category=sub_category.slug pk_topic=pin_topic.pk slug_topic=pin_topic.slug %}">{{ pin_topic.title }}</a></div>
                 <div class="col-4">{{ pin_topic.number_of_messages }}</div>
                 <div class="col-4">{{ pin_topic.last_message }}</div>
 
@@ -61,7 +61,7 @@
         <div class="row border-bottom p-2 mx-0">
             <div class="justify-content-between d-flex">
                 <div class="col-4"><a class="topic-link"
-                                      href="{% url 'forum:topic' slug_forum=forum.slug pk=sub_category.pk slug_sub_category=sub_category.slug pk_topic=topic.pk slug_topic=topic.slug %}">{{ topic.title }}</a></div>
+                                      href="{% url 'forum:topic' slug_forum=forum.slug pk_forum=forum.pk pk=sub_category.pk slug_sub_category=sub_category.slug pk_topic=topic.pk slug_topic=topic.slug %}">{{ topic.title }}</a></div>
                 <div class="col-4">{{ topic.number_of_messages }}</div>
                 <div class="col-4">{{ topic.last_message }}</div>
 
