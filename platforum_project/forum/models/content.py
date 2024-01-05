@@ -3,10 +3,8 @@ from django.urls import reverse
 from django.utils.text import slugify
 from django.utils import timezone
 
-from .account import ForumAccount
-from .forum import Forum
+from .forum import Forum, ForumAccount
 from forum.default_data.messages import welcome_message
-from platforum_project.settings import AUTH_USER_MODEL
 
 
 class Category(models.Model):
@@ -61,7 +59,7 @@ class Topic(models.Model):
     sub_category = models.ForeignKey(to=SubCategory, on_delete=models.CASCADE)
     # Si le modérateur souhaite clôturer le sujet sans le supprimer
     closed = models.BooleanField(default=False, verbose_name="Clôturé")
-    user = models.ForeignKey(to=AUTH_USER_MODEL, verbose_name="Auteur", on_delete=models.SET_NULL, null=True)
+    account = models.ForeignKey(to=ForumAccount, verbose_name="Auteur", on_delete=models.SET_NULL, null=True)
     creation = models.DateTimeField(auto_now_add=True, verbose_name="Date de publication")
     pin = models.BooleanField(default=False, verbose_name="Epinglé")
     last_activity = models.DateTimeField(auto_now=True, verbose_name="Activité récente")
@@ -71,11 +69,11 @@ class Topic(models.Model):
         ordering = ['-last_activity']
 
     def __str__(self):
-        return f"{self.title} - {self.user.username} - {self.sub_category.category.forum}"
+        return f"{self.title} - {self.account.user.username} - {self.sub_category.category.forum}"
 
     @property
     def author(self):
-        return self.user.username if self.user else "Utilisateur banni"
+        return self.account.user.username if self.account else "Utilisateur banni"
 
     @property
     def number_of_messages(self):
@@ -83,7 +81,7 @@ class Topic(models.Model):
 
     @property
     def last_message(self):
-        return Message.objects.filter(topic=self).last().user.username
+        return Message.objects.filter(topic=self).last().account.user.username
 
     @classmethod
     def create_topic_test(cls, sub_category, user):
@@ -109,7 +107,7 @@ class Topic(models.Model):
 
 class Message(models.Model):
     message = models.TextField(verbose_name="Message")
-    user = models.ForeignKey(to=ForumAccount, verbose_name="Auteur", on_delete=models.SET_NULL, null=True)
+    account = models.ForeignKey(to=ForumAccount, verbose_name="Auteur", on_delete=models.SET_NULL, null=True)
     topic = models.ForeignKey(to=Topic, verbose_name="Sujet", on_delete=models.CASCADE, null=True, blank=True)
     conversation = models.ForeignKey(to="Conversation", on_delete=models.CASCADE,
                                      verbose_name="Messagerie Personnel", null=True, blank=True)
@@ -120,10 +118,10 @@ class Message(models.Model):
 
     @property
     def author(self):
-        return self.user.username if self.user else "Utilisateur banni"
+        return self.account.user.username if self.account else "Utilisateur banni"
 
     def __str__(self):
-        return f"{self.user} - {self.creation}"
+        return f"{self.account.user.username} - {self.creation}"
 
     @classmethod
     def message_test(cls, topic, user):
@@ -144,15 +142,15 @@ class Message(models.Model):
 
 class Conversation(models.Model):
     # A gérer avec un get or create
-    user = models.ForeignKey(to=AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="Utilisateur",
-                             related_name="messaging")
-    contacts = models.ManyToManyField(to=AUTH_USER_MODEL, verbose_name="Contacts")
+    account = models.ForeignKey(to=ForumAccount, on_delete=models.CASCADE, verbose_name="Utilisateur",
+                                related_name="messaging")
+    contacts = models.ManyToManyField(to=ForumAccount, verbose_name="Contacts")
     forum = models.ForeignKey(to=Forum, on_delete=models.CASCADE, verbose_name="Forum")
     subject = models.CharField(max_length=50, verbose_name="Sujet")
     slug = models.SlugField(blank=True)
 
     def __str__(self):
-        return f"Discussion de {self.user.username} - {self.forum}"
+        return f"Discussion de {self.account.user.username} - {self.forum}"
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -168,7 +166,7 @@ class Conversation(models.Model):
 
     @property
     def last_message(self):
-        return Message.objects.filter(conversation=self).last().user.username
+        return Message.objects.filter(conversation=self).last().user.user
 
     def get_absolute_url(self):
         return reverse("forum:conversation", kwargs={"slug_forum": self.forum.slug,

@@ -110,7 +110,8 @@ def profile_forum(request, pk_forum, slug_forum):
     user = request.user
     forum = get_object_or_404(Forum, pk=pk_forum)
     account = user.retrieve_forum_account(forum)
-    last_messages = Message.objects.filter(user=user, topic__sub_category__category__forum=forum).order_by("-creation")[:5]
+    last_messages = Message.objects.filter(user=account, topic__sub_category__category__forum=forum).order_by(
+        "-creation")[:5]
 
     if request.method == "POST":
         form = ProfileUpdateForm(request.POST, request.FILES)

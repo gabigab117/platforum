@@ -1,5 +1,5 @@
 def welcome_message(user):
-    return (f"Bienvenu(e) {user.username} !\n"
+    return (f"Bienvenu(e) {user.user} !\n"
             f"Ton forum est crée. Tu n'as plus qu'à créer des catégories.\n"
             f"N'hésites pas à aller voir sur le forum officiel de PlatForum pour t'inspirer (lien ici).\n"
             f"Il est important de respecter (et faire respecter) les règles pour que tout le monde puisse communiquer en toute harmonie.\n"

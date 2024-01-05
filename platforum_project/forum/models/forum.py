@@ -1,8 +1,9 @@
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
-
 from platforum_project.settings import AUTH_USER_MODEL
+from django.templatetags.static import static
+from django.core.exceptions import ValidationError
 
 
 class Forum(models.Model):
@@ -15,7 +16,7 @@ class Forum(models.Model):
     creation = models.DateField(auto_now_add=True, verbose_name="Date de création")
 
     def __str__(self):
-        return f"{self.name} - {self.forum_master.username}"
+        return f"{self.name} - {self.forum_master.user.username}"
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -34,3 +35,26 @@ class Theme(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class ForumAccount(models.Model):
+    forum = models.ForeignKey(to=Forum, on_delete=models.CASCADE, verbose_name="Forum")
+    user = models.ForeignKey(to=AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="Utilisateur")
+    thumbnail = models.ImageField(upload_to="avatars", verbose_name="Vignette", null=True, blank=True)
+    # En cas de modération le modérateur peut désactiver le compte temporairement
+    active = models.BooleanField(verbose_name="Actif", default=True)
+    joined = models.DateField(verbose_name="Rejoins le", auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.forum} - {self.user.username}"
+
+    @property
+    def thumbnail_url(self):
+        return self.thumbnail.url if self.thumbnail else static("default/default_thumbnail.png")
+
+    def clean(self):
+        if self.thumbnail and self.thumbnail.size > 5 * 1024 * 1024:
+            raise ValidationError("La taille du fichier ne doit pas dépasser 5MO.")
+
+    class Meta:
+        verbose_name = "Compte"

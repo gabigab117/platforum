@@ -2,8 +2,8 @@ from django.core.exceptions import PermissionDenied, ObjectDoesNotExist
 from forum.models import ForumAccount
 
 
-def user_permission(forum_element, user):
-    if forum_element.user != user:
+def user_permission(forum_element, account):
+    if forum_element.user != account.user:
         raise PermissionDenied()
 
 
