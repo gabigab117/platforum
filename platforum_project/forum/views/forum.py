@@ -4,13 +4,12 @@ from django.forms import model_to_dict
 from django.shortcuts import render, get_object_or_404, redirect
 
 from platforum_project.func.security import user_permission, verify_active_forum_account
-from forum.models import Forum, Category, ForumAccount, SubCategory, Topic, Message
+from forum.models import Forum, Category, SubCategory, Topic, Message
 from forum.forms import CreateTopic, PostMessage
 
 
 @login_required
 def index(request, slug_forum, pk_forum):
-    # Afficher les catégories et sous catégories
     user = request.user
     forum = get_object_or_404(Forum, pk=pk_forum)
     account = user.retrieve_forum_account(forum)
@@ -21,7 +20,6 @@ def index(request, slug_forum, pk_forum):
 @login_required
 def sub_category_view(request, pk, slug_forum, pk_forum, slug_sub_category):
     # Afficher la liste des sujets (pagination)
-    # Bouton nouveau sujet
     user = request.user
     forum = get_object_or_404(Forum, pk=pk_forum)
     account = user.retrieve_forum_account(forum)
@@ -46,10 +44,10 @@ def add_topic(request, slug_forum, pk_forum, pk, slug_sub_category):
         form = CreateTopic(request.POST)
         if form.is_valid():
             topic = form.save(commit=False)
-            topic.user = user
+            topic.account = account
             topic.sub_category = sub_category
             topic.save()
-            Message.objects.create(message=form.cleaned_data["message"], user=user, topic=topic)
+            Message.objects.create(message=form.cleaned_data["message"], account=account, topic=topic)
             return redirect(topic)
 
     else:
@@ -76,7 +74,7 @@ def topic_view(request, slug_forum, pk_forum, pk, slug_sub_category, pk_topic, s
         if form.is_valid():
             message = form.save(commit=False)
             message.topic = topic
-            message.user = user
+            message.account = account
             message.save()
             return redirect(topic)
     else:
@@ -98,9 +96,9 @@ def update_message(request, slug_forum, pk_forum, pk, slug_sub_category, pk_topi
     sub_category = get_object_or_404(SubCategory, pk=pk)
     topic = get_object_or_404(Topic, pk=pk_topic)
     verify_active_forum_account(user, forum)
-    account = user.retrieve_forum_account
+    account = user.retrieve_forum_account(forum)
     message = get_object_or_404(Message, pk=pk_message)
-    user_permission(message, user)
+    user_permission(message, account)
 
     if request.method == "POST":
         form = PostMessage(request.POST)
@@ -126,7 +124,8 @@ def delete_message(request, pk_forum, pk_topic, pk_message):
     user = request.user
     forum = get_object_or_404(Forum, pk=pk_forum)
     verify_active_forum_account(user, forum)
+    account = user.retrieve_forum_account(forum)
     message = get_object_or_404(Message, pk=pk_message)
-    user_permission(message, user)
+    user_permission(message, account)
     message.delete()
     return redirect(Topic.objects.get(pk=pk_topic))

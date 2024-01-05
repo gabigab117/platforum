@@ -26,12 +26,12 @@
 
     <div class="card text-center shadow-lg mb-3">
         <div class="card-header" style="background-color: rgba(136, 204, 136);">
-            Par {{ message.user.username }} <img class="rounded" src="{{ account.thumbnail_url }}" height="50"
+            Par {{ message.account.user.username }} <img class="rounded" src="{{ message.account.thumbnail_url }}" height="50"
                                                  width="auto">
         </div>
         <div class="card-body">
             <div class="d-flex justify-content-end">
-                {% if request.user == message.user %}
+                {% if request.user == message.account.user %}
                 <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Modifier"
                    href="{% url 'forum:update-message' slug_forum=forum.slug pk_forum=forum.pk pk=sub_category.pk slug_sub_category=sub_category.slug pk_topic=topic.pk slug_topic=topic.slug pk_message=message.pk %}"><img
                         class="rounded" src="{% static 'assets/update.png' %}" height="40" width="auto"></a>

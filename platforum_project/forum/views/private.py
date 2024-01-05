@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 
 from account.models import CustomUser
-from forum.models import Conversation, Forum, ForumAccount, Message
+from forum.models import Conversation, Forum, Message
 from forum.forms import PostMessage, ProfileUpdateForm, SignupForumForm
 
 from platforum_project.func.security import user_permission, verify_active_forum_account
@@ -35,8 +35,8 @@ def personal_messaging(request, slug_forum, pk_forum):
     user = request.user
     forum = get_object_or_404(Forum, pk=pk_forum)
     account = user.retrieve_forum_account(forum)
-    my_conversations = Conversation.objects.filter(forum=forum, user=user)
-    conversations = Conversation.objects.filter(forum=forum, contacts=user)
+    my_conversations = Conversation.objects.filter(forum=forum, account=account)
+    conversations = Conversation.objects.filter(forum=forum, contacts=account)
     return render(request, "private/personal-messaging.html", context={
         "forum": forum,
         "my_conversations": my_conversations, "conversations": conversations, "account": account
@@ -52,7 +52,7 @@ def conversation_view(request, slug_forum, pk_forum, slug_conversation, pk_conve
     messages = Message.objects.filter(conversation=conversation)
     contacts = conversation.contacts.all()
 
-    if user != conversation.user and user not in contacts:
+    if account != conversation.account and account not in contacts:
         raise PermissionDenied()
 
     if request.method == "POST":
@@ -60,7 +60,7 @@ def conversation_view(request, slug_forum, pk_forum, slug_conversation, pk_conve
         form = PostMessage(request.POST)
         if form.is_valid():
             message = form.save(commit=False)
-            message.conversation, message.user, message.personal = conversation, user, True
+            message.conversation, message.account, message.personal = conversation, account, True
             message.save()
             return redirect(conversation)
     else:
@@ -78,7 +78,7 @@ def update_message_conversation(request, slug_forum, pk_forum, slug_conversation
     account = user.retrieve_forum_account(forum)
     conversation = get_object_or_404(Conversation, pk=pk_conversation)
     message = get_object_or_404(Message, pk=pk_message)
-    user_permission(message, user)
+    user_permission(message, account)
 
     if request.method == "POST":
         form = PostMessage(request.POST)
@@ -98,9 +98,10 @@ def delete_message_conversation(request, pk_forum, pk_conversation, pk_message):
     user = request.user
     forum = get_object_or_404(Forum, pk=pk_forum)
     verify_active_forum_account(user, forum)
+    account = user.retrieve_forum_account(forum)
     conversation = get_object_or_404(Conversation, pk=pk_conversation)
     message = get_object_or_404(Message, pk=pk_message)
-    user_permission(message, user)
+    user_permission(message, account)
     message.delete()
     return redirect(conversation)
 
