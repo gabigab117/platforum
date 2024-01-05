@@ -4,7 +4,7 @@ from django.forms import model_to_dict
 from django.shortcuts import render, get_object_or_404, redirect
 
 from platforum_project.func.security import user_permission, verify_active_forum_account
-from forum.models import Forum, Category, SubCategory, Topic, Message
+from forum.models import Forum, Category, SubCategory, Topic, Message, ForumAccount
 from forum.forms import CreateTopic, PostMessage
 
 
@@ -129,3 +129,14 @@ def delete_message(request, pk_forum, pk_topic, pk_message):
     user_permission(message, account)
     message.delete()
     return redirect(Topic.objects.get(pk=pk_topic))
+
+
+@login_required
+def members_list_view(request, slug_forum, pk_forum):
+    user = request.user
+    forum = get_object_or_404(Forum, pk=pk_forum)
+    verify_active_forum_account(user, forum)
+    account = user.retrieve_forum_account(forum)
+    members = ForumAccount.objects.filter(forum=forum, active=True)
+    return render(request, "forum/members-list.html", context={"forum": forum,
+                                                               "account": account, "members": members})

@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
+
 from platforum_project.settings import AUTH_USER_MODEL
 from django.templatetags.static import static
 from django.core.exceptions import ValidationError
@@ -51,6 +52,11 @@ class ForumAccount(models.Model):
     @property
     def thumbnail_url(self):
         return self.thumbnail.url if self.thumbnail else static("default/default_thumbnail.png")
+
+    @property
+    def messages_count(self):
+        from .content import Message
+        return Message.objects.filter(account=self).count()
 
     def clean(self):
         if self.thumbnail and self.thumbnail.size > 5 * 1024 * 1024:

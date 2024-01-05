@@ -1,0 +1,44 @@
+{% extends "base_forum.html" %}
+{% load static %}
+
+{% block title %}Liste des Membres {{ forum.name }}{% endblock %}
+
+{% block body %}
+
+<div class="container shadow-lg rounded border p-5">
+
+    <div class="row text-center">
+        <h2 class="mb-5">Liste des membres</h2>
+
+        <div class="col">
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Avatar</th>
+                    <th scope="col">Membre</th>
+                    <th scope="col">A rejoint</th>
+                    <th scope="col">Messages</th>
+                </tr>
+                </thead>
+                {% for member in members %}
+                <tbody>
+                <tr>
+                    <td><img src="{{ member.thumbnail_url }}" width="auto" height="60"></td>
+                    <th scope="row">{{ member.user.username }}</th>
+                    <td>{{ member.joined }}</td>
+                    <td>{{ member.messages_count }}</td>
+                </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+{% endblock %}

@@ -38,7 +38,7 @@
                     <a class="nav-link" href="{% url 'forum:private-messaging' slug_forum=forum.slug pk_forum=forum.pk %}">Messagerie privée</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'account:login' %}">Liste des membres</a>
+                    <a class="nav-link" href="{% url 'forum:members-list' slug_forum=forum.slug pk_forum=forum.pk %}">Liste des membres</a>
                 </li>
                 <!-- Ici le else pour qu'il demande accès au forum par exemple -->
                 {% else %}
