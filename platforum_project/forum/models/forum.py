@@ -16,7 +16,7 @@ class Forum(models.Model):
     creation = models.DateField(auto_now_add=True, verbose_name="Date de création")
 
     def __str__(self):
-        return f"{self.name} - {self.forum_master.user.username}"
+        return f"{self.name} - {self.forum_master.username}"
 
     def save(self, *args, **kwargs):
         if not self.slug:

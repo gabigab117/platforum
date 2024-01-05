@@ -84,8 +84,8 @@ class Topic(models.Model):
         return Message.objects.filter(topic=self).last().account.user.username
 
     @classmethod
-    def create_topic_test(cls, sub_category, user):
-        return cls.objects.create(title="Bienvenu(e)", sub_category=sub_category, user=user)
+    def create_topic_test(cls, sub_category, account):
+        return cls.objects.create(title="Bienvenu(e)", sub_category=sub_category, account=account)
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -124,8 +124,8 @@ class Message(models.Model):
         return f"{self.account.user.username} - {self.creation}"
 
     @classmethod
-    def message_test(cls, topic, user):
-        return cls.objects.create(message=welcome_message(user), user=user, topic=topic)
+    def message_test(cls, topic, account):
+        return cls.objects.create(message=welcome_message(account), account=account, topic=topic)
 
     def save(self, *args, **kwargs):
         if Message.objects.filter(pk=self.pk).exists():
