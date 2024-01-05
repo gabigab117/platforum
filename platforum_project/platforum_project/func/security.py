@@ -13,3 +13,13 @@ def verify_active_forum_account(user, forum):
         return True
     except ObjectDoesNotExist:
         raise PermissionDenied()
+
+
+def verify_forum_master_status(account):
+    try:
+        if account.forum_master:
+            return True
+        else:
+            raise PermissionDenied()
+    except AttributeError:
+        raise PermissionDenied()
