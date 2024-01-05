@@ -6,6 +6,8 @@ from platforum_project.settings import AUTH_USER_MODEL
 from django.templatetags.static import static
 from django.core.exceptions import ValidationError
 
+from .content import Message
+
 
 class Forum(models.Model):
     forum_master = models.ForeignKey(to=AUTH_USER_MODEL, on_delete=models.PROTECT,
@@ -45,6 +47,7 @@ class ForumAccount(models.Model):
     # En cas de modération le modérateur peut désactiver le compte temporairement
     active = models.BooleanField(verbose_name="Actif", default=True)
     joined = models.DateField(verbose_name="Rejoins le", auto_now_add=True)
+    forum_master = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.forum} - {self.user.username}"
@@ -55,7 +58,6 @@ class ForumAccount(models.Model):
 
     @property
     def messages_count(self):
-        from .content import Message
         return Message.objects.filter(account=self).count()
 
     def clean(self):
