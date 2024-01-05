@@ -3,13 +3,12 @@ from django.urls import reverse
 from django.utils.text import slugify
 from django.utils import timezone
 
-from .forum import Forum, ForumAccount
 from forum.default_data.messages import welcome_message
 
 
 class Category(models.Model):
     name = models.CharField(max_length=50, verbose_name="Nom")
-    forum = models.ForeignKey(to=Forum, on_delete=models.CASCADE, verbose_name="Forum")
+    forum = models.ForeignKey(to="Forum", on_delete=models.CASCADE, verbose_name="Forum")
 
     class Meta:
         verbose_name = "Catégorie"
@@ -59,7 +58,7 @@ class Topic(models.Model):
     sub_category = models.ForeignKey(to=SubCategory, on_delete=models.CASCADE)
     # Si le modérateur souhaite clôturer le sujet sans le supprimer
     closed = models.BooleanField(default=False, verbose_name="Clôturé")
-    account = models.ForeignKey(to=ForumAccount, verbose_name="Auteur", on_delete=models.SET_NULL, null=True)
+    account = models.ForeignKey(to="ForumAccount", verbose_name="Auteur", on_delete=models.SET_NULL, null=True)
     creation = models.DateTimeField(auto_now_add=True, verbose_name="Date de publication")
     pin = models.BooleanField(default=False, verbose_name="Epinglé")
     last_activity = models.DateTimeField(auto_now=True, verbose_name="Activité récente")
@@ -70,6 +69,16 @@ class Topic(models.Model):
 
     def __str__(self):
         return f"{self.title} - {self.account.user.username} - {self.sub_category.category.forum}"
+
+    def pin_topic(self):
+        self.pin = True
+        self.save()
+        return self
+
+    def unpin_topic(self):
+        self.pin = False
+        self.save()
+        return self
 
     @property
     def author(self):
@@ -107,7 +116,7 @@ class Topic(models.Model):
 
 class Message(models.Model):
     message = models.TextField(verbose_name="Message")
-    account = models.ForeignKey(to=ForumAccount, verbose_name="Auteur", on_delete=models.SET_NULL, null=True)
+    account = models.ForeignKey(to="ForumAccount", verbose_name="Auteur", on_delete=models.SET_NULL, null=True)
     topic = models.ForeignKey(to=Topic, verbose_name="Sujet", on_delete=models.CASCADE, null=True, blank=True)
     conversation = models.ForeignKey(to="Conversation", on_delete=models.CASCADE,
                                      verbose_name="Messagerie Personnel", null=True, blank=True)
@@ -142,10 +151,10 @@ class Message(models.Model):
 
 class Conversation(models.Model):
     # A gérer avec un get or create
-    account = models.ForeignKey(to=ForumAccount, on_delete=models.CASCADE, verbose_name="Utilisateur",
+    account = models.ForeignKey(to="ForumAccount", on_delete=models.CASCADE, verbose_name="Utilisateur",
                                 related_name="messaging")
-    contacts = models.ManyToManyField(to=ForumAccount, verbose_name="Contacts")
-    forum = models.ForeignKey(to=Forum, on_delete=models.CASCADE, verbose_name="Forum")
+    contacts = models.ManyToManyField(to="ForumAccount", verbose_name="Contacts")
+    forum = models.ForeignKey(to="Forum", on_delete=models.CASCADE, verbose_name="Forum")
     subject = models.CharField(max_length=50, verbose_name="Sujet")
     slug = models.SlugField(blank=True)
 
