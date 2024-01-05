@@ -33,8 +33,13 @@
 
         <div class="row border-bottom p-2 mx-0">
             <div class="justify-content-between d-flex">
-                <div class="col-4"><a class="topic-link"
-                                      href="{% url 'forum:topic' slug_forum=forum.slug pk_forum=forum.pk pk=sub_category.pk slug_sub_category=sub_category.slug pk_topic=pin_topic.pk slug_topic=pin_topic.slug %}">{{ pin_topic.title }}</a></div>
+                <div class="col-4 justify-content-center d-flex"><a class="topic-link"
+                                      href="{% url 'forum:topic' slug_forum=forum.slug pk_forum=forum.pk pk=sub_category.pk slug_sub_category=sub_category.slug pk_topic=pin_topic.pk slug_topic=pin_topic.slug %}">{{ pin_topic.title }}</a>
+                <form method="post" action="{% url 'forum:pin' pk_forum=forum.pk pk_topic=pin_topic.pk %}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Epingler">
+                    {% csrf_token %}
+                        <input type="image" src="{% static 'assets/pin.png' %}" alt="Submit" height="30" width="auto" class="rounded">
+                </form>
+                </div>
                 <div class="col-4">{{ pin_topic.number_of_messages }}</div>
                 <div class="col-4">{{ pin_topic.last_message }}</div>
 
@@ -60,8 +65,14 @@
 
         <div class="row border-bottom p-2 mx-0">
             <div class="justify-content-between d-flex">
-                <div class="col-4"><a class="topic-link"
-                                      href="{% url 'forum:topic' slug_forum=forum.slug pk_forum=forum.pk pk=sub_category.pk slug_sub_category=sub_category.slug pk_topic=topic.pk slug_topic=topic.slug %}">{{ topic.title }}</a></div>
+                <div class="col-4 justify-content-center d-flex"><a class="topic-link"
+                                      href="{% url 'forum:topic' slug_forum=forum.slug pk_forum=forum.pk pk=sub_category.pk slug_sub_category=sub_category.slug pk_topic=topic.pk slug_topic=topic.slug %}">{{ topic.title }}</a>
+
+                    <form method="post" action="{% url 'forum:pin' pk_forum=forum.pk pk_topic=topic.pk %}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Epingler">
+                        {% csrf_token %}
+                        <input type="image" src="{% static 'assets/pin.png' %}" alt="Submit" height="30" width="auto" class="rounded">
+                    </form>
+                </div>
                 <div class="col-4">{{ topic.number_of_messages }}</div>
                 <div class="col-4">{{ topic.last_message }}</div>
 
