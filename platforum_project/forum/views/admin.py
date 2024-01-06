@@ -42,4 +42,7 @@ def member_status_view(request, pk_forum, pk_member):
     verify_forum_master_status(account=user.retrieve_forum_account(forum))
     member_account = get_object_or_404(ForumAccount, pk=pk_member)
     member_account.deactivate() if member_account.active else member_account.activate()
+
+    if request.POST.get("redirect") == "member-view":
+        return redirect("forum:member", slug_forum=forum.slug, pk_forum=forum.pk, pk_member=member_account.pk)
     return redirect("forum:admin-members", slug_forum=forum.slug, pk_forum=forum.pk)
