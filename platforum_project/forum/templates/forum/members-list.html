@@ -25,7 +25,7 @@
                 <tbody>
                 <tr>
                     <td><img src="{{ member.thumbnail_url }}" width="auto" height="60"></td>
-                    <th scope="row"><a href="{% url 'forum:member' slug_forum=forum.slug pk_forum=forum.pk pk_member=member.pk %}">{{ member.user.username }}</a></th>
+                    <th scope="row"><a class="name-list" href="{% url 'forum:member' slug_forum=forum.slug pk_forum=forum.pk pk_member=member.pk %}">{{ member.user.username }}</a></th>
                     <td>{{ member.joined }}</td>
                     <td>{{ member.messages_count }}</td>
                 </tr>

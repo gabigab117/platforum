@@ -12,10 +12,14 @@
 
     <div class="row mb-2" style="color: rgba(25, 135, 84);"><h4>{{ sub_category.name }}</h4></div>
     <div class="row mb-2">
+        {% if account %}
+        {% if account.active %}
         <div class="col-2"><a
                 href="{% url 'forum:add-topic' slug_forum=forum.slug pk_forum=forum.pk pk=sub_category.pk slug_sub_category=sub_category.slug %}"
                 class="btn btn-success">Nouveau
             sujet</a></div>
+        {% endif %}
+        {% endif %}
     </div>
 
     <!-- Sujets épinglés -->
