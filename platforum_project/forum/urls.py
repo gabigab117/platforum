@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import create_forum, index, sub_category_view, add_topic, topic_view, update_message, delete_message, \
     personal_messaging, conversation_view, update_message_conversation, delete_message_conversation, profile_forum, \
-    signup_forum, members_list_view, pin_topic, display_members, member_status_view
+    signup_forum, members_list_view, pin_topic, display_members, member_status_view, member_view
 
 app_name = "forum"
 urlpatterns = [
@@ -32,6 +32,7 @@ urlpatterns = [
          name="delete-message-conversation"),
     path('<str:slug_forum>/<int:pk_forum>/profile/', profile_forum, name="profile"),
     path('<str:slug_forum>/<int:pk_forum>/members-list/', members_list_view, name="members-list"),
+    path('<str:slug_forum>/<int:pk_forum>/<int:pk_member>/', member_view, name="member"),
 
     # Admin Part
     path('<int:pk_forum>/<int:pk_topic>/pin/', pin_topic, name="pin"),

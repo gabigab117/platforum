@@ -6,7 +6,7 @@
 {% block body %}
 
 <div class="container shadow-lg rounded border p-5">
-
+<div class="row mb-2"><div class="col-3"><a href="{% url 'forum:index' slug_forum=forum.slug pk_forum=forum.pk %}"><img src="{% static 'assets/return.png' %}" height="40" width="auto"></a></div> </div>
     <div class="row text-center">
         <h2 class="mb-5">Liste des membres</h2>
 
@@ -25,7 +25,7 @@
                 <tbody>
                 <tr>
                     <td><img src="{{ member.thumbnail_url }}" width="auto" height="60"></td>
-                    <th scope="row">{{ member.user.username }}</th>
+                    <th scope="row"><a href="{% url 'forum:member' slug_forum=forum.slug pk_forum=forum.pk pk_member=member.pk %}">{{ member.user.username }}</a></th>
                     <td>{{ member.joined }}</td>
                     <td>{{ member.messages_count }}</td>
                 </tr>

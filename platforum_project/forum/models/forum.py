@@ -52,6 +52,11 @@ class ForumAccount(models.Model):
     def __str__(self):
         return f"{self.forum} - {self.user.username}"
 
+    def get_absolute_url(self):
+        return reverse("forum:member", kwargs={"slug_forum": self.forum.slug,
+                                               "pk_forum": self.forum.pk,
+                                               "pk_member": self.pk})
+
     def deactivate(self):
         self.active = False
         self.save()

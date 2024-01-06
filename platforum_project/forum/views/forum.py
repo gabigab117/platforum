@@ -3,6 +3,7 @@ from django.views.decorators.http import require_POST
 from django.forms import model_to_dict
 from django.shortcuts import render, get_object_or_404, redirect
 
+from account.models import CustomUser
 from platforum_project.func.security import user_permission, verify_active_forum_account
 from forum.models import Forum, Category, SubCategory, Topic, Message, ForumAccount
 from forum.forms import CreateTopic, PostMessage
@@ -140,3 +141,16 @@ def members_list_view(request, slug_forum, pk_forum):
     members = ForumAccount.objects.filter(forum=forum, active=True)
     return render(request, "forum/members-list.html", context={"forum": forum,
                                                                "account": account, "members": members})
+
+
+@login_required
+def member_view(request, slug_forum, pk_forum, pk_member):
+    user: CustomUser = request.user
+    forum = get_object_or_404(Forum, pk=pk_forum)
+    verify_active_forum_account(user, forum)
+    account = user.retrieve_forum_account(forum)
+    member = get_object_or_404(ForumAccount, pk=pk_member)
+    last_messages = Message.objects.filter(account=member, topic__sub_category__category__forum=forum).order_by(
+        "-creation")[:5]
+    return render(request, "forum/member.html", context={"forum": forum, "account": account,
+                                                         "member": member, "messages": last_messages})
