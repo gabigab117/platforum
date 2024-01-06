@@ -14,4 +14,16 @@ body {
     text-decoration: None;
 }
 
+.name-link {
+    color: black;
+    font-weight: bold;
+    text-decoration: None;
+}
+
+.name-list {
+    color: green;
+    text-decoration: None;
+
+}
+
 
