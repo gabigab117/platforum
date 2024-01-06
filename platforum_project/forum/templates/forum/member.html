@@ -16,8 +16,10 @@
             <h2 class="mb-2">Compte de <span style="color: rgba(25, 135, 84);">{{ member.user.username }}</span></h2>
             <h5 class="mb-5">A rejoint le forum le <span style="color: blue;">{{ member.joined }}</span></h5>
             <img src="{{ member.thumbnail_url }}" width="100" height="auto" class="rounded mb-5">
+
             <!-- Admin -->
             {% if account.forum_master %}
+            {% if not member.forum_master %}
             {% if member.active %}
             <form method="post" action="{% url 'forum:admin-member-status' pk_forum=forum.pk pk_member=member.pk %}">
                 {% csrf_token %}
@@ -30,6 +32,7 @@
                 <input type="hidden" name="redirect" value="member-view">
                 <input type="submit" value="Désactivé" class="btn btn-danger">
             </form>
+            {% endif %}
             {% endif %}
             {% endif %}
 
