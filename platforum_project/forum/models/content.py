@@ -44,7 +44,10 @@ class SubCategory(models.Model):
 
     @property
     def last_topic_commented(self):
-        return Message.objects.filter(topic__sub_category=self).last().topic.title
+        try:
+            return Message.objects.filter(topic__sub_category=self).last().topic.title
+        except AttributeError:
+            return "Pas encore de sujet, lance toi ! :)"
 
     class Meta:
         verbose_name = "Sous catégorie"
