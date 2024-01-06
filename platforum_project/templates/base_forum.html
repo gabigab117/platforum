@@ -54,10 +54,6 @@
                 </li>
                 {% endif %}
 
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Contacter l'administrateur</a>
-                </li>
-
                 <!--Admin forum -->
                 {% if account %}
                 {% if account.forum_master %}
@@ -68,7 +64,7 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="{% url 'forum:admin-members' slug_forum=forum.pk pk_forum=forum.pk %}">Membres</a></li>
-                        <li><a class="dropdown-item" href="#">Construction</a></li>
+                        <li><a class="dropdown-item" href="{% url 'forum:builder' slug_forum=forum.slug pk_forum=forum.pk %}">Construction</a></li>
 
                     </ul>
                 </li>
