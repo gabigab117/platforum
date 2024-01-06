@@ -35,6 +35,7 @@ def display_members(request, slug_forum, pk_forum):
 
 
 @login_required
+@require_POST
 def member_status_view(request, pk_forum, pk_member):
     user: CustomUser = request.user
     forum = get_object_or_404(Forum, pk=pk_forum)
