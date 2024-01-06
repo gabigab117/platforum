@@ -1,0 +1,70 @@
+{% extends "base_forum.html" %}
+{% load static %}
+
+{% block title %}Admin Membres {{ forum.name }}{% endblock %}
+
+{% block body %}
+
+<div class="container shadow-lg rounded border p-5">
+
+    <div class="row text-center">
+        <h2 class="mb-5">Gestion des membres</h2>
+    </div>
+    <div class="row mb-5">
+        <div class="col-4">
+
+                        <form role="search" class="d-flex">
+        <input type="search" placeholder="Rechercher un membre" aria-label="Rechercher" name="search" class="form-control">
+        <button type="submit" class="btn btn-success ms-2">Rechercher</button>
+    </form>
+
+        </div>
+
+    </div>
+
+    <div class="row text-center">
+        <div class="col">
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Avatar</th>
+                    <th scope="col">Membre</th>
+                    <th scope="col">A rejoint</th>
+                    <th scope="col">Messages</th>
+                    <th scope="col">Actif</th>
+                </tr>
+                </thead>
+                {% for member in members %}
+                <tbody>
+                <tr>
+                    <td><img src="{{ member.thumbnail_url }}" width="auto" height="60"></td>
+                    <th scope="row">{{ member.user.username }}</th>
+                    <td>{{ member.joined }}</td>
+                    <td>{{ member.messages_count }}</td>
+                    {% if member.active %}
+                    <td><form method="post" action="{% url 'forum:admin-member-status' pk_forum=forum.pk pk_member=member.pk %}">
+                        {% csrf_token %}
+                        <input type="submit" value="Oui" class="btn btn-success">
+                    </form></td>
+                    {% else %}
+                    <td><form method="post" action="{% url 'forum:admin-member-status' pk_forum=forum.pk pk_member=member.pk %}">
+                        {% csrf_token %}
+                        <input type="submit" value="Non" class="btn btn-danger">
+                    </form></td>
+                    {% endif %}
+
+                </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+{% endblock %}

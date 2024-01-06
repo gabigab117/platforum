@@ -29,21 +29,26 @@
                 <!-- Penser à la condition pour faire en sorte que l'utilisateur appartienne au forum... ou non -->
                 {% if account %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'forum:profile' pk_forum=forum.pk slug_forum=forum.slug %}">Profil</a>
+                    <a class="nav-link"
+                       href="{% url 'forum:profile' pk_forum=forum.pk slug_forum=forum.slug %}">Profil</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'account:signup' %}">Notifications</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'forum:private-messaging' slug_forum=forum.slug pk_forum=forum.pk %}">Messagerie privée</a>
+                    <a class="nav-link"
+                       href="{% url 'forum:private-messaging' slug_forum=forum.slug pk_forum=forum.pk %}">Messagerie
+                        privée</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'forum:members-list' slug_forum=forum.slug pk_forum=forum.pk %}">Liste des membres</a>
+                    <a class="nav-link" href="{% url 'forum:members-list' slug_forum=forum.slug pk_forum=forum.pk %}">Liste
+                        des membres</a>
                 </li>
                 <!-- Ici le else pour qu'il demande accès au forum par exemple -->
                 {% else %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'forum:signup' slug_forum=forum.slug pk_forum=forum.pk %}">Devenir membre de ce forum</a>
+                    <a class="nav-link" href="{% url 'forum:signup' slug_forum=forum.slug pk_forum=forum.pk %}">Devenir
+                        membre de ce forum</a>
                 </li>
                 {% endif %}
 
@@ -54,6 +59,22 @@
                     <a class="nav-link" href="#">Créer son forum</a>
                 </li>
 
+                <!--Admin forum -->
+                {% if account %}
+                {% if account.forum_master %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        Admin Forum
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{% url 'forum:admin-members' slug_forum=forum.pk pk_forum=forum.pk %}">Membres</a></li>
+                        <li><a class="dropdown-item" href="#">Construction</a></li>
+
+                    </ul>
+                </li>
+                {% endif %}
+                {% endif %}
 
             </ul>
             <form class="d-flex" role="search">

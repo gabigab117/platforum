@@ -52,6 +52,16 @@ class ForumAccount(models.Model):
     def __str__(self):
         return f"{self.forum} - {self.user.username}"
 
+    def deactivate(self):
+        self.active = False
+        self.save()
+        return self
+
+    def activate(self):
+        self.active = True
+        self.save()
+        return self
+
     @property
     def thumbnail_url(self):
         return self.thumbnail.url if self.thumbnail else static("default/default_thumbnail.png")
