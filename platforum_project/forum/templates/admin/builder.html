@@ -17,7 +17,7 @@
 
 
     <div class="card text-center">
-        <div class="card-header row fw-bold mx-0 justify-content-between" style="background-color: rgba(136, 204, 136);">
+        <div class="card-header row fw-bold mx-0 justify-content-start" style="background-color: rgba(136, 204, 136);">
             <div class="col-3">{{ category.name }}</div>
             <div class="col-3">Sujets</div>
             <div class="col-3">
@@ -61,7 +61,7 @@
 
         {% for subcategory in category.get_sub_categories %}
         <div class="row border-bottom p-2 mx-0">
-            <div class="justify-content-between d-flex">
+            <div class="justify-content-start d-flex">
                 <div class="col-3"><strong>{{ subcategory.name }}</strong></div>
                 <div class="col-3">{{ subcategory.topic_set.all.count }}</div>
                 <div class="col-3">
