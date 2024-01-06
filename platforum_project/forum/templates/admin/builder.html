@@ -1,0 +1,129 @@
+{% extends "base_forum.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}Builder {{ forum.name }}{% endblock %}
+
+
+{% block body %}
+
+<div class="container mb-5">
+
+    <div class="row text-center"><h2>Gestion des catégories</h2></div>
+
+</div>
+
+{% for category in categories %}
+<div class="container shadow-lg rounded border p-5 mb-5">
+
+
+    <div class="card text-center">
+        <div class="card-header row fw-bold mx-0 justify-content-between" style="background-color: rgba(136, 204, 136);">
+            <div class="col-3">{{ category.name }}</div>
+            <div class="col-3">Sujets</div>
+            <div class="col-3">
+
+
+                            <!-- Button trigger modal Delete Category -->
+                <button type="button" class="btn-close" data-bs-toggle="modal" data-bs-target="#deletemodal{{ category.pk }}">
+                </button>
+
+                <!-- Modal Category -->
+                <div class="modal fade" id="deletemodal{{ category.pk }}" tabindex="-1" aria-labelledby="Delete{{ category.pk }}"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="Delete{{ category.pk }}">Supprimer la catégorie</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body" style="color: red;">
+                                Cette action est irréversible, les sous-catégories, sujets et messages associés seront perdus.
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-success" data-bs-dismiss="modal">Retour</button>
+                                <form method="post" action="{% url 'forum:delete-category-admin' pk_forum=forum.pk pk_category=category.pk %}">
+                                    {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">Confirmer</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Enf of Modal -->
+
+
+            </div>
+
+
+
+        </div>
+
+        {% for subcategory in category.get_sub_categories %}
+        <div class="row border-bottom p-2 mx-0">
+            <div class="justify-content-between d-flex">
+                <div class="col-3"><strong>{{ subcategory.name }}</strong></div>
+                <div class="col-3">{{ subcategory.topic_set.all.count }}</div>
+                <div class="col-3">
+
+
+
+                    <!-- Button trigger modal Delete SubCategory -->
+                <button type="button" class="btn-close" data-bs-toggle="modal" data-bs-target="#deletemodalsub{{ subcategory.pk }}">
+                </button>
+
+                <!-- Modal SubCategory -->
+                <div class="modal fade" id="deletemodalsub{{ subcategory.pk }}" tabindex="-1" aria-labelledby="Deletesub{{ subcategory.pk }}"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="Deletesub{{ subcategory.pk }}">Supprimer la sous-catégorie</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body" style="color: red;">
+                                Cette action est irréversible, les sujets et messages associés seront perdus.
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-success" data-bs-dismiss="modal">Retour</button>
+                                <form method="post" action="{% url 'forum:delete-subcategory-admin' pk_forum=forum.pk pk_subcategory=subcategory.pk %}">
+                                    {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">Confirmer</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Enf of Modal -->
+
+
+                </div>
+
+
+            </div>
+        </div>
+        {% endfor %}
+
+
+    </div>
+
+</div>
+{% endfor %}
+
+<div class="container shadow-lg">
+    <div class="row justify-content-around">
+        <div class="col-6">
+            <h4 class="text-center">Créer une catégorie</h4>
+            <form method="post" class="p-5">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-success">Créer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

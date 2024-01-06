@@ -41,3 +41,12 @@ class SignupForumForm(forms.ModelForm):
     class Meta:
         model = ForumAccount
         fields = ["thumbnail"]
+
+
+class CreateCategory(forms.Form):
+    category = forms.CharField(max_length=40, label="Catégorie")
+    sub_1 = forms.CharField(max_length=40, label="Sous-catégorie 1")
+    sub_2 = forms.CharField(max_length=40, label="Sous-catégorie 2", required=False)
+    sub_3 = forms.CharField(max_length=40, label="Sous-catégorie 3", required=False)
+    sub_4 = forms.CharField(max_length=40, label="Sous-catégorie 4", required=False)
+    sub_5 = forms.CharField(max_length=40, label="Sous-catégorie 5", required=False)

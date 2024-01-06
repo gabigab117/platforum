@@ -20,6 +20,10 @@ class Category(models.Model):
     def create_test_category(cls, forum):
         return cls.objects.create(name="Catégorie Test", forum=forum)
 
+    @property
+    def get_sub_categories(self):
+        return SubCategory.objects.filter(category=self)
+
 
 class SubCategory(models.Model):
     name = models.CharField(max_length=50, verbose_name="Sous catégorie")
