@@ -63,7 +63,8 @@
                         Admin Forum
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{% url 'forum:admin-members' slug_forum=forum.pk pk_forum=forum.pk %}">Membres</a></li>
+                        <li><a class="dropdown-item" href="{% url 'forum:admin-index' slug_forum=forum.slug pk_forum=forum.pk %}">Vue d'ensemble</a></li>
+                        <li><a class="dropdown-item" href="{% url 'forum:admin-members' slug_forum=forum.slug pk_forum=forum.pk %}">Membres</a></li>
                         <li><a class="dropdown-item" href="{% url 'forum:builder' slug_forum=forum.slug pk_forum=forum.pk %}">Construction</a></li>
 
                     </ul>
