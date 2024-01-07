@@ -54,6 +54,7 @@
 
 
             </div>
+            <div class="col-3">{{ category.index }}</div>
 
 
 
@@ -99,6 +100,7 @@
 
 
                 </div>
+                <div class="col-3">{{ subcategory.index }}</div>
 
 
             </div>
@@ -117,10 +119,8 @@
             <h4 class="text-center">Créer une catégorie</h4>
             <form method="post" class="p-5">
                 {% csrf_token %}
-                {{ form|crispy }}
-                <div class="d-flex justify-content-center">
-                <button type="submit" class="btn btn-success">Créer</button>
-                </div>
+                {% crispy form %}
+
             </form>
         </div>
     </div>

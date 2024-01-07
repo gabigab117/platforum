@@ -63,16 +63,22 @@ def builder_view(request, slug_forum, pk_forum):
     if request.method == "POST":
         form = CreateCategory(request.POST)
         if form.is_valid():
-            category = Category.objects.create(name=form.cleaned_data["category"], forum=forum)
-            SubCategory.objects.create(name=form.cleaned_data["sub_1"], category=category)
+            category = Category.objects.create(name=form.cleaned_data["category"], forum=forum,
+                                               index=form.cleaned_data["index_category"])
+            SubCategory.objects.create(name=form.cleaned_data["sub_1"], category=category,
+                                       index=form.cleaned_data["index_1"])
             if form.cleaned_data["sub_2"]:
-                SubCategory.objects.create(name=form.cleaned_data["sub_2"], category=category)
+                SubCategory.objects.create(name=form.cleaned_data["sub_2"], category=category,
+                                           index=form.cleaned_data["index_2"])
             if form.cleaned_data["sub_3"]:
-                SubCategory.objects.create(name=form.cleaned_data["sub_3"], category=category)
+                SubCategory.objects.create(name=form.cleaned_data["sub_3"], category=category,
+                                           index=form.cleaned_data["index_3"])
             if form.cleaned_data["sub_4"]:
-                SubCategory.objects.create(name=form.cleaned_data["sub_4"], category=category)
+                SubCategory.objects.create(name=form.cleaned_data["sub_4"], category=category,
+                                           index=form.cleaned_data["index_4"])
             if form.cleaned_data["sub_5"]:
-                SubCategory.objects.create(name=form.cleaned_data["sub_5"], category=category)
+                SubCategory.objects.create(name=form.cleaned_data["sub_5"], category=category,
+                                           index=form.cleaned_data["index_5"])
             return redirect(request.path)
     else:
         form = CreateCategory()

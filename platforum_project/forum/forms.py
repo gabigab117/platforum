@@ -4,6 +4,9 @@ from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
 from forum.models import Forum, Topic, Message, ForumAccount
 
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Submit, Row, Column
+
 
 class CreateForumForm(forms.ModelForm):
     class Meta:
@@ -45,8 +48,45 @@ class SignupForumForm(forms.ModelForm):
 
 class CreateCategory(forms.Form):
     category = forms.CharField(max_length=40, label="Catégorie")
+    index_category = forms.IntegerField(label="Index")
     sub_1 = forms.CharField(max_length=40, label="Sous-catégorie 1")
+    index_1 = forms.IntegerField(label="Index 1")
     sub_2 = forms.CharField(max_length=40, label="Sous-catégorie 2", required=False)
+    index_2 = forms.IntegerField(label="Index 2", required=False)
     sub_3 = forms.CharField(max_length=40, label="Sous-catégorie 3", required=False)
+    index_3 = forms.IntegerField(label="Index 3", required=False)
     sub_4 = forms.CharField(max_length=40, label="Sous-catégorie 4", required=False)
+    index_4 = forms.IntegerField(label="Index 4", required=False)
     sub_5 = forms.CharField(max_length=40, label="Sous-catégorie 5", required=False)
+    index_5 = forms.IntegerField(label="Index 5", required=False)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Row(
+                Column("category", css_class="col-md-10"),
+                Column("index_category", css_class="col-md-2"),
+            ),
+            Row(
+                Column("sub_1", css_class="col-md-10"),
+                Column("index_1", css_class="col-md-2"),
+            ),
+            Row(
+                Column("sub_2", css_class="col-md-10"),
+                Column("index_2", css_class="col-md-2"),
+            ),
+            Row(
+                Column("sub_3", css_class="col-md-10"),
+                Column("index_3", css_class="col-md-2"),
+            ),
+            Row(
+                Column("sub_4", css_class="col-md-10"),
+                Column("index_4", css_class="col-md-2"),
+            ),
+            Row(
+                Column("sub_5", css_class="col-md-10"),
+                Column("index_5", css_class="col-md-2"),
+            ),
+            Row(Column(Submit('submit', "Valider", css_class="btn btn-success center"), css_class="text-center"))
+        )
