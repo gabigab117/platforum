@@ -2,7 +2,7 @@ from django import forms
 
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
-from forum.models import Forum, Topic, Message, ForumAccount, Category, SubCategory
+from forum.models import Forum, Topic, Message, ForumAccount, Category, SubCategory, Conversation
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Row, Column
@@ -102,3 +102,11 @@ class SubCategoryForm(forms.ModelForm):
     class Meta:
         model = SubCategory
         fields = ["name", "index"]
+
+
+class ConversationForm(forms.ModelForm):
+    message = forms.CharField(widget=CKEditorUploadingWidget, label="", max_length=10000)
+
+    class Meta:
+        model = Conversation
+        fields = ["subject", "message"]

@@ -1,0 +1,47 @@
+{% extends "base_forum.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}Commencer une conversation avec {{ member.user.username }}{% endblock %}
+
+{% block body %}
+
+<!-- Le formulaire pour répondre -->
+<div class="container rounded p-5 mb-5 border shadow-lg">
+    <div class="row">
+        <a href="{% url 'forum:private-messaging' slug_forum=forum.slug pk_forum=forum.pk %}"><img src="{% static 'assets/return.png' %}" height="40" width="auto"></a>
+    </div>
+
+    <div class="row">
+        <div class="col-12 text-center">
+            <h3>Commencer une conversation avec : <span style="color: rgba(25, 135, 84);">{{ member.user.username }}</span>
+            </h3>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.media }}
+                <div class="text-center">
+                    {{ form|crispy }}
+
+                    <input type="submit" value="Soumettre" class="btn btn-success">
+                </div>
+            </form>
+        </div>
+
+    </div>
+    <div class="row" style="color: red;">
+        {% if form.errors %}
+
+        {{ form.errors }}
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

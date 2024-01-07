@@ -161,7 +161,6 @@ class Message(models.Model):
 
 
 class Conversation(models.Model):
-    # A gérer avec un get or create
     account = models.ForeignKey(to="ForumAccount", on_delete=models.CASCADE, verbose_name="Utilisateur",
                                 related_name="messaging")
     contacts = models.ManyToManyField(to="ForumAccount", verbose_name="Contacts")
@@ -186,7 +185,7 @@ class Conversation(models.Model):
 
     @property
     def last_message(self):
-        return Message.objects.filter(conversation=self).last().user.user
+        return Message.objects.filter(conversation=self).last().account.user.username
 
     def get_absolute_url(self):
         return reverse("forum:conversation", kwargs={"slug_forum": self.forum.slug,

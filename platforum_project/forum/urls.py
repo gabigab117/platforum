@@ -2,7 +2,7 @@ from django.urls import path
 from .views import create_forum, index, sub_category_view, add_topic, topic_view, update_message, delete_message, \
     personal_messaging, conversation_view, update_message_conversation, delete_message_conversation, profile_forum, \
     signup_forum, members_list_view, pin_topic, display_members, member_status_view, member_view, builder_view, \
-    delete_category_view, delete_subcategory_view, update_category_view, update_subcategory_view
+    delete_category_view, delete_subcategory_view, update_category_view, update_subcategory_view, start_conversation
 
 app_name = "forum"
 urlpatterns = [
@@ -24,6 +24,8 @@ urlpatterns = [
     path('<str:slug_forum>/<int:pk_forum>/private-messaging/<str:slug_conversation>/<int:pk_conversation>/',
          conversation_view,
          name="conversation"),
+    path('<str:slug_forum>/<int:pk_forum>/start-conversation/<int:pk_member>/', start_conversation,
+         name="start-conversation"),
     path(
         '<str:slug_forum>/<int:pk_forum>/update-message/<str:slug_conversation>/<int:pk_conversation>/<int:pk_message>',
         update_message_conversation,

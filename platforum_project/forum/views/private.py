@@ -5,8 +5,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 
 from account.models import CustomUser
-from forum.models import Conversation, Forum, Message
-from forum.forms import PostMessage, ProfileUpdateForm, SignupForumForm
+from forum.models import Conversation, Forum, Message, ForumAccount
+from forum.forms import PostMessage, ProfileUpdateForm, SignupForumForm, ConversationForm
 
 from platforum_project.func.security import user_permission, verify_active_forum_account
 
@@ -31,9 +31,36 @@ def signup_forum(request, slug_forum, pk_forum):
 
 
 @login_required
-def personal_messaging(request, slug_forum, pk_forum):
-    user = request.user
+def start_conversation(request, slug_forum, pk_forum, pk_member):
+    user: CustomUser = request.user
     forum = get_object_or_404(Forum, pk=pk_forum)
+    verify_active_forum_account(user, forum)
+    account = user.retrieve_forum_account(forum)
+    member = get_object_or_404(ForumAccount, pk=pk_member)
+
+    if request.method == "POST":
+        form = ConversationForm(request.POST)
+        if form.is_valid():
+            conversation = form.save(commit=False)
+            conversation.account = account
+            conversation.forum = forum
+            conversation.save()
+            conversation.contacts.add(member)
+            Message.objects.create(message=form.cleaned_data["message"], account=account, conversation=conversation,
+                                   personal=True)
+            return redirect(conversation)
+    else:
+        form = ConversationForm()
+    return render(request, "private/start-conversation.html",
+                  context={"forum": forum, "account": account, "member": member,
+                           "form": form})
+
+
+@login_required
+def personal_messaging(request, slug_forum, pk_forum):
+    user: CustomUser = request.user
+    forum = get_object_or_404(Forum, pk=pk_forum)
+    verify_active_forum_account(user, forum)
     account = user.retrieve_forum_account(forum)
     my_conversations = Conversation.objects.filter(forum=forum, account=account)
     conversations = Conversation.objects.filter(forum=forum, contacts=account)
@@ -47,6 +74,7 @@ def personal_messaging(request, slug_forum, pk_forum):
 def conversation_view(request, slug_forum, pk_forum, slug_conversation, pk_conversation):
     user = request.user
     forum = get_object_or_404(Forum, pk=pk_forum)
+    verify_active_forum_account(user, forum)
     conversation = get_object_or_404(Conversation, pk=pk_conversation)
     account = user.retrieve_forum_account(forum)
     messages = Message.objects.filter(conversation=conversation)
@@ -56,7 +84,6 @@ def conversation_view(request, slug_forum, pk_forum, slug_conversation, pk_conve
         raise PermissionDenied()
 
     if request.method == "POST":
-        verify_active_forum_account(user, forum)
         form = PostMessage(request.POST)
         if form.is_valid():
             message = form.save(commit=False)

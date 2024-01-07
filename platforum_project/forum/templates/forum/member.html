@@ -21,7 +21,7 @@
             {% if account.forum_master %}
             {% if not member.forum_master %}
             {% if member.active %}
-            <form method="post" action="{% url 'forum:admin-member-status' pk_forum=forum.pk pk_member=member.pk %}">
+            <form method="post" class="mb-5" action="{% url 'forum:admin-member-status' pk_forum=forum.pk pk_member=member.pk %}">
                 {% csrf_token %}
                 <input type="hidden" name="redirect" value="member-view">
                 <input type="submit" value="Actif" class="btn btn-success">
@@ -36,6 +36,12 @@
             {% endif %}
             {% endif %}
 
+            {% if member != account %}
+            <form action="{% url 'forum:start-conversation' slug_forum=forum.slug pk_forum=forum.pk pk_member=member.pk %}">
+                {% csrf_token %}
+                <input type="submit" value="MP" class="btn btn-success">
+            </form>
+            {% endif %}
 
         </div>
     </div>
