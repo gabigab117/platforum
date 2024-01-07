@@ -52,6 +52,9 @@
                     </ul>
                 </li>
                 {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'landing:forums-list' %}">Voir les forums</a>
+                </li>
                 {% if request.user.is_superuser %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'admin:index' %}">Administration</a>
@@ -65,9 +68,9 @@
                 </li>
 
             </ul>
-            <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Rechercher un forum" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
+            <form class="d-flex" role="search" action="{% url 'landing:forums-list' %}">
+                <input class="form-control me-2" type="search" placeholder="Rechercher un forum" aria-label="Rechercher un forum" name="rechercher-forum">
+                <button class="btn btn-outline-success" type="submit">Rechercher</button>
             </form>
         </div>
     </div>
