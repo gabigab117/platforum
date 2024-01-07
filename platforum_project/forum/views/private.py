@@ -89,6 +89,7 @@ def conversation_view(request, slug_forum, pk_forum, slug_conversation, pk_conve
             message = form.save(commit=False)
             message.conversation, message.account, message.personal = conversation, account, True
             message.save()
+            Notification.notify_member_if_message_posted_in_conversation(conversation, account)
             return redirect(conversation)
     else:
         form = PostMessage()

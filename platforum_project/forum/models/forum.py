@@ -103,3 +103,12 @@ class Notification(models.Model):
             topic.account.save()
             return cls.objects.create(account=topic.account,
                                       message=f"Nouveau message posté par {account.user.username} dans {topic.title}")
+
+    @classmethod
+    def notify_member_if_message_posted_in_conversation(cls, conversation, account):
+        if conversation.account != account:
+            conversation.account.notification_counter += 1
+            conversation.account.save()
+            return cls.objects.create(account=conversation.account,
+                                      message=f"Boite personnelle : Nouveau message posté par {account.user.username} "
+                                              f"dans {conversation.subject}")
