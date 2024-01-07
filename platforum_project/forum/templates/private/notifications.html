@@ -1,0 +1,53 @@
+{% extends "base_forum.html" %}
+{% load static %}
+
+{% block title %}Notifications {{ account.user.username }}{% endblock %}
+
+{% block body %}
+
+<div class="container shadow-lg rounded border p-5">
+    <div class="row mb-2">
+        <div class="col-3"><a href="{% url 'forum:index' slug_forum=forum.slug pk_forum=forum.pk %}"><img
+                src="{% static 'assets/return.png' %}" height="40" width="auto"></a></div>
+    </div>
+    <div class="row text-center">
+        <h2 class="mb-5">Notifications</h2>
+    </div>
+
+
+    <div class="row text-center">
+        <div class="col">
+            {% if notifications %}
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Notification</th>
+                </tr>
+                </thead>
+                {% for notification in notifications %}
+                <tbody>
+                <tr>
+
+                    <td>{{ notification.message }}</td>
+                </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+            <form method="post" action="{% url 'forum:delete-alerts' pk_forum=forum.pk %}">
+                {% csrf_token %}
+                <input type="submit" value="Supprimer les notifications" class="btn btn-danger">
+
+            </form>
+            {% else %}
+            <h3>Vous n'avez pas encore de notifications</h3>
+            {% endif %}
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+{% endblock %}

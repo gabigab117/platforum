@@ -3,7 +3,7 @@ from .views import create_forum, index, sub_category_view, add_topic, topic_view
     personal_messaging, conversation_view, update_message_conversation, delete_message_conversation, profile_forum, \
     signup_forum, members_list_view, pin_topic, display_members, member_status_view, member_view, builder_view, \
     delete_category_view, delete_subcategory_view, update_category_view, update_subcategory_view, start_conversation, \
-    index_admin_view
+    index_admin_view, notifications_view, delete_notifications
 
 app_name = "forum"
 urlpatterns = [
@@ -37,6 +37,8 @@ urlpatterns = [
     path('<str:slug_forum>/<int:pk_forum>/profile/', profile_forum, name="profile"),
     path('<str:slug_forum>/<int:pk_forum>/members-list/', members_list_view, name="members-list"),
     path('<str:slug_forum>/<int:pk_forum>/<int:pk_member>/', member_view, name="member"),
+    path("<str:slug_forum>/<int:pk_forum>/notifications/", notifications_view, name="alerts"),
+    path('<int:pk_forum>/delete-notifications/', delete_notifications, name="delete-alerts"),
 
     # Admin Part
     path('<str:slug_forum>/<int:pk_forum>/admin/index', index_admin_view, name="admin-index"),

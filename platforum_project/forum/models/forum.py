@@ -56,6 +56,7 @@ class ForumAccount(models.Model):
     active = models.BooleanField(verbose_name="Actif", default=True)
     joined = models.DateField(verbose_name="Rejoins le", auto_now_add=True)
     forum_master = models.BooleanField(default=False)
+    notification_counter = models.IntegerField(default=0)
 
     def __str__(self):
         return f"{self.forum} - {self.user.username}"
@@ -89,3 +90,16 @@ class ForumAccount(models.Model):
 
     class Meta:
         verbose_name = "Compte"
+
+
+class Notification(models.Model):
+    account = models.ForeignKey(to="ForumAccount", on_delete=models.CASCADE, verbose_name="Compte")
+    message = models.CharField(max_length=200)
+
+    @classmethod
+    def notify_member_if_message_posted_in_topic(cls, topic, account):
+        if topic.account != account:
+            topic.account.notification_counter += 1
+            topic.account.save()
+            return cls.objects.create(account=topic.account,
+                                      message=f"Nouveau message posté par {account.user.username} dans {topic.title}")

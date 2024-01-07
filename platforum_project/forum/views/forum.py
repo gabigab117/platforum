@@ -5,7 +5,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 
 from account.models import CustomUser
 from platforum_project.func.security import user_permission, verify_active_forum_account
-from forum.models import Forum, Category, SubCategory, Topic, Message, ForumAccount
+from forum.models import Forum, Category, SubCategory, Topic, Message, ForumAccount, Notification
 from forum.forms import CreateTopic, PostMessage
 
 
@@ -77,6 +77,7 @@ def topic_view(request, slug_forum, pk_forum, pk, slug_sub_category, pk_topic, s
             message.topic = topic
             message.account = account
             message.save()
+            Notification.notify_member_if_message_posted_in_topic(topic, account)
             return redirect(topic)
     else:
         form = PostMessage()

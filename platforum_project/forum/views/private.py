@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 
 from account.models import CustomUser
-from forum.models import Conversation, Forum, Message, ForumAccount
+from forum.models import Conversation, Forum, Message, ForumAccount, Notification
 from forum.forms import PostMessage, ProfileUpdateForm, SignupForumForm, ConversationForm
 
 from platforum_project.func.security import user_permission, verify_active_forum_account
@@ -151,3 +151,27 @@ def profile_forum(request, slug_forum, pk_forum):
         form = ProfileUpdateForm()
     return render(request, "private/profile.html", context={"forum": forum, "account": account, "form": form,
                                                             "messages": last_messages})
+
+
+@login_required
+def notifications_view(request, slug_forum, pk_forum):
+    user = request.user
+    forum = get_object_or_404(Forum, pk=pk_forum)
+    verify_active_forum_account(user, forum)
+    account = user.retrieve_forum_account(forum)
+    notifications = Notification.objects.filter(account=account)
+    return render(request, "private/notifications.html", context={"forum": forum, "account": account,
+                                                                  "notifications": notifications})
+
+
+@login_required
+@require_POST
+def delete_notifications(request, pk_forum):
+    user = request.user
+    forum = get_object_or_404(Forum, pk=pk_forum)
+    verify_active_forum_account(user, forum)
+    account: ForumAccount = user.retrieve_forum_account(forum)
+    Notification.objects.filter(account=account).delete()
+    account.notification_counter = 0
+    account.save()
+    return redirect("forum:alerts", slug_forum=forum.slug, pk_forum=forum.pk)
