@@ -34,9 +34,6 @@
                 </li>
                 {% if account.active %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'account:signup' %}">Notifications</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link"
                        href="{% url 'forum:private-messaging' slug_forum=forum.slug pk_forum=forum.pk %}">Messagerie
                         privée</a>
@@ -90,6 +87,15 @@
     {% block head %}{% endblock %}
         </div>
         </div>
+
+    {% if account %}
+    {% if account.active %}
+    <div class="row mb-2">
+        <div class="col-3"><a href="{% url 'forum:alerts' slug_forum=forum.slug pk_forum=forum.pk %}"><img
+                src="{% static 'assets/notif.png' %}" height="50" width="auto" class="rounded"></a><span class="notif-link">{{ account.notification_counter }}</span></div>
+    </div>
+    {% endif %}
+    {% endif %}
 
 </div>
 

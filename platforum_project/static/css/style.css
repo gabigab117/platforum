@@ -31,6 +31,13 @@ body {
     text-decoration: None;
 }
 
+
+.notif-link {
+    color: red;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
 .admin-col {
     color: rgba(25, 135, 84);
     font-size: 6rem;
