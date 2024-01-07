@@ -10,7 +10,7 @@
     <div class="row justify-content-around">
         <div class="col-6 shadow-lg">
             <h3 class="text-center">Créer son forum</h3>
-            <form method="post">
+            <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ form|crispy }}
                 <div class="d-flex justify-content-center">

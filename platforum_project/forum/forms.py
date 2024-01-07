@@ -11,7 +11,7 @@ from crispy_forms.layout import Layout, Submit, Row, Column
 class CreateForumForm(forms.ModelForm):
     class Meta:
         model = Forum
-        fields = ["name", "theme", "description"]
+        fields = ["name", "theme", "description", "thumbnail"]
 
 
 class CreateTopic(forms.ModelForm):

@@ -17,6 +17,7 @@ class Forum(models.Model):
     theme = models.ForeignKey(to="Theme", verbose_name="Thème", on_delete=models.PROTECT)
     description = models.CharField(max_length=3000, verbose_name="Description")
     creation = models.DateField(auto_now_add=True, verbose_name="Date de création")
+    thumbnail = models.ImageField(upload_to="Logo", verbose_name="Logo", null=True, blank=True)
 
     def __str__(self):
         return f"{self.name} - {self.forum_master.username}"
@@ -26,8 +27,16 @@ class Forum(models.Model):
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
 
+    def clean(self):
+        if self.thumbnail and self.thumbnail.size > 5 * 1024 * 1024:
+            raise ValidationError("La taille du fichier ne doit pas dépasser 5MO.")
+
     def get_absolute_url(self):
         return reverse("forum:index", kwargs={"slug_forum": self.slug, "pk_forum": self.pk})
+
+    @property
+    def thumbnail_url(self):
+        return self.thumbnail.url if self.thumbnail else static("assets/header.png")
 
 
 class Theme(models.Model):
@@ -44,7 +53,6 @@ class ForumAccount(models.Model):
     forum = models.ForeignKey(to=Forum, on_delete=models.CASCADE, verbose_name="Forum")
     user = models.ForeignKey(to=AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="Utilisateur")
     thumbnail = models.ImageField(upload_to="avatars", verbose_name="Vignette", null=True, blank=True)
-    # En cas de modération le modérateur peut désactiver le compte temporairement
     active = models.BooleanField(verbose_name="Actif", default=True)
     joined = models.DateField(verbose_name="Rejoins le", auto_now_add=True)
     forum_master = models.BooleanField(default=False)
