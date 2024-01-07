@@ -9,9 +9,11 @@ from forum.default_data.messages import welcome_message
 class Category(models.Model):
     name = models.CharField(max_length=50, verbose_name="Nom")
     forum = models.ForeignKey(to="Forum", on_delete=models.CASCADE, verbose_name="Forum")
+    index = models.IntegerField(default=0)
 
     class Meta:
         verbose_name = "Catégorie"
+        ordering = ["index"]
 
     def __str__(self):
         return f"{self.name} - {self.forum.name}"
@@ -30,6 +32,7 @@ class SubCategory(models.Model):
     slug = models.SlugField(blank=True)
     category = models.ForeignKey(to=Category, on_delete=models.CASCADE, verbose_name="Catégorie",
                                  related_name="subcategories")
+    index = models.IntegerField(default=0)
 
     def __str__(self):
         return f"{self.name} - {self.category}"
@@ -51,6 +54,7 @@ class SubCategory(models.Model):
 
     class Meta:
         verbose_name = "Sous catégorie"
+        ordering = ["index"]
 
     def save(self, *args, **kwargs):
         if not self.slug:
