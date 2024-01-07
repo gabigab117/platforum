@@ -139,6 +139,10 @@ def members_list_view(request, slug_forum, pk_forum):
     verify_active_forum_account(user, forum)
     account = user.retrieve_forum_account(forum)
     members = ForumAccount.objects.filter(forum=forum, active=True)
+
+    search = request.GET.get("search")
+    if search:
+        members = ForumAccount.objects.filter(forum=forum, user__username__icontains=search)
     return render(request, "forum/members-list.html", context={"forum": forum,
                                                                "account": account, "members": members})
 
