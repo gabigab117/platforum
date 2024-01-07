@@ -14,13 +14,23 @@
 
 {% for category in categories %}
 <div class="container shadow-lg rounded border p-5 mb-5">
+    <div class="row mb-2"><div class="col-3"><a href="{% url 'forum:index' slug_forum=forum.slug pk_forum=forum.pk %}"><img src="{% static 'assets/return.png' %}" height="40" width="auto"></a></div> </div>
+
+
+          <div class="row mb-2 p-2 mx-0 justify-content-start text-center">
+             <div class="col-4"></div>
+             <div class="col-3"></div>
+              <div class="col-1" style="color: red;"><strong>Supprimer</strong></div>
+             <div class="col-1"></div>
+             <div class="col-3" style="color: red;"><strong>Modifier</strong></div>
+         </div>
 
 
     <div class="card text-center">
         <div class="card-header row fw-bold mx-0 justify-content-start" style="background-color: rgba(136, 204, 136);">
-            <div class="col-3">{{ category.name }}</div>
+            <div class="col-4">{{ category.name }}</div>
             <div class="col-3">Sujets</div>
-            <div class="col-3">
+            <div class="col-1">
 
 
                             <!-- Button trigger modal Delete Category -->
@@ -54,18 +64,23 @@
 
 
             </div>
-            <div class="col-3">{{ category.index }}</div>
+            <div class="col-1">{{ category.index }}</div>
+            <div class="col-3">
+                <a href="{% url 'forum:admin-update-category' slug_forum=forum.slug pk_forum=forum.pk pk_category=category.pk %}"><img class="rounded" src="{% static 'assets/update.png' %}" height="40" width="auto"></a>
+
+            </div>
 
 
 
         </div>
 
+
         {% for subcategory in category.get_sub_categories %}
         <div class="row border-bottom p-2 mx-0">
             <div class="justify-content-start d-flex">
-                <div class="col-3"><strong>{{ subcategory.name }}</strong></div>
+                <div class="col-4"><strong>{{ subcategory.name }}</strong></div>
                 <div class="col-3">{{ subcategory.topic_set.all.count }}</div>
-                <div class="col-3">
+                <div class="col-1">
 
 
 
@@ -100,7 +115,14 @@
 
 
                 </div>
-                <div class="col-3">{{ subcategory.index }}</div>
+                <div class="col-1">{{ subcategory.index }}</div>
+
+                <div class="col-3">
+                <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Modifier"
+                   href="{% url 'forum:admin-update-subcategory' slug_forum=forum.slug pk_forum=forum.pk pk_subcategory=subcategory.pk %}"><img
+                        class="rounded" src="{% static 'assets/update.png' %}" height="40" width="auto"></a>
+
+            </div>
 
 
             </div>

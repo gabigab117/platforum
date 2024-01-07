@@ -2,7 +2,7 @@ from django import forms
 
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
-from forum.models import Forum, Topic, Message, ForumAccount
+from forum.models import Forum, Topic, Message, ForumAccount, Category, SubCategory
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Row, Column
@@ -90,3 +90,15 @@ class CreateCategory(forms.Form):
             ),
             Row(Column(Submit('submit', "Valider", css_class="btn btn-success center"), css_class="text-center"))
         )
+
+
+class CategoryForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ["name", "index"]
+
+
+class SubCategoryForm(forms.ModelForm):
+    class Meta:
+        model = SubCategory
+        fields = ["name", "index"]

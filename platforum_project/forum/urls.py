@@ -2,7 +2,7 @@ from django.urls import path
 from .views import create_forum, index, sub_category_view, add_topic, topic_view, update_message, delete_message, \
     personal_messaging, conversation_view, update_message_conversation, delete_message_conversation, profile_forum, \
     signup_forum, members_list_view, pin_topic, display_members, member_status_view, member_view, builder_view, \
-    delete_category_view, delete_subcategory_view
+    delete_category_view, delete_subcategory_view, update_category_view, update_subcategory_view
 
 app_name = "forum"
 urlpatterns = [
@@ -43,4 +43,8 @@ urlpatterns = [
     path('<int:pk_forum>/<int:pk_category>/admin/delete-category/', delete_category_view, name="delete-category-admin"),
     path('<int:pk_forum>/<int:pk_subcategory>/admin/delete-subcategory/', delete_subcategory_view,
          name="delete-subcategory-admin"),
+    path('<str:slug_forum>/<int:pk_forum>/admin/update-category/<int:pk_category>/', update_category_view,
+         name="admin-update-category"),
+    path('<str:slug_forum>/<int:pk_forum>/admin/update-subcategory/<int:pk_subcategory>/', update_subcategory_view,
+         name="admin-update-subcategory"),
 ]

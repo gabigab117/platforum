@@ -1,9 +1,10 @@
 from django.contrib.auth.decorators import login_required
+from django.forms import model_to_dict
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 
 from account.models import CustomUser
-from forum.forms import CreateCategory
+from forum.forms import CreateCategory, CategoryForm, SubCategoryForm
 from forum.models import Forum, Topic, ForumAccount, Category, SubCategory
 from platforum_project.func.security import verify_forum_master_status
 
@@ -106,3 +107,43 @@ def delete_subcategory_view(request, pk_forum, pk_subcategory):
     verify_forum_master_status(account=user.retrieve_forum_account(forum))
     SubCategory.objects.get(pk=pk_subcategory).delete()
     return redirect("forum:builder", slug_forum=forum.slug, pk_forum=forum.pk)
+
+
+@login_required
+def update_category_view(request, slug_forum, pk_forum, pk_category):
+    user: CustomUser = request.user
+    forum = get_object_or_404(Forum, pk=pk_forum)
+    account = user.retrieve_forum_account(forum)
+    verify_forum_master_status(account)
+    category = get_object_or_404(Category, pk=pk_category)
+
+    if request.method == "POST":
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            category.name, category.index = form.cleaned_data["name"], form.cleaned_data["index"]
+            category.save()
+            return redirect("forum:builder", slug_forum=forum.slug, pk_forum=pk_forum)
+    else:
+        form = CategoryForm(initial=model_to_dict(category))
+    return render(request, "admin/category-update.html", context={"forum": forum, "account": account,
+                                                                  "category": category, "form": form})
+
+
+@login_required
+def update_subcategory_view(request, slug_forum, pk_forum, pk_subcategory):
+    user: CustomUser = request.user
+    forum = get_object_or_404(Forum, pk=pk_forum)
+    account = user.retrieve_forum_account(forum)
+    verify_forum_master_status(account)
+    subcategory = get_object_or_404(SubCategory, pk=pk_subcategory)
+
+    if request.method == "POST":
+        form = SubCategoryForm(request.POST)
+        if form.is_valid():
+            subcategory.name, subcategory.index = form.cleaned_data["name"], form.cleaned_data["index"]
+            subcategory.save()
+            return redirect("forum:builder", slug_forum=forum.slug, pk_forum=pk_forum)
+    else:
+        form = SubCategoryForm(initial=model_to_dict(subcategory))
+    return render(request, "admin/subcategory-update.html", context={"forum": forum, "account": account,
+                                                                     "subcategory": subcategory, "form": form})

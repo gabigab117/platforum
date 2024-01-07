@@ -1,0 +1,31 @@
+{% extends "base_forum.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}Mettre à jour {{ category.name }}{% endblock %}
+
+
+{% block body %}
+
+<div class="container mb-5">
+    <div class="row mb-2"><div class="col-3"><a href="{% url 'forum:builder' slug_forum=forum.slug pk_forum=forum.pk %}"><img src="{% static 'assets/return.png' %}" height="40" width="auto"></a></div> </div>
+
+    <div class="row text-center"><h2>Mettre à jour {{ category.name }}</h2></div>
+
+</div>
+
+
+<div class="container shadow-lg">
+    <div class="row justify-content-around">
+        <div class="col-6">
+            <form method="post" class="p-5">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <div class="text-center">
+                <input type="submit" value="Valider" class="btn btn-success">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
