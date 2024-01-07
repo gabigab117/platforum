@@ -5,9 +5,35 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 
 from account.models import CustomUser
-from forum.forms import CreateCategory, CategoryForm, SubCategoryForm
-from forum.models import Forum, Topic, ForumAccount, Category, SubCategory
+from forum.forms import CreateCategory, CategoryForm, SubCategoryForm, ForumUpdateThumbnail
+from forum.models import Forum, Topic, ForumAccount, Category, SubCategory, Message
 from platforum_project.func.security import verify_forum_master_status
+
+
+@login_required
+def index_admin_view(request, slug_forum, pk_forum):
+    user: CustomUser = request.user
+    forum = get_object_or_404(Forum, pk=pk_forum)
+    account = user.retrieve_forum_account(forum)
+    verify_forum_master_status(account)
+
+    active_members = ForumAccount.objects.filter(forum=forum, active=True)
+    ban_members = ForumAccount.objects.filter(forum=forum, active=False)
+    topics = Topic.objects.filter(sub_category__category__forum=forum)
+    messages = Message.objects.filter(topic__sub_category__category__forum=forum)
+
+    if request.method == "POST":
+        form = ForumUpdateThumbnail(request.POST, request.FILES)
+        if form.is_valid():
+            forum.thumbnail = form.cleaned_data["thumbnail"]
+            forum.save()
+            redirect(request.path)
+    else:
+        form = ForumUpdateThumbnail()
+    return render(request, "admin-forum/index.html", context={"forum": forum, "account": account, "form": form,
+                                                              "active_members": active_members,
+                                                              "ban_members": ban_members, "topics": topics,
+                                                              "messages": messages})
 
 
 @login_required
@@ -34,7 +60,7 @@ def display_members(request, slug_forum, pk_forum):
     search = request.GET.get("search")
     if search:
         members = ForumAccount.objects.filter(forum=forum, forum_master=False, user__username__icontains=search)
-    return render(request, "admin/members.html", context={"forum": forum, "account": account, "members": members})
+    return render(request, "admin-forum/members.html", context={"forum": forum, "account": account, "members": members})
 
 
 @login_required
@@ -86,10 +112,10 @@ def builder_view(request, slug_forum, pk_forum):
             return redirect(request.path)
     else:
         form = CreateCategory()
-    return render(request, "admin/builder.html", context={"forum": forum,
-                                                          "account": account,
-                                                          "categories": categories,
-                                                          "form": form})
+    return render(request, "admin-forum/builder.html", context={"forum": forum,
+                                                                "account": account,
+                                                                "categories": categories,
+                                                                "form": form})
 
 
 @login_required
@@ -128,8 +154,8 @@ def update_category_view(request, slug_forum, pk_forum, pk_category):
             return redirect("forum:builder", slug_forum=forum.slug, pk_forum=pk_forum)
     else:
         form = CategoryForm(initial=model_to_dict(category))
-    return render(request, "admin/category-update.html", context={"forum": forum, "account": account,
-                                                                  "category": category, "form": form})
+    return render(request, "admin-forum/category-update.html", context={"forum": forum, "account": account,
+                                                                        "category": category, "form": form})
 
 
 @login_required
@@ -148,5 +174,5 @@ def update_subcategory_view(request, slug_forum, pk_forum, pk_subcategory):
             return redirect("forum:builder", slug_forum=forum.slug, pk_forum=pk_forum)
     else:
         form = SubCategoryForm(initial=model_to_dict(subcategory))
-    return render(request, "admin/subcategory-update.html", context={"forum": forum, "account": account,
-                                                                     "subcategory": subcategory, "form": form})
+    return render(request, "admin-forum/subcategory-update.html", context={"forum": forum, "account": account,
+                                                                           "subcategory": subcategory, "form": form})

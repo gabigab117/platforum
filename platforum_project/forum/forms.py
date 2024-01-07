@@ -110,3 +110,11 @@ class ConversationForm(forms.ModelForm):
     class Meta:
         model = Conversation
         fields = ["subject", "message"]
+
+
+class ForumUpdateThumbnail(forms.ModelForm):
+    thumbnail = forms.ImageField(label="")
+
+    class Meta:
+        model = Forum
+        fields = ["thumbnail"]
