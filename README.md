@@ -9,8 +9,8 @@ Penser à donner la possibilité de changer un sujet de catégorie
 
 ## Questions pour Thibault
 
-La gestion des permissions selon ma structure de données
-
-Comptes utilisateur
-
 Personnalisation de l'interface
+
+### Tâches
+
+Formulaire de contact, a propos, mes forums, pagination topic et conversation, profil général
