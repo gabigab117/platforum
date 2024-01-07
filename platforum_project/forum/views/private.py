@@ -134,7 +134,7 @@ def delete_message_conversation(request, pk_forum, pk_conversation, pk_message):
 
 
 @login_required
-def profile_forum(request, pk_forum, slug_forum):
+def profile_forum(request, slug_forum, pk_forum):
     user = request.user
     forum = get_object_or_404(Forum, pk=pk_forum)
     account = user.retrieve_forum_account(forum)
