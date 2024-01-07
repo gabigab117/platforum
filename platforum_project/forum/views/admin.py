@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 from django.forms import model_to_dict
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
@@ -42,7 +43,9 @@ def member_status_view(request, pk_forum, pk_member):
     user: CustomUser = request.user
     forum = get_object_or_404(Forum, pk=pk_forum)
     verify_forum_master_status(account=user.retrieve_forum_account(forum))
-    member_account = get_object_or_404(ForumAccount, pk=pk_member)
+    member_account: ForumAccount = get_object_or_404(ForumAccount, pk=pk_member)
+    if member_account.forum_master:
+        raise PermissionDenied()
     member_account.deactivate() if member_account.active else member_account.activate()
 
     if request.POST.get("redirect") == "member-view":
