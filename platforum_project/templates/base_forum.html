@@ -82,8 +82,8 @@
 
 <div class="container-fluid text-center shadow-lg mb-5 rounded p-5">
 
-    <h1 class="display-1 p-4">{{ forum.name }}<img src="{% static 'assets/header.png' %}" width="200px" height="auto">
-    </h1>
+    <a href="{{ forum.get_absolute_url }}" class="index-link"><h1 class="display-1 p-4">{{ forum.name }}<img src="{% static 'assets/header.png' %}" width="200px" height="auto">
+    </h1></a>
     <strong>par</strong>
     <h2><span style="color: rgba(25, 135, 84);">{{ forum.forum_master.username }}</span></h2>
     {% block head %}{% endblock %}
