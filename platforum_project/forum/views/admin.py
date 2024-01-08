@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 
 from account.models import CustomUser
-from forum.forms import CreateCategory, CategoryForm, SubCategoryForm, ForumUpdateThumbnail
+from forum.forms import CreateCategory, CategoryForm, SubCategoryForm, ForumUpdateThumbnail, TopicUpdateForm
 from forum.models import Forum, Topic, ForumAccount, Category, SubCategory, Message
 from platforum_project.func.security import verify_forum_master_status
 
@@ -23,13 +23,12 @@ def index_admin_view(request, slug_forum, pk_forum):
     messages = Message.objects.filter(topic__sub_category__category__forum=forum)
 
     if request.method == "POST":
-        form = ForumUpdateThumbnail(request.POST, request.FILES)
+        form = ForumUpdateThumbnail(request.POST, request.FILES, instance=forum)
         if form.is_valid():
-            forum.thumbnail = form.cleaned_data["thumbnail"]
-            forum.save()
+            form.save()
             redirect(request.path)
     else:
-        form = ForumUpdateThumbnail()
+        form = ForumUpdateThumbnail(instance=forum)
     return render(request, "admin-forum/index.html", context={"forum": forum, "account": account, "form": form,
                                                               "active_members": active_members,
                                                               "ban_members": ban_members, "topics": topics,
@@ -147,13 +146,12 @@ def update_category_view(request, slug_forum, pk_forum, pk_category):
     category = get_object_or_404(Category, pk=pk_category)
 
     if request.method == "POST":
-        form = CategoryForm(request.POST)
+        form = CategoryForm(request.POST, instance=category)
         if form.is_valid():
-            category.name, category.index = form.cleaned_data["name"], form.cleaned_data["index"]
-            category.save()
+            form.save()
             return redirect("forum:builder", slug_forum=forum.slug, pk_forum=pk_forum)
     else:
-        form = CategoryForm(initial=model_to_dict(category))
+        form = CategoryForm(instance=category)
     return render(request, "admin-forum/category-update.html", context={"forum": forum, "account": account,
                                                                         "category": category, "form": form})
 
@@ -167,12 +165,30 @@ def update_subcategory_view(request, slug_forum, pk_forum, pk_subcategory):
     subcategory = get_object_or_404(SubCategory, pk=pk_subcategory)
 
     if request.method == "POST":
-        form = SubCategoryForm(request.POST)
+        form = SubCategoryForm(request.POST, instance=subcategory)
         if form.is_valid():
-            subcategory.name, subcategory.index = form.cleaned_data["name"], form.cleaned_data["index"]
-            subcategory.save()
+            form.save()
             return redirect("forum:builder", slug_forum=forum.slug, pk_forum=pk_forum)
     else:
-        form = SubCategoryForm(initial=model_to_dict(subcategory))
+        form = SubCategoryForm(instance=subcategory)
     return render(request, "admin-forum/subcategory-update.html", context={"forum": forum, "account": account,
                                                                            "subcategory": subcategory, "form": form})
+
+
+@login_required
+def update_topic(request, slug_forum, pk_forum, pk_topic):
+    user: CustomUser = request.user
+    forum = get_object_or_404(Forum, pk=pk_forum)
+    account = user.retrieve_forum_account(forum)
+    verify_forum_master_status(account)
+    topic = get_object_or_404(Topic, pk=pk_topic)
+
+    if request.method == "POST":
+        form = TopicUpdateForm(forum, request.POST, instance=topic)
+        if form.is_valid():
+            form.save()
+            return redirect(topic)
+    else:
+        form = TopicUpdateForm(forum, instance=topic)
+    return render(request, "admin-forum/update-topic.html", context={"forum": forum, "account": account,
+                                                                     "topic": topic, "form": form})
