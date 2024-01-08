@@ -3,7 +3,7 @@ from .views import create_forum, index, sub_category_view, add_topic, topic_view
     personal_messaging, conversation_view, update_message_conversation, delete_message_conversation, profile_forum, \
     signup_forum, members_list_view, pin_topic, display_members, member_status_view, member_view, builder_view, \
     delete_category_view, delete_subcategory_view, update_category_view, update_subcategory_view, start_conversation, \
-    index_admin_view, notifications_view, delete_notifications, update_topic
+    index_admin_view, notifications_view, delete_notifications, update_topic, delete_topic_view
 
 app_name = "forum"
 urlpatterns = [
@@ -54,4 +54,5 @@ urlpatterns = [
     path('<str:slug_forum>/<int:pk_forum>/admin/update-subcategory/<int:pk_subcategory>/', update_subcategory_view,
          name="admin-update-subcategory"),
     path('<str:slug_forum>/<int:pk_forum>/admin/update-topic/<int:pk_topic>/', update_topic, name="admin-update-topic"),
+    path('<int:pk_forum>/admin/delete-topic/<int:pk_topic>/', delete_topic_view, name="admin-delete-topic")
 ]

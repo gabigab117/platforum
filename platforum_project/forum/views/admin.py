@@ -192,3 +192,16 @@ def update_topic(request, slug_forum, pk_forum, pk_topic):
         form = TopicUpdateForm(forum, instance=topic)
     return render(request, "admin-forum/update-topic.html", context={"forum": forum, "account": account,
                                                                      "topic": topic, "form": form})
+
+
+@login_required
+@require_POST
+def delete_topic_view(request, pk_forum, pk_topic):
+    user: CustomUser = request.user
+    forum = get_object_or_404(Forum, pk=pk_forum)
+    account = user.retrieve_forum_account(forum)
+    verify_forum_master_status(account)
+    topic = get_object_or_404(Topic, pk=pk_topic)
+    topic.delete()
+    return redirect("forum:sub-category", slug_forum=forum.slug, pk_forum=forum.pk, pk=topic.sub_category.pk,
+                    slug_sub_category=topic.sub_category.slug)
