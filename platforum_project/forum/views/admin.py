@@ -28,7 +28,7 @@ def index_admin_view(request, slug_forum, pk_forum):
             form.save()
             redirect(request.path)
     else:
-        form = ForumUpdateThumbnail(instance=forum)
+        form = ForumUpdateThumbnail()
     return render(request, "admin-forum/index.html", context={"forum": forum, "account": account, "form": form,
                                                               "active_members": active_members,
                                                               "ban_members": ban_members, "topics": topics,
