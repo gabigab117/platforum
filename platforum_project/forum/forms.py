@@ -118,3 +118,16 @@ class ForumUpdateThumbnail(forms.ModelForm):
     class Meta:
         model = Forum
         fields = ["thumbnail"]
+
+
+class TopicUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Topic
+        fields = ["title", "sub_category"]
+
+    def __init__(self, forum, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["sub_category"].queryset = SubCategory.objects.filter(category__forum=forum)
+
+    # def clean_sub_category(self):
+    #     return SubCategory.objects.get(id=self.cleaned_data["sub_category"])

@@ -109,13 +109,12 @@ def update_message_conversation(request, slug_forum, pk_forum, slug_conversation
     user_permission(message, account)
 
     if request.method == "POST":
-        form = PostMessage(request.POST)
+        form = PostMessage(request.POST, instance=message)
         if form.is_valid():
-            message.message = form.cleaned_data["message"]
-            message.save()
+            form.save()
             return redirect(conversation)
     else:
-        form = PostMessage(initial=model_to_dict(message))
+        form = PostMessage(instance=message)
     return render(request, "private/update-message.html", context={"forum": forum, "form": form,
                                                                    "conversation": conversation, "account": account})
 
@@ -143,10 +142,9 @@ def profile_forum(request, slug_forum, pk_forum):
         "-creation")[:5]
 
     if request.method == "POST":
-        form = ProfileUpdateForm(request.POST, request.FILES)
+        form = ProfileUpdateForm(request.POST, request.FILES, instance=account)
         if form.is_valid():
-            account.thumbnail = form.cleaned_data["thumbnail"]
-            account.save()
+            form.save()
             return redirect(request.path)
     else:
         form = ProfileUpdateForm()

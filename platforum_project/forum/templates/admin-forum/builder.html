@@ -9,13 +9,12 @@
 <div class="container mb-5">
 
     <div class="row text-center"><h2>Gestion des catégories</h2></div>
+    <div class="row mb-2"><div class="col-3"><a href="{% url 'forum:admin-index' slug_forum=forum.slug pk_forum=forum.pk %}"><img src="{% static 'assets/return.png' %}" height="40" width="auto"></a></div> </div>
 
 </div>
 
 {% for category in categories %}
 <div class="container shadow-lg rounded border p-5 mb-5">
-    <div class="row mb-2"><div class="col-3"><a href="{% url 'forum:index' slug_forum=forum.slug pk_forum=forum.pk %}"><img src="{% static 'assets/return.png' %}" height="40" width="auto"></a></div> </div>
-
 
           <div class="row mb-2 p-2 mx-0 justify-content-start text-center">
              <div class="col-4"></div>

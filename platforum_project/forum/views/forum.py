@@ -103,13 +103,12 @@ def update_message(request, slug_forum, pk_forum, pk, slug_sub_category, pk_topi
     user_permission(message, account)
 
     if request.method == "POST":
-        form = PostMessage(request.POST)
+        form = PostMessage(request.POST, instance=message)
         if form.is_valid():
-            message.message = form.cleaned_data["message"]
-            message.save()
+            form.save()
             return redirect(topic)
     else:
-        form = PostMessage(initial=model_to_dict(message))
+        form = PostMessage(instance=message)
     return render(request, "forum/update-message.html", context={
         "forum": forum,
         "topic": topic,
