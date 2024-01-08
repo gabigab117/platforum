@@ -13,10 +13,11 @@
             <h3 style="color: green;">{{ topic.title }}</h3>
             <a href="{% url 'forum:sub-category' slug_forum=forum.slug pk_forum=forum.pk pk=sub_category.pk slug_sub_category=sub_category.slug %}"><img src="{% static 'assets/return.png' %}" height="40" width="auto"></a>
         </div>
+        {% if request.user == forum.forum_master %}
         <div class="col-4 shadow-lg">
             <a href="{% url 'forum:admin-update-topic' slug_forum=forum.slug pk_forum=forum.pk pk_topic=topic.pk %}" class="btn btn-danger">Modifier le sujet</a>
         </div>
-
+        {% endif %}
     </div>
 
 </div>
@@ -24,7 +25,7 @@
 
 <div class="container rounded p-5 mb-5 border shadow-lg">
 
-    {% for message in messages %}
+    {% for message in page_obj %}
 
 
     <div class="card text-center shadow-lg mb-3">
@@ -81,6 +82,29 @@
         </div>
     </div>
     {% endfor %}
+    <!-- Pagination -->
+    <div class="row mt-5">
+
+         <nav aria-label="Page navigation example">
+  <ul class="pagination">
+
+        {% if page_obj.has_previous %}
+      <li><a href="?page=1" class="page-link">&laquo; Début</a></li>
+      <li><a href="?page={{ page_obj.previous_page_number }}" class="page-link">Précédent</a></li>
+        {% endif %}
+
+
+        {% if page_obj.has_next %}
+      <li><a href="?page={{ page_obj.next_page_number }}" class="page-link">Suivant</a></li>
+      <li> <a href="?page={{ page_obj.paginator.num_pages }}" class="page-link">Fin &raquo;</a></li>
+        {% endif %}
+
+  </ul>
+</nav>
+        <strong>Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}.</strong>
+
+
+    </div>
 
 </div>
 {% if account %}

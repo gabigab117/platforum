@@ -39,10 +39,12 @@
             <div class="justify-content-between d-flex">
                 <div class="col-4 justify-content-center d-flex"><a class="topic-link"
                                       href="{% url 'forum:topic' slug_forum=forum.slug pk_forum=forum.pk pk=sub_category.pk slug_sub_category=sub_category.slug pk_topic=pin_topic.pk slug_topic=pin_topic.slug %}">{{ pin_topic.title }}</a>
+                    {% if request.user == forum.forum_master %}
                 <form method="post" action="{% url 'forum:pin' pk_forum=forum.pk pk_topic=pin_topic.pk %}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Epingler">
                     {% csrf_token %}
                         <input type="image" src="{% static 'assets/pin.png' %}" alt="Submit" height="30" width="auto" class="rounded">
                 </form>
+                    {% endif %}
                 </div>
                 <div class="col-4">{{ pin_topic.number_of_messages }}</div>
                 <div class="col-4">{{ pin_topic.last_message }}</div>
@@ -65,17 +67,18 @@
 
         </div>
 
-        {% for topic in topics %}
+        {% for topic in page_obj %}
 
         <div class="row border-bottom p-2 mx-0">
             <div class="justify-content-between d-flex">
                 <div class="col-4 justify-content-center d-flex"><a class="topic-link"
                                       href="{% url 'forum:topic' slug_forum=forum.slug pk_forum=forum.pk pk=sub_category.pk slug_sub_category=sub_category.slug pk_topic=topic.pk slug_topic=topic.slug %}">{{ topic.title }}</a>
-
+                    {% if request.user == forum.forum_master %}
                     <form method="post" action="{% url 'forum:pin' pk_forum=forum.pk pk_topic=topic.pk %}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Epingler">
                         {% csrf_token %}
                         <input type="image" src="{% static 'assets/pin.png' %}" alt="Submit" height="30" width="auto" class="rounded">
                     </form>
+                    {% endif %}
                 </div>
                 <div class="col-4">{{ topic.number_of_messages }}</div>
                 <div class="col-4">{{ topic.last_message }}</div>
@@ -85,6 +88,29 @@
 
         {% endfor %}
 
+
+    </div>
+
+    <!-- Pagination -->
+    <div class="row mt-5">
+
+ <nav aria-label="Page navigation example">
+  <ul class="pagination">
+
+        {% if page_obj.has_previous %}
+      <li><a href="?page=1" class="page-link">&laquo; Début</a></li>
+      <li><a href="?page={{ page_obj.previous_page_number }}" class="page-link">Précédent</a></li>
+        {% endif %}
+
+
+        {% if page_obj.has_next %}
+      <li><a href="?page={{ page_obj.next_page_number }}" class="page-link">Suivant</a></li>
+      <li> <a href="?page={{ page_obj.paginator.num_pages }}" class="page-link">Fin &raquo;</a></li>
+        {% endif %}
+
+  </ul>
+</nav>
+        <strong>Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}.</strong>
 
     </div>
 

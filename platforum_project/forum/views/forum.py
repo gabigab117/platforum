@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
-from django.forms import model_to_dict
+from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404, redirect
 
 from account.models import CustomUser
@@ -27,10 +27,14 @@ def sub_category_view(request, pk, slug_forum, pk_forum, slug_sub_category):
     sub_category = get_object_or_404(SubCategory, pk=pk)
     topics = Topic.objects.filter(sub_category=sub_category, pin=False)
     pin_topics = Topic.objects.filter(sub_category=sub_category, pin=True)
+
+    paginator = Paginator(topics, 10)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
     return render(request, "forum/sub-category.html", context={"sub_category": sub_category,
                                                                "forum": forum,
                                                                "topics": topics, "pin_topics": pin_topics,
-                                                               "account": account})
+                                                               "account": account, "page_obj": page_obj})
 
 
 @login_required
@@ -69,6 +73,10 @@ def topic_view(request, slug_forum, pk_forum, pk, slug_sub_category, pk_topic, s
     topic = get_object_or_404(Topic, pk=pk_topic)
     messages = Message.objects.filter(topic=topic)
 
+    paginator = Paginator(messages, 10)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
     if request.method == "POST":
         verify_active_forum_account(user, forum)
         form = PostMessage(request.POST)
@@ -88,6 +96,7 @@ def topic_view(request, slug_forum, pk_forum, pk, slug_sub_category, pk_topic, s
         "messages": messages,
         "account": account,
         "form": form,
+        "page_obj": page_obj
     })
 
 

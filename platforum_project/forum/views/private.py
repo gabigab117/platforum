@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied, ObjectDoesNotExist
+from django.core.paginator import Paginator
 from django.forms import model_to_dict
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
@@ -80,6 +81,10 @@ def conversation_view(request, slug_forum, pk_forum, slug_conversation, pk_conve
     messages = Message.objects.filter(conversation=conversation)
     contacts = conversation.contacts.all()
 
+    paginator = Paginator(messages, 10)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
     if account != conversation.account and account not in contacts:
         raise PermissionDenied()
 
@@ -95,7 +100,7 @@ def conversation_view(request, slug_forum, pk_forum, slug_conversation, pk_conve
         form = PostMessage()
     return render(request, "private/conversation.html",
                   context={"account": account, "forum": forum, "conversation": conversation, "messages": messages,
-                           "form": form, "contacts": contacts})
+                           "form": form, "contacts": contacts, "page_obj": page_obj})
 
 
 @login_required
