@@ -1,4 +1,7 @@
-from django.shortcuts import render
+from django.contrib import messages
+from django.core.mail import send_mail
+from django.shortcuts import render, redirect
+from .forms import ContactForm
 
 
 def contact_view(request):
@@ -11,7 +14,7 @@ def contact_view(request):
             subject = form.cleaned_data["subject"]
             text = form.cleaned_data["text"]
             send_mail(subject=subject, message=f"De la part de {email} - {text}",
-                      recipient_list=["gabrieltrouve5@yahoo.com"], from_email=None)
+                      recipient_list=["gabrieltrouve5@gmail.com"], from_email=None)
             send_mail(subject="Email bien envoyé", message="J'ai bien reçu votre email, je réponds rapidement :).",
                       from_email=None, recipient_list=[email])
             messages.add_message(request, messages.INFO,

@@ -46,10 +46,12 @@ INSTALLED_APPS = [
     'account',
     'landing',
     'forum',
+    'sav',
     'crispy_forms',
     'crispy_bootstrap5',
     'ckeditor',
     'ckeditor_uploader',
+    'django_recaptcha',
 ]
 
 MIDDLEWARE = [
@@ -187,3 +189,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = env('EMAIL_ID')
 EMAIL_HOST_PASSWORD = env('EMAIL_PW')
 DEFAULT_FROM_EMAIL = 'PlatForum<gabrieltrouve5@gmail.com>'
+
+# Recaptcha
+RECAPTCHA_PUBLIC_KEY = env("RECAPTCHA_PUBLIC_KEY")
+RECAPTCHA_PRIVATE_KEY = env("RECAPTCHA_PRIVATE_KEY")
