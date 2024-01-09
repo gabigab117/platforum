@@ -16,41 +16,65 @@
                 <h3>Salut <span style="color: rgba(25, 135, 84);"><strong>{{ request.user.username }}</strong></span>
                 </h3><img src="{% static 'assets/hi.png' %}" width="100px"
                           height="auto">
+
             </div>
 
             {% endif %}
+
+            <h3 class="text-center" style="color: red;">
+                {% if messages %}
+
+                {% for message in messages %}
+                {{ message }}
+                {% endfor %}
+
+                {% endif %}
+            </h3>
+
             <h3 class="text-center">🌟 Bienvenue sur PlatForum 🌟</h3>
 
-            <p>Nous sommes ravis de vous accueillir dans notre communauté dynamique et en pleine expansion, où les
+            <p>Nous sommes ravis de vous accueillir dans notre communauté dynamique et en pleine expansion, où
+                les
                 échanges
                 d'idées et les discussions passionnantes sont au cœur de chaque interaction.</p>
 
-            <p><strong>Découvrez un monde de forums :</strong> ici, vous pouvez plonger dans une variété de forums
+            <p><strong>Découvrez un monde de forums :</strong> ici, vous pouvez plonger dans une variété de
+                forums
                 couvrant une multitude de
-                sujets. Que vos intérêts soient professionnels, éducatifs, créatifs, ou simplement pour le plaisir, il y
+                sujets. Que vos intérêts soient professionnels, éducatifs, créatifs, ou simplement pour le
+                plaisir, il y
                 a
                 un espace pour chaque passion.</p>
 
-            <p><strong>Exprimez-vous et Partagez :</strong> Notre plateforme est conçue pour encourager le dialogue et
+            <p><strong>Exprimez-vous et Partagez :</strong> Notre plateforme est conçue pour encourager le
+                dialogue et
                 l'échange de
-                connaissances. Participez à des discussions existantes, partagez vos points de vue, et apprenez des
+                connaissances. Participez à des discussions existantes, partagez vos points de vue, et apprenez
+                des
                 autres
                 membres de la communauté.</p>
 
-            <p><strong>Créez Votre Propre Forum :</strong> Vous avez une idée pour un nouveau forum? Lancez-vous ! Notre
+            <p><strong>Créez Votre Propre Forum :</strong> Vous avez une idée pour un nouveau forum? Lancez-vous
+                ! Notre
                 plateforme offre
-                des outils faciles à utiliser pour créer votre propre espace de discussion. Que vous souhaitiez créer un
-                forum pour un hobby spécifique, un groupe de discussion professionnel ou un espace de débat, vous avez
+                des outils faciles à utiliser pour créer votre propre espace de discussion. Que vous souhaitiez
+                créer un
+                forum pour un hobby spécifique, un groupe de discussion professionnel ou un espace de débat,
+                vous avez
                 la
                 liberté de le façonner à votre image.</p>
 
-            <p><strong>Rejoignez-nous dès maintenant ! :</strong> Pour commencer à participer ou à créer votre propre
+            <p><strong>Rejoignez-nous dès maintenant ! :</strong> Pour commencer à participer ou à créer votre
+                propre
                 forum, inscrivez-vous
-                simplement sur notre plateforme. L'inscription est rapide, facile et ouvre la porte à un monde de
+                simplement sur notre plateforme. L'inscription est rapide, facile et ouvre la porte à un monde
+                de
                 possibilités.</p>
 
-            <p>Nous sommes impatients de voir vos contributions et de vous accueillir dans notre communauté. Ensemble,
-                construisons un espace où la curiosité, le partage et l'innovation sont célébrés chaque jour.</p>
+            <p>Nous sommes impatients de voir vos contributions et de vous accueillir dans notre communauté.
+                Ensemble,
+                construisons un espace où la curiosité, le partage et l'innovation sont célébrés chaque
+                jour.</p>
 
             <p>Pour pouvoir créer votre propre forum sur PlatForum, il est nécessaire de créer un compte,
                 ce qui est

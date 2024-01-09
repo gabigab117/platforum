@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
@@ -13,8 +14,10 @@ def signup(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.add_message(request, level=messages.INFO,
+                                 message="Vous êtes désormais inscrit."
+                                         "Vous pouvez désormais adhérer à des forums ou créer le votre !")
             return redirect("landing:index")
-        # Penser à revenir pour ajouter un message de confirmation
     else:
         form = SignUpForm()
     return render(request, "account/signup.html", context={"form": form})
