@@ -1,0 +1,95 @@
+{% extends "base_forum.html" %}
+{% load static %}
+
+{% block title %}Recherche {{ forum.name }}{% endblock %}
+
+{% block body %}
+
+<div class="container shadow-lg rounded border p-5">
+    <div class="row mb-2">
+        <div class="col-3"><a href="{% url 'forum:index' slug_forum=forum.slug pk_forum=forum.pk %}"><img
+                src="{% static 'assets/return.png' %}" height="40" width="auto"></a></div>
+    </div>
+    <div class="row text-center">
+        <h2 class="mb-5">Résultat : Sujets avec <span style="color: rgba(25, 135, 84);">"{{ search }}"</span></h2>
+    </div>
+
+    <div class="row text-center">
+        <div class="col">
+            {% if topics %}
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Sujet</th>
+                    <th scope="col">Messages</th>
+                    <th scope="col">Date de création</th>
+                    <th scope="col">Dernière activité</th>
+                </tr>
+                </thead>
+                {% for topic in topics %}
+                <tbody>
+                <tr>
+                    <td><a href="{{ message.topic.get_absolute_url }}" class="topic-link">{{ topic.title }}</a></td>
+                    <td>{{ topic.number_of_messages }}</td>
+                    <td>{{ topic.creation }}</td>
+                    <td>{{ topic.last_activity }}</td>
+                </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+            {% else %}
+            Pas de sujet ayant dans son titre <span style="color: rgba(25, 135, 84);">"{{ search }}"</span>
+            {% endif %}
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+
+<div class="container shadow-lg rounded border p-5">
+
+    <div class="row text-center">
+        <h2 class="mb-5">Résultat : Messages avec <span style="color: rgba(25, 135, 84);">"{{ search }}"</span></h2>
+    </div>
+
+    <div class="row text-center">
+        <div class="col">
+                        {% if messages %}
+                       <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Dans le sujet</th>
+                    <th scope="col">Posté par</th>
+                    <th scope="col">Date de publication</th>
+
+                </tr>
+                </thead>
+                {% for message in messages %}
+                <tbody>
+                <tr>
+                    <td><a href="{{ message.topic.get_absolute_url }}" class="topic-link">{{ message.topic.title }}</a></td>
+                    <td>{{ message.account.user.username }}</td>
+                    <td>{{ message.creation }}</td>
+
+                </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+            {% else %}
+            Pas de sujet correspondant à <span style="color: rgba(25, 135, 84);">"{{ search }}"</span>
+            {% endif %}
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+{% endblock %}

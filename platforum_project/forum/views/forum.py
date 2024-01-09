@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.views.decorators.http import require_POST
 from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404, redirect
@@ -20,7 +21,6 @@ def index(request, slug_forum, pk_forum):
 
 @login_required
 def sub_category_view(request, pk, slug_forum, pk_forum, slug_sub_category):
-    # Afficher la liste des sujets (pagination)
     user = request.user
     forum = get_object_or_404(Forum, pk=pk_forum)
     account = user.retrieve_forum_account(forum)
@@ -167,3 +167,23 @@ def member_view(request, slug_forum, pk_forum, pk_member):
         "-creation")[:5]
     return render(request, "forum/member.html", context={"forum": forum, "account": account,
                                                          "member": member, "messages": last_messages})
+
+
+@login_required
+def query_view(request, slug_forum, pk_forum):
+    user = request.user
+    forum = get_object_or_404(Forum, pk=pk_forum)
+    account = user.retrieve_forum_account(forum)
+
+    search = request.GET.get("query")
+    if search:
+        topics = Topic.objects.filter(title__icontains=search)
+        messages = Message.objects.filter(
+            Q(personal=False),
+            Q(message__icontains=search) | Q(topic__title__icontains=search)
+        )
+
+    else:
+        return redirect("forum:index", slug_forum=forum.slug, pk_forum=forum.pk)
+    return render(request, "search/request.html", context={"forum": forum, "account": account,
+                                                           "topics": topics, "messages": messages, "search": search})
