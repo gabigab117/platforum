@@ -80,9 +80,6 @@ def member_status_view(request, pk_forum, pk_member):
 
 @login_required
 def builder_view(request, slug_forum, pk_forum):
-    # Créer des catégories auxquelles je rattache des sous-catégories
-    # formulaire ==> nom catégorie, et des sous catégories
-    # supprimer catégorie ou sous catégorie
     user: CustomUser = request.user
     forum = get_object_or_404(Forum, pk=pk_forum)
     account = user.retrieve_forum_account(forum)
@@ -115,6 +112,27 @@ def builder_view(request, slug_forum, pk_forum):
                                                                 "account": account,
                                                                 "categories": categories,
                                                                 "form": form})
+
+
+@login_required
+def add_sub_category(request, slug_forum, pk_forum, pk_category):
+    user: CustomUser = request.user
+    forum = get_object_or_404(Forum, pk=pk_forum)
+    account = user.retrieve_forum_account(forum)
+    category = get_object_or_404(Category, pk=pk_category)
+    verify_forum_master_status(account)
+
+    if request.method == "POST":
+        form = SubCategoryForm(request.POST)
+        if form.is_valid():
+            sub_category = form.save(commit=False)
+            sub_category.category = category
+            sub_category.save()
+            return redirect("forum:builder", slug_forum=forum.slug, pk_forum=forum.pk)
+    else:
+        form = SubCategoryForm()
+    return render(request, "admin-forum/add-sub-category.html", context={"forum": forum, "account": account,
+                                                                         "category": category, "form": form})
 
 
 @login_required
