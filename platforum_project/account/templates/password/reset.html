@@ -1,0 +1,23 @@
+{% extends "base_site.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Re initialiser le mot de passe{% endblock %}
+
+{% block body %}
+
+<div class="container-fluid">
+    <div class="row justify-content-around">
+        <div class="col-6 shadow-lg p-3">
+            <h3 class="text-center">Demander un lien pour un nouveau mot de passe par email</h3>
+            <form method="post">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <div class="d-flex justify-content-center">
+<button type="submit" class="btn btn-danger">Valider</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
