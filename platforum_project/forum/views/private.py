@@ -9,7 +9,8 @@ from account.models import CustomUser
 from forum.models import Conversation, Forum, Message, ForumAccount, Notification
 from forum.forms import PostMessage, ProfileUpdateForm, SignupForumForm, ConversationForm
 
-from platforum_project.func.security import user_permission, verify_active_forum_account
+from platforum_project.func.security import user_permission, verify_active_forum_account, \
+    verify_account_for_private_conversation
 
 
 @login_required
@@ -85,8 +86,7 @@ def conversation_view(request, slug_forum, pk_forum, slug_conversation, pk_conve
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
-    if account != conversation.account and account not in contacts:
-        raise PermissionDenied()
+    verify_account_for_private_conversation(account, conversation, contacts)
 
     if request.method == "POST":
         form = PostMessage(request.POST)

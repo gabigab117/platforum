@@ -23,3 +23,8 @@ def verify_forum_master_status(account):
             raise PermissionDenied()
     except AttributeError:
         raise PermissionDenied()
+
+
+def verify_account_for_private_conversation(account, conversation, contacts):
+    if account != conversation.account and account not in contacts:
+        raise PermissionDenied()
