@@ -3,13 +3,60 @@
 {% block title %}Profile{% endblock %}
 
 {% block body %}
+<!--
+Infos compte + détail nombre de forums où je suis, créé et nombre de messages total
+-->
+<div class="container-fluid mb-5">
 
-<div class="container-fluid">
     <div class="row justify-content-around">
-        <div class="col-6 shadow-lg p-3">
-            <h3 class="text-center">Le mot de passe a bien été mis à jour !</h3>
+        <h2 class="text-center" style="color: rgba(25, 135, 84);">{{ request.user.username }}</h2>
+        <div class="col-5 justify-content-around d-flex m-1">
+
+            <div class="card shadow-lg" style="width: 18rem;">
+                <div class="card-header" style="background: rgba(25, 135, 84);">
+                    Mes informations
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">{{ request.user.first_name }}</li>
+                    <li class="list-group-item">{{ request.user.last_name }}</li>
+                    <li class="list-group-item">{{ request.user.email }}</li>
+                </ul>
+            </div>
+
+
+        </div>
+
+        <div class="col-5 justify-content-around d-flex m-1">
+
+            <div class="card shadow-lg" style="width: 18rem;">
+                <div class="card-header" style="background: rgba(255, 218, 185);">
+                    Statistiques
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Présent dans {{ forum_accounts }} forum(s)</li>
+                    <li class="list-group-item">Vous avez posté {{ messages }} messages</li>
+                    <li class="list-group-item">Vous avez lancé {{ topics }} sujets</li>
+                </ul>
+            </div>
+
 
         </div>
     </div>
+</div>
+
+<div class="container-fluid mb-5">
+    <div class="row justify-content-around">
+        <div class="col-5 m-1 d-flex justify-content-around">
+        <button  class="btn btn-danger"><a href="{% url 'account:change-password' %}" class="index-link">Nouveau mot de passe</a></button>
+
+        </div>
+
+        <div class="col-5 m-1 d-flex justify-content-around">
+            <p>Pour modifier votre adresse Email merci de nous le demander par le formulaire de contact</p>
+
+        </div>
+
+    </div>
+
 </div>
 {% endblock %}
