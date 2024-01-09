@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.shortcuts import render
 
-from forum.models import Forum
+from forum.models import Forum, ForumAccount
 
 
 def index(request):
@@ -22,5 +22,7 @@ def forums_list_view(request):
 
 @login_required
 def my_forums_list_view(request):
-    forums = Forum.objects.filter(forum_master=request.user)
-    return render(request, "landing/myforums.html", context={"forums": forums})
+    user = request.user
+    myforums = Forum.objects.filter(forum_master=user)
+    forums = ForumAccount.objects.filter(user=user)
+    return render(request, "landing/myforums.html", context={"myforums": myforums, "forums": forums})

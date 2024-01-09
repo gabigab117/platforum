@@ -12,8 +12,8 @@
 <div class="container rounded  p-5">
 
     <div class="row justify-content-center">
-        {% if forums %}
-        {% for forum in forums %}
+        {% if myforums %}
+        {% for forum in myforums %}
         <div class="col-4 m-2 p-2 shadow-lg text-center">
             <a href="{{ forum.get_absolute_url }}">
                 <img src="{{ forum.thumbnail_url }}" width="100" height="auto" class="rounded">
@@ -28,6 +28,36 @@
             <h3>Vous n'avez pas encore de forum, pourquoi ne pas créer le votre ?</h3>
 
             <a href="{% url 'forum:create-forum' %}" class="btn btn-success">Créer un forum</a>
+        </div>
+        {% endif %}
+    </div>
+
+</div>
+
+
+<div class="container shadow-lg rounded border p-5 mb-2">
+    <div class="row text-center"><h2>J'adhère à ...</h2></div>
+</div>
+
+<div class="container rounded  p-5">
+
+    <div class="row justify-content-center">
+        {% if forums %}
+        {% for forum in forums %}
+        <div class="col-4 m-2 p-2 shadow-lg text-center">
+            <a href="{{ forum.forum.get_absolute_url }}">
+                <img src="{{ forum.forum.thumbnail_url }}" width="100" height="auto" class="rounded">
+            </a>
+            <h3>{{ forum.forum.name }}</h3>
+            <p>{{ forum.forum.description|truncatechars:100 }}</p>
+
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="col-6 m-2 p-2 shadow-lg text-center">
+            <h3>Vous n'êtes pas encore adhérent d'un forum. Pour quoi ne pas regarder la liste des forums de notre plateforme ?</h3>
+
+            <a href="{% url 'landing:forums-list' %}" class="btn btn-success">Rejoindre un forum</a>
         </div>
         {% endif %}
     </div>
