@@ -26,3 +26,8 @@ class LoginUser(LoginView):
 def logout_view(request):
     logout(request)
     return redirect("landing:index")
+
+
+def profile_view(request):
+    user = request.user
+    return render(request, "account/profile.html", context={})

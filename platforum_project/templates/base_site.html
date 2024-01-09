@@ -43,7 +43,7 @@
                         {{ request.user }}
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Mon profil</a></li>
+                        <li><a class="dropdown-item" href="{% url 'account:profile' %}">Mon profil</a></li>
                         <li><a class="dropdown-item" href="{% url 'landing:my-forums-list' %}">Mes forums</a></li>
                         <li>
                             <hr class="dropdown-divider">
