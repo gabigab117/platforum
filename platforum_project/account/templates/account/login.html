@@ -7,8 +7,8 @@
 {% block body %}
 
 <div class="container-fluid">
-    <div class="row justify-content-around">
-        <div class="col-4 shadow-lg position-relative">
+    <div class="row justify-content-around mb-5">
+        <div class="col-4 shadow-lg position-relative p-2">
             <h3 class="text-center">Connexion</h3>
             <form method="post" class="position-absolute top-50 start-50 translate-middle">
                 {% csrf_token %}
@@ -17,10 +17,18 @@
                 <button type="submit" class="btn btn-success">Connexion</button>
                 </div>
             </form>
+
         </div>
-        <div class="col-4 text-center shadow-lg">
+        <div class="col-4 text-center shadow-lg p-2">
             <img src="{% static 'assets/login-min.png' %}" style="width: 500px; height: auto;">
 
+        </div>
+    </div>
+
+    <div class="row justify-content-start">
+        <div class="col-4">
+
+            <button class="btn btn-danger"><a href="" class="index-link">Nouveau mot de passe</a></button>
         </div>
     </div>
 </div>
