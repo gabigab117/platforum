@@ -128,6 +128,3 @@ class TopicUpdateForm(forms.ModelForm):
     def __init__(self, forum, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["sub_category"].queryset = SubCategory.objects.filter(category__forum=forum)
-
-    # def clean_sub_category(self):
-    #     return SubCategory.objects.get(id=self.cleaned_data["sub_category"])
