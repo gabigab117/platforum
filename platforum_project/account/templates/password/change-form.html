@@ -1,13 +1,15 @@
 {% extends "base_site.html" %}
+{% load static %}
 {% load crispy_forms_tags %}
 
 {% block title %}Modification du mot de passe{% endblock %}
 
 {% block body %}
 
-<div class="container-fluid">
+<div class="container">
+    <div class="row mb-2"><div class="col-3"><a href="{% url 'account:profile' %}"><img src="{% static 'assets/return.png' %}" height="40" width="auto"></a></div> </div>
     <div class="row justify-content-around">
-        <div class="col-6 shadow-lg p-3">
+        <div class="col-8 shadow-lg p-3">
             <h3 class="text-center">Modifier son mot de passe</h3>
             <form method="post">
                 {% csrf_token %}
