@@ -1,10 +1,11 @@
 from django.urls import path
 from .views import signup, LoginUser, logout_view, UserChangePassword, UserPasswordDone, UserResetPassword, \
-    UserResetDone, UserResetConfirm, UserResetComplete, profile_view
+    UserResetDone, UserResetConfirm, UserResetComplete, profile_view, activate
 
 app_name = "account"
 urlpatterns = [
     path('signup/', signup, name="signup"),
+    path('activate/<uidb64>/<token>', activate, name='activate'),
     path('login/', LoginUser.as_view(), name="login"),
     path('logout/', logout_view, name="logout"),
     path('change-password/', UserChangePassword.as_view(), name="change-password"),
