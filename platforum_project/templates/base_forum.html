@@ -71,7 +71,7 @@
 
             </ul>
             <form class="d-flex" role="search" action="{% url 'forum:query' slug_forum=forum.slug pk_forum=forum.pk %}">
-                <input class="form-control me-2" type="search" placeholder="Rechercher dans le forum" aria-label="Search" name="query">
+                <input class="form-control me-2" type="search" placeholder="Rechercher dans le forum" aria-label="Search" name="query" maxlength="100" minlength="3">
                 <button class="btn btn-outline-success" type="submit">Rechercher</button>
             </form>
         </div>

@@ -69,7 +69,7 @@
 
             </ul>
             <form class="d-flex" role="search" action="{% url 'landing:forums-list' %}">
-                <input class="form-control me-2" type="search" placeholder="Rechercher un forum" aria-label="Rechercher un forum" name="rechercher-forum">
+                <input class="form-control me-2" type="search" placeholder="Rechercher un forum" aria-label="Rechercher un forum" name="rechercher-forum" maxlength="100" minlength="3">
                 <button class="btn btn-outline-success" type="submit">Rechercher</button>
             </form>
         </div>
