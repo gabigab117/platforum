@@ -13,36 +13,7 @@
 
 <nav class="navbar navbar-expand-lg shadow mb-5" style="background-color: rgba(25, 135, 84, 0.30);">
     <div class="container-fluid">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                   aria-expanded="false">
-                    <img src="{% static 'assets/account.png' %}" width="40" height="auto">
-                </a>
-                <ul class="dropdown-menu">
-                    {% if not request.user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'account:signup' %}">S'inscrire</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'account:login' %}">Connexion</a>
-                    </li>
-                    {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'account:logout' %}">Déconnexion</a>
-                    </li>
-                    <li><a class="dropdown-item" href="{% url 'account:profile' %}">Mon profil</a></li>
-                    <li><a class="dropdown-item" href="{% url 'landing:my-forums-list' %}">Mes forums</a></li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li><a class="dropdown-item" href="{% url 'forum:create-forum' %}">Créer un forum</a></li>
-                    {% endif %}
-                </ul>
-            </li>
-
-        </ul>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -69,13 +40,55 @@
                 </li>
 
             </ul>
+
+
+
+                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                   aria-expanded="false">
+                    <img src="{% static 'assets/account.png' %}" width="40" height="auto" class="circle">
+                </a>
+                <ul class="dropdown-menu">
+                    {% if not request.user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'account:signup' %}">S'inscrire</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'account:login' %}">Connexion</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'account:logout' %}">Déconnexion</a>
+                    </li>
+                    <li><a class="dropdown-item" href="{% url 'account:profile' %}">Mon profil</a></li>
+                    <li><a class="dropdown-item" href="{% url 'landing:my-forums-list' %}">Mes forums</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="{% url 'forum:create-forum' %}">Créer un forum</a></li>
+                    {% endif %}
+                </ul>
+            </li>
+
+        </ul>
+
+
+
+
+
             <form class="d-flex" role="search" action="{% url 'landing:forums-list' %}">
                 <input class="form-control me-2" type="search" placeholder="Rechercher un forum"
                        aria-label="Rechercher un forum" name="rechercher-forum" maxlength="100" minlength="3">
                 <button class="btn btn-outline-success" type="submit">Rechercher</button>
             </form>
+
+
         </div>
+
     </div>
+
 </nav>
 
 <div class="container-fluid text-center shadow-lg mb-5 rounded p-2">
