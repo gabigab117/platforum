@@ -1,6 +1,7 @@
 from django import forms
 
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
+from django_recaptcha.fields import ReCaptchaField
 
 from forum.models import Forum, Topic, Message, ForumAccount, Category, SubCategory, Conversation
 
@@ -9,9 +10,11 @@ from crispy_forms.layout import Layout, Submit, Row, Column
 
 
 class CreateForumForm(forms.ModelForm):
+    security = ReCaptchaField(label="Sécurité")
+
     class Meta:
         model = Forum
-        fields = ["name", "theme", "description", "thumbnail"]
+        fields = ["name", "theme", "description", "thumbnail", "security"]
 
 
 class CreateTopic(forms.ModelForm):
