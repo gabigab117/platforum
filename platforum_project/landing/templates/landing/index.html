@@ -21,15 +21,29 @@
 
             {% endif %}
 
-            <h3 class="text-center" style="color: red;">
-                {% if messages %}
 
-                {% for message in messages %}
-                {{ message }}
-                {% endfor %}
+
+          {% if messages %}
+
+                <script>
+                       document.addEventListener('DOMContentLoaded', function() {
+            {% for message in messages %}
+                Swal.fire({
+                    title: "Good job!",
+                    text: "{{ message|safe }}",
+                    icon: "success"
+                });
+            {% endfor %}
+        });
+                </script>
 
                 {% endif %}
-            </h3>
+
+
+
+
+
+
 
             <h3 class="text-center">🌟 Bienvenue sur PlatForum 🌟</h3>
 
