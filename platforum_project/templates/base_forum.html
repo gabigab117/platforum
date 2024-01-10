@@ -81,7 +81,7 @@
 <div class="container-fluid text-center shadow-lg mb-5 rounded p-5">
  <div class="row justify-content-center align-items-center">
         <div class="col-auto">
-    <a href="{{ forum.get_absolute_url }}" class="index-link"><h1 class="display-1 p-4">{{ forum.name }}</h1></a><img src="{{ forum.thumbnail_url }}" width="200px" height="auto" class="rounded">
+    <a href="{{ forum.get_absolute_url }}" class="index-link"><h1 class="display-1 p-4">{{ forum.name }}</h1></a><img src="{{ forum.thumbnail_url }}" width="200px" height="auto" class="circle">
     <strong>par</strong>
     <h2><span style="color: rgba(25, 135, 84);">{{ forum.forum_master.username }}</span></h2>
     {% block head %}{% endblock %}
@@ -92,7 +92,7 @@
     {% if account.active %}
     <div class="row mb-2">
         <div class="col-3"><a href="{% url 'forum:alerts' slug_forum=forum.slug pk_forum=forum.pk %}"><img
-                src="{% static 'assets/notif.png' %}" height="50" width="auto" class="rounded"></a><span class="notif-link">{{ account.notification_counter }}</span></div>
+                src="{% static 'assets/notif.png' %}" height="50" width="auto" class="circle"></a><span class="notif-link">{{ account.notification_counter }}</span></div>
     </div>
     {% endif %}
     {% endif %}

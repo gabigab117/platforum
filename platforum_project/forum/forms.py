@@ -19,18 +19,20 @@ class CreateForumForm(forms.ModelForm):
 
 class CreateTopic(forms.ModelForm):
     message = forms.CharField(label="", max_length=10000, widget=CKEditorUploadingWidget)
+    security = ReCaptchaField(label="Sécurité")
 
     class Meta:
         model = Topic
-        fields = ["title", "message"]
+        fields = ["title", "message", "security"]
 
 
 class PostMessage(forms.ModelForm):
     message = forms.CharField(max_length=10000, label="", widget=CKEditorUploadingWidget)
+    security = ReCaptchaField(label="Sécurité")
 
     class Meta:
         model = Message
-        fields = ["message"]
+        fields = ["message", "security"]
 
 
 class ProfileUpdateForm(forms.ModelForm):
@@ -43,10 +45,11 @@ class ProfileUpdateForm(forms.ModelForm):
 
 class SignupForumForm(forms.ModelForm):
     thumbnail = forms.ImageField(label="Photo de profil", required=False)
+    security = ReCaptchaField(label="Sécurité")
 
     class Meta:
         model = ForumAccount
-        fields = ["thumbnail"]
+        fields = ["thumbnail", "security"]
 
 
 class CreateCategory(forms.Form):
@@ -109,10 +112,11 @@ class SubCategoryForm(forms.ModelForm):
 
 class ConversationForm(forms.ModelForm):
     message = forms.CharField(widget=CKEditorUploadingWidget, label="", max_length=10000)
+    security = ReCaptchaField(label="Sécurité")
 
     class Meta:
         model = Conversation
-        fields = ["subject", "message"]
+        fields = ["subject", "message", "security"]
 
 
 class ForumUpdateThumbnail(forms.ModelForm):

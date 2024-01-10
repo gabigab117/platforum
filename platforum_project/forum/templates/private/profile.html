@@ -13,7 +13,7 @@
         <div class="col-6">
             <h2 class="mb-2">Compte de <span style="color: rgba(25, 135, 84);">{{ account.user.username }}</span></h2>
             <h5 class="mb-5">A rejoint le forum le <span style="color: blue;">{{ account.joined }}</span></h5>
-            <img src="{{ account.thumbnail_url }}" width="100" height="auto" class="rounded mb-5">
+            <img src="{{ account.thumbnail_url }}" width="100" height="auto" class="mb-5 circle">
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ form|crispy }}

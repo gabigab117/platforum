@@ -42,3 +42,7 @@ body {
     color: rgba(25, 135, 84);
     font-size: 6rem;
 }
+
+.circle {
+    border-radius: 50%;
+}
