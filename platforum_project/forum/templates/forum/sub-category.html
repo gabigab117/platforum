@@ -26,9 +26,10 @@
     {% if pin_topics %}
     <div class="card text-center shadow-lg mb-5">
         <div class="card-header row fw-bold mx-0" style="background-color: rgba(255, 218, 185, 1);">
+            <div class="col-1"></div>
             <div class="col-4">Sujets épinglés</div>
             <div class="col-4">Messages</div>
-            <div class="col-4">Dernier message par</div>
+            <div class="col-3">Dernier message par</div>
 
 
         </div>
@@ -37,8 +38,8 @@
 
         <div class="row border-bottom p-2 mx-0">
             <div class="justify-content-between d-flex">
-                <div class="col-4 justify-content-center d-flex"><a class="topic-link"
-                                      href="{% url 'forum:topic' slug_forum=forum.slug pk_forum=forum.pk pk=sub_category.pk slug_sub_category=sub_category.slug pk_topic=pin_topic.pk slug_topic=pin_topic.slug %}">{{ pin_topic.title }}</a>
+                <div class="col-1 justify-content-center d-flex">
+
                     {% if request.user == forum.forum_master %}
                 <form method="post" action="{% url 'forum:pin' pk_forum=forum.pk pk_topic=pin_topic.pk %}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Epingler">
                     {% csrf_token %}
@@ -46,8 +47,13 @@
                 </form>
                     {% endif %}
                 </div>
+                <div class="col-4 justify-content-center d-flex">
+                    <a class="topic-link"
+                                      href="{% url 'forum:topic' slug_forum=forum.slug pk_forum=forum.pk pk=sub_category.pk slug_sub_category=sub_category.slug pk_topic=pin_topic.pk slug_topic=pin_topic.slug %}">{{ pin_topic.title }}</a>
+
+                </div>
                 <div class="col-4">{{ pin_topic.number_of_messages }}</div>
-                <div class="col-4">{{ pin_topic.last_message }}</div>
+                <div class="col-3">{{ pin_topic.last_message }}</div>
 
             </div>
         </div>
@@ -60,9 +66,10 @@
     <!-- Sujets -->
     <div class="card text-center shadow-lg">
         <div class="card-header row fw-bold mx-0" style="background-color: rgba(136, 204, 136);">
+            <div class="col-1"></div>
             <div class="col-4">Sujets</div>
             <div class="col-4">Messages</div>
-            <div class="col-4">Dernier message par</div>
+            <div class="col-3">Dernier message par</div>
 
 
         </div>
@@ -71,17 +78,23 @@
 
         <div class="row border-bottom p-2 mx-0">
             <div class="justify-content-between d-flex">
-                <div class="col-4 justify-content-center d-flex"><a class="topic-link"
-                                      href="{% url 'forum:topic' slug_forum=forum.slug pk_forum=forum.pk pk=sub_category.pk slug_sub_category=sub_category.slug pk_topic=topic.pk slug_topic=topic.slug %}">{{ topic.title }}</a>
-                    {% if request.user == forum.forum_master %}
+                <div class="col-1 justify-content-center d-flex">
+                     {% if request.user == forum.forum_master %}
                     <form method="post" action="{% url 'forum:pin' pk_forum=forum.pk pk_topic=topic.pk %}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Epingler">
                         {% csrf_token %}
                         <input type="image" src="{% static 'assets/pin.png' %}" alt="Submit" height="30" width="auto" class="rounded">
                     </form>
                     {% endif %}
+
+                </div>
+                <div class="col-4 justify-content-center d-flex">
+
+                    <a class="topic-link"
+                                      href="{% url 'forum:topic' slug_forum=forum.slug pk_forum=forum.pk pk=sub_category.pk slug_sub_category=sub_category.slug pk_topic=topic.pk slug_topic=topic.slug %}">{{ topic.title }}</a>
+
                 </div>
                 <div class="col-4">{{ topic.number_of_messages }}</div>
-                <div class="col-4">{{ topic.last_message }}</div>
+                <div class="col-3">{{ topic.last_message }}</div>
 
             </div>
         </div>
