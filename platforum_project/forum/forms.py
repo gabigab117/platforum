@@ -8,31 +8,36 @@ from forum.models import Forum, Topic, Message, ForumAccount, Category, SubCateg
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Row, Column
 
+from platforum_project.settings import DEBUG
+
 
 class CreateForumForm(forms.ModelForm):
-    security = ReCaptchaField(label="Sécurité")
+    if not DEBUG:
+        security = ReCaptchaField(label="Sécurité")
 
     class Meta:
         model = Forum
-        fields = ["name", "theme", "description", "thumbnail", "security"]
+        fields = ["name", "theme", "description", "thumbnail"]
 
 
 class CreateTopic(forms.ModelForm):
     message = forms.CharField(label="", max_length=10000, widget=CKEditorUploadingWidget)
-    security = ReCaptchaField(label="Sécurité")
+    if not DEBUG:
+        security = ReCaptchaField(label="Sécurité")
 
     class Meta:
         model = Topic
-        fields = ["title", "message", "security"]
+        fields = ["title", "message"]
 
 
 class PostMessage(forms.ModelForm):
     message = forms.CharField(max_length=10000, label="", widget=CKEditorUploadingWidget)
-    security = ReCaptchaField(label="Sécurité")
+    if not DEBUG:
+        security = ReCaptchaField(label="Sécurité")
 
     class Meta:
         model = Message
-        fields = ["message", "security"]
+        fields = ["message"]
 
 
 class ProfileUpdateForm(forms.ModelForm):
@@ -45,11 +50,12 @@ class ProfileUpdateForm(forms.ModelForm):
 
 class SignupForumForm(forms.ModelForm):
     thumbnail = forms.ImageField(label="Photo de profil", required=False)
-    security = ReCaptchaField(label="Sécurité")
+    if not DEBUG:
+        security = ReCaptchaField(label="Sécurité")
 
     class Meta:
         model = ForumAccount
-        fields = ["thumbnail", "security"]
+        fields = ["thumbnail"]
 
 
 class CreateCategory(forms.Form):
@@ -112,11 +118,12 @@ class SubCategoryForm(forms.ModelForm):
 
 class ConversationForm(forms.ModelForm):
     message = forms.CharField(widget=CKEditorUploadingWidget, label="", max_length=10000)
-    security = ReCaptchaField(label="Sécurité")
+    if not DEBUG:
+        security = ReCaptchaField(label="Sécurité")
 
     class Meta:
         model = Conversation
-        fields = ["subject", "message", "security"]
+        fields = ["subject", "message"]
 
 
 class ForumUpdateThumbnail(forms.ModelForm):
