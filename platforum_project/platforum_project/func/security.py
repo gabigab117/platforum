@@ -3,7 +3,7 @@ from forum.models import ForumAccount
 
 
 def user_permission(forum_element, account):
-    if forum_element.account != account:
+    if forum_element.account != account and not account.forum_master:
         raise PermissionDenied()
 
 
