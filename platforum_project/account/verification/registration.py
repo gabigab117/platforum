@@ -10,7 +10,7 @@ from account.verification import email_verification_token
 
 def send_email_verification(request, user: CustomUser):
     current_site = get_current_site(request)
-    subject = 'Activate Your Account'
+    subject = 'Activation du compte PlatForum'
     body = render_to_string(
         'email/verification.html',
         {
