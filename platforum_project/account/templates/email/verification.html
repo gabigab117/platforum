@@ -1,7 +1,11 @@
-<div>
-    <p>Bienvenu(e) sur PlatForum</p>
-    <a href= "http://{{ domain }}{% url 'account:activate' uidb64=uid token=token %}">
-    Merci d'activer votre compte.</a>
-    <p>Si le lien ne fonctionne pas copier et coller le dans la barre d'adresse du navigateur.</p>
-    <p>Lien à copier : http://{{ domain }}{% url 'account:activate' uidb64=uid token=token %}</p>
-</div>
+
+    Bienvenu(e) sur PlatForum
+
+
+    http://{{ domain }}{% url 'account:activate' uidb64=uid token=token %}
+
+    Merci d'activer votre compte.
+
+
+    Si le lien ne fonctionne pas copier et coller le dans la barre d'adresse du navigateur.
+    Lien à copier : http://{{ domain }}{% url 'account:activate' uidb64=uid token=token %}
