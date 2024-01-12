@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
+import sys
 from pathlib import Path
 import environ
 
@@ -31,6 +31,8 @@ SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DEBUG")
+
+TEST_MODE = 'pytest' in sys.argv[0]
 
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 
