@@ -2,11 +2,11 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from django_recaptcha.fields import ReCaptchaField
 
-from platforum_project.settings import DEBUG
+from platforum_project.settings import DEBUG, TEST_MODE
 
 
 class SignUpForm(UserCreationForm):
-    if not DEBUG:
+    if not TEST_MODE:
         security = ReCaptchaField(label="Sécurité")
 
     class Meta:
