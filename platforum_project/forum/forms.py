@@ -8,11 +8,11 @@ from forum.models import Forum, Topic, Message, ForumAccount, Category, SubCateg
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Row, Column
 
-from platforum_project.settings import DEBUG
+from platforum_project.settings import DEBUG, TEST_MODE
 
 
 class CreateForumForm(forms.ModelForm):
-    if not DEBUG:
+    if not TEST_MODE:
         security = ReCaptchaField(label="Sécurité")
 
     class Meta:
@@ -22,7 +22,7 @@ class CreateForumForm(forms.ModelForm):
 
 class CreateTopic(forms.ModelForm):
     message = forms.CharField(label="", max_length=10000, widget=CKEditorUploadingWidget)
-    if not DEBUG:
+    if not TEST_MODE:
         security = ReCaptchaField(label="Sécurité")
 
     class Meta:
@@ -32,7 +32,7 @@ class CreateTopic(forms.ModelForm):
 
 class PostMessage(forms.ModelForm):
     message = forms.CharField(max_length=10000, label="", widget=CKEditorUploadingWidget)
-    if not DEBUG:
+    if not TEST_MODE:
         security = ReCaptchaField(label="Sécurité")
 
     class Meta:
@@ -50,7 +50,7 @@ class ProfileUpdateForm(forms.ModelForm):
 
 class SignupForumForm(forms.ModelForm):
     thumbnail = forms.ImageField(label="Photo de profil", required=False)
-    if not DEBUG:
+    if not TEST_MODE:
         security = ReCaptchaField(label="Sécurité")
 
     class Meta:
@@ -118,7 +118,7 @@ class SubCategoryForm(forms.ModelForm):
 
 class ConversationForm(forms.ModelForm):
     message = forms.CharField(widget=CKEditorUploadingWidget, label="", max_length=10000)
-    if not DEBUG:
+    if not TEST_MODE:
         security = ReCaptchaField(label="Sécurité")
 
     class Meta:
