@@ -151,7 +151,6 @@ class Message(models.Model):
         if Message.objects.filter(pk=self.pk).exists():
             self.update_counter += 1
         if not Message.objects.filter(pk=self.pk).exists() and not self.personal:
-            # existe pas True and True
             self.topic.last_activity = timezone.now()
             self.topic.save()
         super().save(*args, **kwargs)
