@@ -135,17 +135,6 @@ class Message(models.Model):
     creation = models.DateTimeField(auto_now_add=True, verbose_name="Date de publication")
     update = models.DateTimeField(auto_now=True, verbose_name="Modifié le", null=True)
     update_counter = models.IntegerField(default=0, verbose_name="Nombre de maj")
-    likes = models.IntegerField(verbose_name="J'aime", default=0)
-
-    def like(self):
-        self.likes += 1
-        self.save(update_fields=["likes"])
-        return self
-
-    def unlike(self):
-        self.likes -= 1
-        self.save(update_fields=["likes"])
-        return self
 
     @property
     def author(self):
