@@ -14,7 +14,9 @@ from forum.forms import CreateTopic, PostMessage
 def index(request, slug_forum, pk_forum):
     user = request.user
     forum = get_object_or_404(Forum, pk=pk_forum)
-    account = user.retrieve_forum_account(forum)
+    account: ForumAccount = user.retrieve_forum_account(forum)
+    if account:
+        account.badge_manager()
     categories = Category.objects.filter(forum=forum)
     return render(request, "forum/index.html", context={"forum": forum, "categories": categories, "account": account})
 

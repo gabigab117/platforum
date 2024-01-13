@@ -59,9 +59,31 @@ class ForumAccount(models.Model):
     joined = models.DateField(verbose_name="Rejoins le", auto_now_add=True)
     forum_master = models.BooleanField(default=False)
     notification_counter = models.IntegerField(default=0)
+    badges = models.ManyToManyField(to="Badge", blank=True)
 
     def __str__(self):
         return f"{self.forum} - {self.user.username}"
+
+    def badge_manager(self):
+        messages_10 = Badge.objects.get(description="10 messages")
+        messages_50 = Badge.objects.get(description="50 messages")
+        messages_100 = Badge.objects.get(description="100 messages")
+        new = Badge.objects.get(description="Nouveau")
+        likes_10 = Badge.objects.get(description="10 likes")
+        likes_50 = Badge.objects.get(description="50 likes")
+        likes_100 = Badge.objects.get(description="100 likes")
+        forum_master = Badge.objects.get(description="Forum Master")
+
+        if Message.objects.filter(account=self).count() >= 10 and messages_10 not in self.badges.all():
+            self.badges.add(messages_10)
+        if Message.objects.filter(account=self).count() >= 50 and messages_50 not in self.badges.all():
+            self.badges.add(messages_50)
+        if Message.objects.filter(account=self).count() >= 100 and messages_100 not in self.badges.all():
+            self.badges.add(messages_100)
+        if timezone.now().date() - self.joined < timedelta(days=4) and new not in self.badges.all():
+            self.badges.add(new)
+        if self.forum_master and forum_master not in self.badges.all():
+            self.badges.add(forum_master)
 
     def get_absolute_url(self):
         return reverse("forum:member", kwargs={"slug_forum": self.forum.slug,
@@ -86,16 +108,20 @@ class ForumAccount(models.Model):
     def messages_count(self):
         return Message.objects.filter(account=self).count()
 
-    @property
-    def new_member_status(self):
-        return static("assets/new_member.png") if timezone.now().date()-self.joined < timedelta(days=4) else None
-
     def clean(self):
         if self.thumbnail and self.thumbnail.size > 5 * 1024 * 1024:
             raise ValidationError("La taille du fichier ne doit pas dépasser 5MO.")
 
     class Meta:
         verbose_name = "Compte"
+
+
+class Badge(models.Model):
+    description = models.CharField(max_length=100)
+    thumbnail = models.ImageField(verbose_name="Image", upload_to="badges")
+
+    def __str__(self):
+        return self.description
 
 
 class Notification(models.Model):

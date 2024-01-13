@@ -83,12 +83,12 @@ class Topic(models.Model):
 
     def pin_topic(self):
         self.pin = True
-        self.save()
+        self.save(update_fields=["pin"])
         return self
 
     def unpin_topic(self):
         self.pin = False
-        self.save()
+        self.save(update_fields=["pin"])
         return self
 
     @property
@@ -135,6 +135,17 @@ class Message(models.Model):
     creation = models.DateTimeField(auto_now_add=True, verbose_name="Date de publication")
     update = models.DateTimeField(auto_now=True, verbose_name="Modifié le", null=True)
     update_counter = models.IntegerField(default=0, verbose_name="Nombre de maj")
+    likes = models.IntegerField(verbose_name="J'aime", default=0)
+
+    def like(self):
+        self.likes += 1
+        self.save(update_fields=["likes"])
+        return self
+
+    def unlike(self):
+        self.likes -= 1
+        self.save(update_fields=["likes"])
+        return self
 
     @property
     def author(self):
@@ -152,7 +163,7 @@ class Message(models.Model):
             self.update_counter += 1
         if not Message.objects.filter(pk=self.pk).exists() and not self.personal:
             self.topic.last_activity = timezone.now()
-            self.topic.save()
+            self.topic.save(update_fields=["last_activity"])
         super().save(*args, **kwargs)
 
     class Meta:

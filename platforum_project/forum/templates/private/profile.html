@@ -31,8 +31,10 @@
     <div class="row text-center justify-content-center">
         <h2>Badges</h2>
         <div class="col-6">
-            {% if account.new_member_status %}
-            <img src="{{ account.new_member_status }}" width="80" height="auto" class="mb-5 circle">
+            {% if account.badges %}
+            {% for badge in account.badges.all %}
+            <img src="{{ badge.thumbnail.url }}" width="80" height="auto" class="mb-5 circle">
+            {% endfor %}
             {% endif %}
         </div>
 
