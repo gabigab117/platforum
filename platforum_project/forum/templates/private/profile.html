@@ -25,6 +25,21 @@
 
 </div>
 
+
+
+<div class="container shadow-lg rounded border p-5 mb-5">
+    <div class="row text-center justify-content-center">
+        <h2>Badges</h2>
+        <div class="col-6">
+            {% if account.new_member_status %}
+            <img src="{{ account.new_member_status }}" width="80" height="auto" class="mb-5 circle">
+            {% endif %}
+        </div>
+
+    </div>
+</div>
+
+
 <div class="container shadow-lg rounded border p-5 mb-5">
     <div class="row text-center justify-content-center">
         <h2>Vos dernières contributions</h2>

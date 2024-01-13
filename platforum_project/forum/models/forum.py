@@ -1,6 +1,8 @@
+from datetime import timedelta
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
+from django.utils import timezone
 
 from platforum_project.settings import AUTH_USER_MODEL
 from django.templatetags.static import static
@@ -83,6 +85,10 @@ class ForumAccount(models.Model):
     @property
     def messages_count(self):
         return Message.objects.filter(account=self).count()
+
+    @property
+    def new_member_status(self):
+        return static("assets/new_member.png") if timezone.now().date()-self.joined < timedelta(days=4) else None
 
     def clean(self):
         if self.thumbnail and self.thumbnail.size > 5 * 1024 * 1024:
