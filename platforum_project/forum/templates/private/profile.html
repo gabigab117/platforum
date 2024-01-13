@@ -8,11 +8,15 @@
 
 
 <div class="container shadow-lg rounded border p-5 mb-5">
-    <div class="row mb-2"><div class="col-3"><a href="{% url 'forum:index' slug_forum=forum.slug pk_forum=forum.pk %}"><img src="{% static 'assets/return.png' %}" height="40" width="auto"></a></div> </div>
+    <div class="row mb-2">
+        <div class="col-3"><a href="{% url 'forum:index' slug_forum=forum.slug pk_forum=forum.pk %}"><img
+                src="{% static 'assets/return.png' %}" height="40" width="auto"></a></div>
+    </div>
     <div class="row text-center justify-content-center">
         <div class="col-6">
             <h2 class="mb-2">Compte de <span style="color: rgba(25, 135, 84);">{{ account.user.username }}</span></h2>
-            <h5 class="mb-5">A rejoint le forum le <span style="color: blue;">{{ account.joined }}</span></h5>
+            <h5 class="mb-2">A rejoint le forum le <span style="color: blue;">{{ account.joined }}</span></h5>
+            <h5 class="mb-5">Approuvé <span style="color: red;">{{ account.likes }}</span> fois</h5>
             <img src="{{ account.thumbnail_url }}" width="100" height="auto" class="mb-5 circle">
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
@@ -26,14 +30,17 @@
 </div>
 
 
-
 <div class="container shadow-lg rounded border p-5 mb-5">
     <div class="row text-center justify-content-center">
         <h2>Badges</h2>
-        <div class="col-6">
+        <div class="col-6 justify-content-center d-flex">
             {% if account.badges %}
             {% for badge in account.badges.all %}
-            <img src="{{ badge.thumbnail.url }}" width="80" height="auto" class="mb-5 circle">
+            <div data-bs-toggle="tooltip" data-bs-placement="top"
+                    data-bs-title="{{ badge.description }}">
+                <img src="{{ badge.thumbnail.url }}" width="80" height="auto" class="mb-5 circle">
+            </div>
+
             {% endfor %}
             {% endif %}
         </div>
@@ -48,8 +55,10 @@
         <div class="col-6">
             {% if messages %}
             <div class="list-group">
-            {% for message in messages %}
-                <a href="{% url 'forum:topic' slug_forum=forum.slug pk_forum=forum.pk pk=message.topic.sub_category.pk slug_sub_category=message.topic.sub_category.slug pk_topic=message.topic.pk slug_topic=message.topic.slug %}" class="list-group-item list-group-item-action list-group-item-success">Dans {{ message.topic.title }} le {{ message.creation }}</a>
+                {% for message in messages %}
+                <a href="{% url 'forum:topic' slug_forum=forum.slug pk_forum=forum.pk pk=message.topic.sub_category.pk slug_sub_category=message.topic.sub_category.slug pk_topic=message.topic.pk slug_topic=message.topic.slug %}"
+                   class="list-group-item list-group-item-action list-group-item-success">Dans {{ message.topic.title }}
+                    le {{ message.creation }}</a>
                 {% endfor %}
             </div>
             {% else %}

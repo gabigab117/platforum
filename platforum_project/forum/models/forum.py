@@ -8,6 +8,7 @@ from platforum_project.settings import AUTH_USER_MODEL
 from django.templatetags.static import static
 from django.core.exceptions import ValidationError
 
+from .interactions import Like
 from .content import Message
 
 
@@ -64,6 +65,10 @@ class ForumAccount(models.Model):
     def __str__(self):
         return f"{self.forum} - {self.user.username}"
 
+    @property
+    def likes(self):
+        return Like.objects.filter(message__account=self).count()
+
     def badges_manager(self):
         messages_10 = Badge.objects.get(description="10 messages")
         messages_50 = Badge.objects.get(description="50 messages")
@@ -84,6 +89,8 @@ class ForumAccount(models.Model):
             self.badges.add(new)
         if self.forum_master and forum_master not in self.badges.all():
             self.badges.add(forum_master)
+        if Like.objects.filter(message__account=self).count() >= 10 and likes_10 not in self.badges.all():
+            self.badges.add(likes_10)
 
     def get_absolute_url(self):
         return reverse("forum:member", kwargs={"slug_forum": self.forum.slug,

@@ -11,11 +11,13 @@
         <div class="col-4 shadow-lg">
             <h2>Sujet</h2>
             <h3 style="color: green;">{{ topic.title }}</h3>
-            <a href="{% url 'forum:sub-category' slug_forum=forum.slug pk_forum=forum.pk pk=sub_category.pk slug_sub_category=sub_category.slug %}"><img src="{% static 'assets/return.png' %}" height="40" width="auto"></a>
+            <a href="{% url 'forum:sub-category' slug_forum=forum.slug pk_forum=forum.pk pk=sub_category.pk slug_sub_category=sub_category.slug %}"><img
+                    src="{% static 'assets/return.png' %}" height="40" width="auto"></a>
         </div>
         {% if request.user == forum.forum_master %}
         <div class="col-4 shadow-lg">
-            <a href="{% url 'forum:admin-update-topic' slug_forum=forum.slug pk_forum=forum.pk pk_topic=topic.pk %}" class="btn btn-danger">Modifier le sujet</a>
+            <a href="{% url 'forum:admin-update-topic' slug_forum=forum.slug pk_forum=forum.pk pk_topic=topic.pk %}"
+               class="btn btn-danger">Modifier le sujet</a>
         </div>
         {% endif %}
     </div>
@@ -31,8 +33,9 @@
     <div class="card text-center shadow-lg mb-3">
         <div class="card-header" style="background-color: rgba(136, 204, 136);">
 
-           Par <a class="name-link" href="{{ message.account.get_absolute_url }}">{{ message.account.user.username }}</a> <img class="rounded" src="{{ message.account.thumbnail_url }}" height="50"
-                                                                                                                                                  width="auto">
+            Par <a class="name-link" href="{{ message.account.get_absolute_url }}">{{ message.account.user.username }}</a> <img class="rounded" src="{{ message.account.thumbnail_url }}" height="50" width="auto">
+
+
         </div>
         <div class="card-body">
             <div class="d-flex justify-content-end">
@@ -46,18 +49,19 @@
                 {% endif %}
 
 
-
                 {% if request.user == message.account.user and account.active or request.user == forum.forum_master %}
                 <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Modifier"
                    href="{% url 'forum:update-message' slug_forum=forum.slug pk_forum=forum.pk pk=sub_category.pk slug_sub_category=sub_category.slug pk_topic=topic.pk slug_topic=topic.slug pk_message=message.pk %}"><img
                         class="rounded" src="{% static 'assets/update.png' %}" height="40" width="auto"></a>
 
                 <!-- Button trigger modal -->
-                <button type="button" class="btn-close" data-bs-toggle="modal" data-bs-target="#deletemodal{{ message.pk }}">
+                <button type="button" class="btn-close" data-bs-toggle="modal"
+                        data-bs-target="#deletemodal{{ message.pk }}">
                 </button>
 
                 <!-- Modal -->
-                <div class="modal fade" id="deletemodal{{ message.pk }}" tabindex="-1" aria-labelledby="Delete{{ message.pk }}"
+                <div class="modal fade" id="deletemodal{{ message.pk }}" tabindex="-1"
+                     aria-labelledby="Delete{{ message.pk }}"
                      aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -71,9 +75,10 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-success" data-bs-dismiss="modal">Retour</button>
-                                <form method="post" action="{% url 'forum:delete-message' pk_forum=forum.pk pk_topic=topic.pk pk_message=message.pk %}">
+                                <form method="post"
+                                      action="{% url 'forum:delete-message' pk_forum=forum.pk pk_topic=topic.pk pk_message=message.pk %}">
                                     {% csrf_token %}
-                                <button type="submit" class="btn btn-danger">Confirmer</button>
+                                    <button type="submit" class="btn btn-danger">Confirmer</button>
                                 </form>
                             </div>
                         </div>
@@ -98,22 +103,22 @@
     <!-- Pagination -->
     <div class="row mt-5">
 
-         <nav aria-label="Page navigation example">
-  <ul class="pagination">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
 
-        {% if page_obj.has_previous %}
-      <li><a href="?page=1" class="page-link">&laquo; Début</a></li>
-      <li><a href="?page={{ page_obj.previous_page_number }}" class="page-link">Précédent</a></li>
-        {% endif %}
+                {% if page_obj.has_previous %}
+                <li><a href="?page=1" class="page-link">&laquo; Début</a></li>
+                <li><a href="?page={{ page_obj.previous_page_number }}" class="page-link">Précédent</a></li>
+                {% endif %}
 
 
-        {% if page_obj.has_next %}
-      <li><a href="?page={{ page_obj.next_page_number }}" class="page-link">Suivant</a></li>
-      <li> <a href="?page={{ page_obj.paginator.num_pages }}" class="page-link">Fin &raquo;</a></li>
-        {% endif %}
+                {% if page_obj.has_next %}
+                <li><a href="?page={{ page_obj.next_page_number }}" class="page-link">Suivant</a></li>
+                <li><a href="?page={{ page_obj.paginator.num_pages }}" class="page-link">Fin &raquo;</a></li>
+                {% endif %}
 
-  </ul>
-</nav>
+            </ul>
+        </nav>
         <strong>Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}.</strong>
 
 
