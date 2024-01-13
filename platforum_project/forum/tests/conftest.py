@@ -19,6 +19,11 @@ def forum_master_account_1(db, forum_1, user_1):
 
 
 @pytest.fixture
+def forum_account_1(db, forum_1, user_2):
+    return ForumAccount.objects.create(forum=forum_1, user=user_2)
+
+
+@pytest.fixture
 def category_1(db, forum_1):
     return Category.objects.create(name="Catégorie1", forum=forum_1)
 

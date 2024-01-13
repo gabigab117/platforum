@@ -35,19 +35,16 @@
                 {% if account.active %}
                 <li class="nav-item">
                     <a class="nav-link"
-                       href="{% url 'forum:private-messaging' slug_forum=forum.slug pk_forum=forum.pk %}">Messagerie
-                        privée</a>
+                       href="{% url 'forum:private-messaging' slug_forum=forum.slug pk_forum=forum.pk %}">Messagerie privée</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'forum:members-list' slug_forum=forum.slug pk_forum=forum.pk %}">Liste
-                        des membres</a>
+                    <a class="nav-link" href="{% url 'forum:members-list' slug_forum=forum.slug pk_forum=forum.pk %}">Liste des membres</a>
                 </li>
                 {% endif %}
                 <!-- Ici le else pour qu'il demande accès au forum par exemple -->
                 {% else %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'forum:signup' slug_forum=forum.slug pk_forum=forum.pk %}">Devenir
-                        membre de ce forum</a>
+                    <a class="nav-link" href="{% url 'forum:signup' slug_forum=forum.slug pk_forum=forum.pk %}">Devenir membre de ce forum</a>
                 </li>
                 {% endif %}
 
