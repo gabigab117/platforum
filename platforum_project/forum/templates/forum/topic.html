@@ -30,11 +30,23 @@
 
     <div class="card text-center shadow-lg mb-3">
         <div class="card-header" style="background-color: rgba(136, 204, 136);">
-            Par <a class="name-link" href="{{ message.account.get_absolute_url }}">{{ message.account.user.username }}</a> <img class="rounded" src="{{ message.account.thumbnail_url }}" height="50"
-                                                 width="auto">
+
+           Par <a class="name-link" href="{{ message.account.get_absolute_url }}">{{ message.account.user.username }}</a> <img class="rounded" src="{{ message.account.thumbnail_url }}" height="50"
+                                                                                                                                                  width="auto">
         </div>
         <div class="card-body">
             <div class="d-flex justify-content-end">
+
+                {% if account.active %}
+                <form action="{% url 'forum:like' pk_forum=forum.pk pk_message=message.pk %}" method="post">
+                    {% csrf_token %}
+                    <input type="image" src="{% static 'assets/like.png' %}" class="circle" height="40" width="auto">
+                </form>
+                {{ message.like_counter }}
+                {% endif %}
+
+
+
                 {% if request.user == message.account.user and account.active or request.user == forum.forum_master %}
                 <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Modifier"
                    href="{% url 'forum:update-message' slug_forum=forum.slug pk_forum=forum.pk pk=sub_category.pk slug_sub_category=sub_category.slug pk_topic=topic.pk slug_topic=topic.slug pk_message=message.pk %}"><img
@@ -70,6 +82,7 @@
                 <!-- Enf of Modal -->
 
                 {% endif %}
+
             </div>
             {{ message.message|safe }}
 

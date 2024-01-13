@@ -64,7 +64,7 @@ class ForumAccount(models.Model):
     def __str__(self):
         return f"{self.forum} - {self.user.username}"
 
-    def badge_manager(self):
+    def badges_manager(self):
         messages_10 = Badge.objects.get(description="10 messages")
         messages_50 = Badge.objects.get(description="50 messages")
         messages_100 = Badge.objects.get(description="100 messages")
@@ -122,25 +122,3 @@ class Badge(models.Model):
 
     def __str__(self):
         return self.description
-
-
-class Notification(models.Model):
-    account = models.ForeignKey(to="ForumAccount", on_delete=models.CASCADE, verbose_name="Compte")
-    message = models.CharField(max_length=200)
-
-    @classmethod
-    def notify_member_if_message_posted_in_topic(cls, topic, account):
-        if topic.account != account:
-            topic.account.notification_counter += 1
-            topic.account.save()
-            return cls.objects.create(account=topic.account,
-                                      message=f"Nouveau message posté par {account.user.username} dans {topic.title}")
-
-    @classmethod
-    def notify_member_if_message_posted_in_conversation(cls, conversation, account):
-        if conversation.account != account:
-            conversation.account.notification_counter += 1
-            conversation.account.save()
-            return cls.objects.create(account=conversation.account,
-                                      message=f"Boite personnelle : Nouveau message posté par {account.user.username} "
-                                              f"dans {conversation.subject}")

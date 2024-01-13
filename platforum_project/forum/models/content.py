@@ -4,6 +4,7 @@ from django.utils.text import slugify
 from django.utils import timezone
 
 from forum.default_data.messages import welcome_message
+from .interactions import Like
 
 
 class Category(models.Model):
@@ -135,6 +136,10 @@ class Message(models.Model):
     creation = models.DateTimeField(auto_now_add=True, verbose_name="Date de publication")
     update = models.DateTimeField(auto_now=True, verbose_name="Modifié le", null=True)
     update_counter = models.IntegerField(default=0, verbose_name="Nombre de maj")
+
+    @property
+    def like_counter(self):
+        return Like.objects.filter(message=self).count()
 
     @property
     def author(self):

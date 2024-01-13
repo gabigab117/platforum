@@ -4,7 +4,7 @@ from .views import create_forum, index, sub_category_view, add_topic, topic_view
     signup_forum, members_list_view, pin_topic, display_members, member_status_view, member_view, builder_view, \
     delete_category_view, delete_subcategory_view, update_category_view, update_subcategory_view, start_conversation, \
     index_admin_view, notifications_view, delete_notifications, update_topic, delete_topic_view, query_view, \
-    add_sub_category
+    add_sub_category, like_unlike_view
 
 app_name = "forum"
 urlpatterns = [
@@ -22,6 +22,7 @@ urlpatterns = [
         update_message,
         name="update-message"),
     path('<int:pk_forum>/delete-message/<int:pk_topic>/<int:pk_message>/', delete_message, name="delete-message"),
+    path('<int:pk_forum>/<int:pk_message>/like', like_unlike_view, name="like"),
     path('<str:slug_forum>/<int:pk_forum>/private-messaging/', personal_messaging, name="private-messaging"),
     path('<str:slug_forum>/<int:pk_forum>/private-messaging/<str:slug_conversation>/<int:pk_conversation>/',
          conversation_view,

@@ -6,7 +6,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 
 from account.models import CustomUser
 from platforum_project.func.security import user_permission, verify_active_forum_account
-from forum.models import Forum, Category, SubCategory, Topic, Message, ForumAccount, Notification
+from forum.models import Forum, Category, SubCategory, Topic, Message, ForumAccount, Notification, Like
 from forum.forms import CreateTopic, PostMessage
 
 
@@ -16,7 +16,7 @@ def index(request, slug_forum, pk_forum):
     forum = get_object_or_404(Forum, pk=pk_forum)
     account: ForumAccount = user.retrieve_forum_account(forum)
     if account:
-        account.badge_manager()
+        account.badges_manager()
     categories = Category.objects.filter(forum=forum)
     return render(request, "forum/index.html", context={"forum": forum, "categories": categories, "account": account})
 
@@ -100,6 +100,17 @@ def topic_view(request, slug_forum, pk_forum, pk, slug_sub_category, pk_topic, s
         "form": form,
         "page_obj": page_obj
     })
+
+
+@login_required
+def like_unlike_view(request, pk_forum, pk_message):
+    user = request.user
+    forum = get_object_or_404(Forum, pk=pk_forum)
+    verify_active_forum_account(user, forum)
+    account = user.retrieve_forum_account(forum)
+    message = get_object_or_404(Message, pk=pk_message)
+    Like.like_unlike(liker=account, message=message)
+    return redirect(message.topic)
 
 
 @login_required
