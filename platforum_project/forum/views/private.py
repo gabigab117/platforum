@@ -18,6 +18,8 @@ def signup_forum(request, slug_forum, pk_forum):
     user: CustomUser = request.user
     forum = get_object_or_404(Forum, slug=slug_forum, pk=pk_forum)
     account = user.retrieve_forum_account(forum)
+    if account:
+        return redirect("forum:profile", pk_forum=forum.pk, slug_forum=forum.slug)
 
     if request.method == "POST":
         form = SignupForumForm(request.POST, request.FILES)
