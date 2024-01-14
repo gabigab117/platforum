@@ -12,7 +12,7 @@
     <div class="row mb-2" style="color: rgba(25, 135, 84);"><h4>Conversation(s) initiée(s)</h4></div>
     <div class="row mb-2">
         <div class="col-3"><a
-                href=""
+                href="{% url 'forum:members-list' slug_forum=forum.pk pk_forum=forum.pk %}"
                 class="btn btn-success">Nouvelle conversation</a></div>
     </div>
 
