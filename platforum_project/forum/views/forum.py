@@ -135,7 +135,7 @@ def topic_view(request, slug_forum, pk_forum, pk, slug_sub_category, pk_topic, s
                      a new message.
             slug_forum: The slug of the forum (unused in the function but required for URL pattern).
             pk_forum: The primary key of the forum.
-            pk: The primary key of the sub-category (unused in the function but required for URL pattern).
+            pk: The primary key of the sub-category.
             slug_sub_category: The slug of the sub-category (unused in the function but required for URL pattern).
             pk_topic: The primary key of the topic.
             slug_topic: The slug of the topic (unused in the function but required for URL pattern).
@@ -219,7 +219,7 @@ def update_message(request, slug_forum, pk_forum, pk, slug_sub_category, pk_topi
             request: The HTTP request object, either GET for displaying the edit form or POST for submitting the updated message.
             slug_forum: The slug of the forum (unused in the function but required for URL pattern).
             pk_forum: The primary key of the forum.
-            pk: The primary key of the sub-category (unused in the function but required for URL pattern).
+            pk: The primary key of the sub-category.
             slug_sub_category: The slug of the sub-category (unused in the function but required for URL pattern).
             pk_topic: The primary key of the topic.
             slug_topic: The slug of the topic (unused in the function but required for URL pattern).
