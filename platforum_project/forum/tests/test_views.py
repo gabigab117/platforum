@@ -8,7 +8,7 @@ from forum.models import Forum, Theme, ForumAccount, Category, SubCategory, Topi
 
 
 @pytest.mark.django_db
-def test_create_forum_view_post(client: Client, theme_1, user_1):
+def test_create_forum_view_post(client: Client, theme_1, user_1, badges):
     # Given an user wants to create a forum
     client.login(username=user_1.username, password="12345678")
     # When user validates the form
@@ -77,7 +77,8 @@ def test_index_forum_view_if_platforum_account_but_no_forum_account(client: Clie
     assertNotContains(response, "Liste des membres")
 
 
-def test_index_forum_view_if_platforum_account_and_forum_account(client: Client, forum_1, user_2, forum_account_1):
+def test_index_forum_view_if_platforum_account_and_forum_account(client: Client, forum_1, user_2, forum_account_1,
+                                                                 badges):
     # Given an user with a forum account
     client.login(username=user_2.username, password="12345678")
     assert user_2.username == "pat"
