@@ -15,6 +15,21 @@ from forum.models import ForumAccount, Message, Topic
 
 
 def signup(request):
+    """
+     Handles the user signup process.
+
+     This function processes POST requests to create a new user account. It creates a user instance from the SignUpForm,
+     sets the user as inactive, and attempts to send an email verification link. Upon successful account creation,
+     a success message is displayed to the user. If the email fails to send due to SMTP authentication issues,
+     an error message is displayed. For GET requests, it displays the signup form.
+
+     Args:
+         request: The HTTP request object.
+
+     Returns:
+         HttpResponse: Renders the signup page with a context containing the signup form. Redirects to the landing page
+         after successful account creation or in case of SMTP errors.
+     """
     if request.method == "POST":
         form = SignUpForm(request.POST)
         if form.is_valid():
@@ -51,6 +66,20 @@ def logout_view(request):
 
 @login_required
 def profile_view(request):
+    """
+     Displays the profile view of the logged-in user.
+
+     This view function gathers data related to the logged-in user, including the count of forum accounts, messages,
+     and topics associated with the user. It requires the user to be logged in. The collected data is then passed
+     to the profile template for rendering.
+
+     Args:
+         request: The HTTP request object containing the user's information.
+
+     Returns:
+         HttpResponse: Renders the user's profile page with context data including counts of forum accounts, messages,
+         and topics related to the user.
+     """
     user = request.user
     forum_accounts = ForumAccount.objects.filter(user=user).count()
     messages = Message.objects.filter(account__user=user).count()
@@ -60,6 +89,21 @@ def profile_view(request):
 
 
 def activate(request, uidb64, token):
+    """
+        Activates a user account.
+
+        This function is responsible for handling the account activation process. It decodes the user ID from base64 and
+        retrieves the corresponding user object. If the user exists and the provided token is valid, the user's account
+        is activated. It displays a success message upon successful activation or an error message if the activation fails.
+
+        Args:
+            request: The HTTP request object.
+            uidb64: A base64-encoded string representing the user's ID.
+            token: A token for verifying the user's email address.
+
+        Returns:
+            HttpResponse: Redirects to the landing page after attempting to activate the account, with a success or error message.
+        """
     user = get_user_model()
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))

@@ -153,9 +153,27 @@ class Message(models.Model):
         return cls.objects.create(message=welcome_message(account), account=account, topic=topic)
 
     def save(self, *args, **kwargs):
-        if Message.objects.filter(pk=self.pk).exists():
+        """
+            Overrides the save method to update message counters and topic activity.
+
+            This method first checks if the Message object already exists in the database. If it does, it increments the
+            message's update counter. If the message is new and is not marked as personal, it updates the 'last_activity'
+            field of the associated topic to the current time. Finally, it calls the superclass's save method to handle
+            the actual saving of the Message object.
+
+            Args:
+                *args: Variable length argument list.
+                **kwargs: Arbitrary keyword arguments.
+
+            Side effects:
+                - Increments the update counter of an existing message.
+                - Updates the 'last_activity' field of the associated topic for new, non-personal messages.
+                - Saves the Message object to the database.
+            """
+        existing_message = Message.objects.filter(pk=self.pk).exists()
+        if existing_message:
             self.update_counter += 1
-        if not Message.objects.filter(pk=self.pk).exists() and not self.personal:
+        if not existing_message and not self.personal:
             self.topic.last_activity = timezone.now()
             self.topic.save(update_fields=["last_activity"])
         super().save(*args, **kwargs)

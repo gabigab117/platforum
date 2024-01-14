@@ -70,9 +70,17 @@ class ForumAccount(models.Model):
         return Like.objects.filter(message__account=self).count()
 
     def badges_manager(self):
-        badges = Badge.objects.filter(
-            description=["Noo Badge", "100 messages", "50 messages", "10 messages", "Nouveau", "100 likes", "50 likes",
-                         "10 likes", "Forum Master"])
+        """
+            Manages the assignment of badges to a user based on specific conditions.
+
+            This method checks for various conditions like the number of messages sent, likes received, account age, and
+            special status (e.g., Forum Master). It assigns badges to the user if the conditions for each badge are met.
+            Conditions include reaching message or like milestones, being a new user, or having a special status. It ensures
+            that badges are only added if the user doesn't already have them.
+
+            Side effects:
+                Updates the user's badges based on the conditions met.
+            """
         user_badges = self.badges.all()
         message_count = Message.objects.filter(account=self).count()
         like_count = Like.objects.filter(message__account=self).count()

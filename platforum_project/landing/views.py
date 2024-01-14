@@ -10,6 +10,20 @@ def index(request):
 
 
 def forums_list_view(request):
+    """
+        Displays a list of all forums with optional search functionality.
+
+        This function retrieves a list of all forums. If a search query is provided in the request, it filters the forums
+        based on the search criteria, looking for matches in the forum's name, theme, or description. The resulting list
+        of forums, either filtered by the search or containing all forums, is then passed to the template for rendering.
+
+        Args:
+            request: The HTTP request object containing potential search criteria.
+
+        Returns:
+            HttpResponse: Renders the forums list page with context data including the list of forums, which may be
+            filtered based on a search query.
+        """
     forums = Forum.objects.all()
 
     search = request.GET.get("rechercher-forum")

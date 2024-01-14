@@ -12,6 +12,23 @@ from forum.forms import CreateTopic, PostMessage
 
 @login_required
 def index(request, slug_forum, pk_forum):
+    """
+       Displays the main page of a specific forum.
+
+       This view, accessible only to logged-in users, retrieves and displays the main page of a specified forum based on
+       its primary key. It attempts to retrieve the user's account for this forum and, if found, updates the user's
+       badges using the 'badges_manager' method. The view also fetches and displays all categories within the forum.
+       If no account is associated with the user in this forum, the user's account details are not displayed.
+
+       Args:
+           request: The HTTP request object.
+           slug_forum: The slug of the forum (unused in the function but required for URL pattern).
+           pk_forum: The primary key of the forum.
+
+       Returns:
+           HttpResponse: Renders the main page of the forum with context data including the forum, its categories,
+           and the user's forum account (if present).
+       """
     user = request.user
     forum = get_object_or_404(Forum, pk=pk_forum)
     account: ForumAccount = user.retrieve_forum_account(forum)
@@ -23,6 +40,24 @@ def index(request, slug_forum, pk_forum):
 
 @login_required
 def sub_category_view(request, pk, slug_forum, pk_forum, slug_sub_category):
+    """
+       Displays the topics within a specific sub-category of a forum.
+
+       This view, available only to logged-in users, shows the topics under a particular sub-category of a forum. It
+       lists both pinned and regular topics separately. The topics are paginated with 10 topics per page. The view
+       retrieves the user's forum account for additional context, such as permissions or user-specific data.
+
+       Args:
+           request: The HTTP request object.
+           pk: The primary key of the sub-category.
+           slug_forum: The slug of the forum (unused in the function but required for URL pattern).
+           pk_forum: The primary key of the forum.
+           slug_sub_category: The slug of the sub-category (unused in the function but required for URL pattern).
+
+       Returns:
+           HttpResponse: Renders the sub-category page with context data including the sub-category, forum, topics,
+           pinned topics, user's forum account, and pagination object.
+       """
     user = request.user
     forum = get_object_or_404(Forum, pk=pk_forum)
     account = user.retrieve_forum_account(forum)
@@ -41,6 +76,25 @@ def sub_category_view(request, pk, slug_forum, pk_forum, slug_sub_category):
 
 @login_required
 def add_topic(request, slug_forum, pk_forum, pk, slug_sub_category):
+    """
+        Handles the creation of a new topic within a sub-category of a forum.
+
+        Available only to logged-in users with an active forum account, this view provides a form for creating a new
+        topic in a specified sub-category. Upon POST request with valid data, a new topic and its initial message are
+        created and associated with the user's account and the sub-category. After successful topic creation, the user
+        is redirected to the newly created topic page.
+
+        Args:
+            request: The HTTP request object, either GET for displaying the form or POST for submitting form data.
+            slug_forum: The slug of the forum (unused in the function but required for URL pattern).
+            pk_forum: The primary key of the forum.
+            pk: The primary key of the sub-category.
+            slug_sub_category: The slug of the sub-category (unused in the function but required for URL pattern).
+
+        Returns:
+            HttpResponse: Renders the new topic creation page with context data including the forum, sub-category, form,
+            and user's forum account. Redirects to the new topic page upon successful creation.
+        """
     user = request.user
     forum = get_object_or_404(Forum, pk=pk_forum)
     verify_active_forum_account(user, forum)
@@ -68,6 +122,28 @@ def add_topic(request, slug_forum, pk_forum, pk, slug_sub_category):
 
 @login_required
 def topic_view(request, slug_forum, pk_forum, pk, slug_sub_category, pk_topic, slug_topic):
+    """
+        Displays a specific forum topic and its messages.
+
+        This view, accessible to logged-in users, presents the details of a specific topic, including all associated
+        messages. The messages are paginated with 10 messages per page. It also provides a form for posting new messages
+        to the topic. Upon POST request with valid data, a new message is added to the topic, and a notification is
+        possibly sent to members following the topic.
+
+        Args:
+            request: The HTTP request object, either GET for displaying the topic and messages or POST for submitting
+                     a new message.
+            slug_forum: The slug of the forum (unused in the function but required for URL pattern).
+            pk_forum: The primary key of the forum.
+            pk: The primary key of the sub-category (unused in the function but required for URL pattern).
+            slug_sub_category: The slug of the sub-category (unused in the function but required for URL pattern).
+            pk_topic: The primary key of the topic.
+            slug_topic: The slug of the topic (unused in the function but required for URL pattern).
+
+        Returns:
+            HttpResponse: Renders the topic page with context data including the forum, sub-category, topic, messages,
+            user's account, message posting form, and pagination object.
+        """
     user = request.user
     forum = get_object_or_404(Forum, pk=pk_forum)
     account = user.retrieve_forum_account(forum)
@@ -104,6 +180,22 @@ def topic_view(request, slug_forum, pk_forum, pk, slug_sub_category, pk_topic, s
 
 @login_required
 def like_unlike_view(request, pk_forum, pk_message):
+    """
+        Handles liking or unliking a forum message.
+
+        This view, available to logged-in users with an active account in the forum, allows a user to toggle the like
+        status of a message. It first verifies the user's active forum account, then uses the 'Like.like_unlike' method
+        to either add or remove a like from the message, depending on the current like status. After toggling the like
+        status, the user is redirected back to the topic containing the message.
+
+        Args:
+            request: The HTTP request object.
+            pk_forum: The primary key of the forum.
+            pk_message: The primary key of the message to be liked or unliked.
+
+        Returns:
+            HttpResponse: Redirects to the topic page that contains the message.
+        """
     user = request.user
     forum = get_object_or_404(Forum, pk=pk_forum)
     verify_active_forum_account(user, forum)
@@ -115,6 +207,28 @@ def like_unlike_view(request, pk_forum, pk_message):
 
 @login_required
 def update_message(request, slug_forum, pk_forum, pk, slug_sub_category, pk_topic, slug_topic, pk_message):
+    """
+        Handles the updating of a specific message within a forum topic.
+
+        This view allows logged-in users to edit their own messages or messages in forums where they have an active
+        account. It first verifies the user's active account status in the forum and checks if the user has permission
+        to edit the message. A form is provided to edit the message, and upon submission with valid data, the message
+        is updated. After updating, the user is redirected back to the topic.
+
+        Args:
+            request: The HTTP request object, either GET for displaying the edit form or POST for submitting the updated message.
+            slug_forum: The slug of the forum (unused in the function but required for URL pattern).
+            pk_forum: The primary key of the forum.
+            pk: The primary key of the sub-category (unused in the function but required for URL pattern).
+            slug_sub_category: The slug of the sub-category (unused in the function but required for URL pattern).
+            pk_topic: The primary key of the topic.
+            slug_topic: The slug of the topic (unused in the function but required for URL pattern).
+            pk_message: The primary key of the message to be updated.
+
+        Returns:
+            HttpResponse: Renders the message update page with context data including the forum, topic, sub-category,
+            message, form, and user's account.
+        """
     user = request.user
     forum = get_object_or_404(Forum, pk=pk_forum)
     sub_category = get_object_or_404(SubCategory, pk=pk)
