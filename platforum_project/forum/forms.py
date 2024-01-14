@@ -8,7 +8,7 @@ from forum.models import Forum, Topic, Message, ForumAccount, Category, SubCateg
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Row, Column
 
-from platforum_project.settings import DEBUG, TEST_MODE
+from platforum_project.settings import TEST_MODE
 
 
 class CreateForumForm(forms.ModelForm):
