@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from django_recaptcha.fields import ReCaptchaField
 
-from platforum_project.settings import DEBUG, TEST_MODE
+from platforum_project.settings import TEST_MODE
 
 
 class SignUpForm(UserCreationForm):
