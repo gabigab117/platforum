@@ -70,27 +70,30 @@ class ForumAccount(models.Model):
         return Like.objects.filter(message__account=self).count()
 
     def badges_manager(self):
-        messages_10 = Badge.objects.get(description="10 messages")
-        messages_50 = Badge.objects.get(description="50 messages")
-        messages_100 = Badge.objects.get(description="100 messages")
-        new = Badge.objects.get(description="Nouveau")
-        likes_10 = Badge.objects.get(description="10 likes")
-        likes_50 = Badge.objects.get(description="50 likes")
-        likes_100 = Badge.objects.get(description="100 likes")
-        forum_master = Badge.objects.get(description="Forum Master")
+        badges = Badge.objects.filter(
+            description=["Noo Badge", "100 messages", "50 messages", "10 messages", "Nouveau", "100 likes", "50 likes",
+                         "10 likes", "Forum Master"])
+        user_badges = self.badges.all()
+        message_count = Message.objects.filter(account=self).count()
+        like_count = Like.objects.filter(message__account=self).count()
 
-        if Message.objects.filter(account=self).count() >= 10 and messages_10 not in self.badges.all():
-            self.badges.add(messages_10)
-        if Message.objects.filter(account=self).count() >= 50 and messages_50 not in self.badges.all():
-            self.badges.add(messages_50)
-        if Message.objects.filter(account=self).count() >= 100 and messages_100 not in self.badges.all():
-            self.badges.add(messages_100)
-        if timezone.now().date() - self.joined < timedelta(days=4) and new not in self.badges.all():
-            self.badges.add(new)
-        if self.forum_master and forum_master not in self.badges.all():
-            self.badges.add(forum_master)
-        if Like.objects.filter(message__account=self).count() >= 10 and likes_10 not in self.badges.all():
-            self.badges.add(likes_10)
+        badge_conditions = {
+            "10 messages": message_count >= 10,
+            "50 messages": message_count >= 50,
+            "100 messages": message_count >= 100,
+            "10 likes": like_count >= 10,
+            "50 likes": like_count >= 50,
+            "100 likes": like_count >= 100,
+            "Nouveau": timezone.now().date() - self.joined < timedelta(days=4),
+            "Forum Master": self.forum_master,
+            "Noo Badge": user_badges.count() == 0
+        }
+
+        for description, condition in badge_conditions.items():
+            if condition:
+                badge = Badge.objects.get(description=description)
+                if badge not in user_badges:
+                    self.badges.add(badge)
 
     def get_absolute_url(self):
         return reverse("forum:member", kwargs={"slug_forum": self.forum.slug,

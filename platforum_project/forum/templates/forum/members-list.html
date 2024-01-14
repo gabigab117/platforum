@@ -37,6 +37,7 @@
                     <th scope="col">Membre</th>
                     <th scope="col">A rejoint</th>
                     <th scope="col">Messages</th>
+                    <th scope="col">Badges</th>
                 </tr>
                 </thead>
                 {% for member in members %}
@@ -47,6 +48,15 @@
                                        href="{% url 'forum:member' slug_forum=forum.slug pk_forum=forum.pk pk_member=member.pk %}">{{ member.user.username }}</a></th>
                     <td>{{ member.joined }}</td>
                     <td>{{ member.messages_count }}</td>
+                    <td class="d-flex justify-content-center align-items-center">{% if member.badges.all.count > 0 %}
+            {% for badge in member.badges.all %}
+            <div data-bs-toggle="tooltip" data-bs-placement="top"
+                    data-bs-title="{{ badge.description }}">
+                <img src="{{ badge.thumbnail.url }}" width="40" height="auto" class="mb-5 circle">
+            </div>
+
+            {% endfor %}
+            {% endif %}</td>
                 </tr>
                 </tbody>
                 {% endfor %}
