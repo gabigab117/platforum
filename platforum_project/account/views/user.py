@@ -1,3 +1,5 @@
+from smtplib import SMTPAuthenticationError
+
 from django.contrib import messages
 from django.contrib.auth import logout, get_user_model
 from django.contrib.auth.decorators import login_required
@@ -19,11 +21,17 @@ def signup(request):
             user = form.save(commit=False)
             user.is_active = False
             user.save()
-            send_email_verification(request, user)
-            messages.add_message(request, level=messages.INFO,
-                                 message="Vous êtes désormais inscrit."
-                                         "Merci d'activer votre compte avec le lien reçu par email, "
-                                         "si vous ne l'avez pas reçu, merci de nous contacter.")
+            try:
+                send_email_verification(request, user)
+                messages.add_message(request, level=messages.INFO,
+                                     message="Vous êtes désormais inscrit."
+                                             "Merci d'activer votre compte avec le lien reçu par email, "
+                                             "si vous ne l'avez pas reçu, merci de nous contacter.")
+            except SMTPAuthenticationError:
+                messages.add_message(request, level=messages.INFO,
+                                     message="Une erreur est survenue avec l'envoi de l'email. Merci de nous contacter"
+                                             "via l'onglet contact en précisant votre adresse email et"
+                                             " votre nom de connexion pour que l'on puisse activer votre compte.")
             return redirect("landing:index")
     else:
         form = SignUpForm()
@@ -64,5 +72,6 @@ def activate(request, uidb64, token):
         messages.add_message(request, messages.INFO, "Votre compte est désormait actif, vous pouvez vous connecter")
         return redirect("landing:index")
     else:
-        messages.add_message(request, messages.INFO, "Vous pouvez nous contacter par email, nous résoudrons le problème")
+        messages.add_message(request, messages.INFO,
+                             "Vous pouvez nous contacter par email, nous résoudrons le problème")
         return redirect("landing:index")
