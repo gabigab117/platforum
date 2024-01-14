@@ -1,0 +1,74 @@
+[
+  {
+    "model": "forum.badge",
+    "pk": 1,
+    "fields": {
+      "description": "Forum Master",
+      "thumbnail": "badges/forummaster.png"
+    }
+  },
+  {
+    "model": "forum.badge",
+    "pk": 2,
+    "fields": {
+      "description": "10 likes",
+      "thumbnail": "badges/10likes.png"
+    }
+  },
+  {
+    "model": "forum.badge",
+    "pk": 3,
+    "fields": {
+      "description": "50 likes",
+      "thumbnail": "badges/50likes.png"
+    }
+  },
+  {
+    "model": "forum.badge",
+    "pk": 4,
+    "fields": {
+      "description": "100 likes",
+      "thumbnail": "badges/100likes.png"
+    }
+  },
+  {
+    "model": "forum.badge",
+    "pk": 5,
+    "fields": {
+      "description": "Nouveau",
+      "thumbnail": "badges/new_member.png"
+    }
+  },
+  {
+    "model": "forum.badge",
+    "pk": 6,
+    "fields": {
+      "description": "10 messages",
+      "thumbnail": "badges/10messages.png"
+    }
+  },
+  {
+    "model": "forum.badge",
+    "pk": 7,
+    "fields": {
+      "description": "50 messages",
+      "thumbnail": "badges/50messages.png"
+    }
+  },
+  {
+    "model": "forum.badge",
+    "pk": 8,
+    "fields": {
+      "description": "100 messages",
+      "thumbnail": "badges/100messages.png"
+    }
+  },
+  {
+    "model": "forum.badge",
+    "pk": 9,
+    "fields": {
+      "description": "Noo Badge",
+      "thumbnail": "badges/nobadge.png"
+    }
+  }
+]
