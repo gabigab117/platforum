@@ -26,3 +26,11 @@ def my_forums_list_view(request):
     myforums = Forum.objects.filter(forum_master=user)
     forums = ForumAccount.objects.filter(user=user)
     return render(request, "landing/myforums.html", context={"myforums": myforums, "forums": forums})
+
+
+def forum_documentation_view(request):
+    return render(request, "documentation/doc.html")
+
+
+def admin_documentation_view(request):
+    return render(request, "documentation/admin.html")

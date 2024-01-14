@@ -1,0 +1,51 @@
+{% extends "base_site.html" %}
+{% load static %}
+
+{% block title %}documentation{% endblock %}
+
+{% block body %}
+
+<div class="container shadow-lg rounded border p-5">
+    <div class="row"></div>
+    <div class="col text-center">
+        <h1 class="mb-5">Fonctionnement général</h1>
+
+        <img src="{% static 'doc/index.png' %}" class="rounded mb-5 img-fluid" alt="index du forum" width="1200"
+             height="auto">
+        <p class="mb-5">Lorsque vous venez de créer votre forum, vous êtes redirigé vers l'index avec du contenu généré
+            par défaut.
+            Toutes les catégories et sous-catégories sont affichées (par défaut 1 catégorie et 1 sous-catégorie).</p>
+
+        <hr>
+        <img src="{% static 'doc/sub.png' %}" class="rounded mb-5 img-fluid" alt="Sous catégorie" width="1200"
+             height="auto">
+        <p class="mb-5">
+            Depuis l'index, vous pouvez cliquer sur une sous-catégorie pour accéder à l'ensemble des discussions.
+
+
+        </p>
+        <hr>
+        <img src="{% static 'doc/topics.png' %}" class="rounded mb-5 img-fluid" alt="discussions" width="1200"
+             height="auto">
+        <p class="mb-5">Depuis cette page, il est possible de cliquer sur n'importe quelle discussion pour participer
+            (compte requis), de créer une nouvelle discussion (compte requis)
+            ou tout simplement lire les messages d'une discussion.</p>
+        <hr>
+        <img src="{% static 'doc/in_topics.png' %}" class="rounded mb-5 img-fluid" alt="discussion" width="1200"
+             height="auto">
+        <p class="mb-5">
+            Dans un sujet, vous pouvez écrire un message, modifier votre message, supprimer votre message, "approuver" un
+            message.
+            Pour ces actions un compte actif est requis.
+
+        </p>
+        <hr>
+        <p>Par le menu, vous pouvez accéder à votre messagerie privée, la liste des membres, aux notification et à votre profil</p>
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}

@@ -22,27 +22,21 @@
             {% endif %}
 
 
+            {% if messages %}
 
-          {% if messages %}
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+     {% for message in messages %}
+         Swal.fire({
+             title: "Good job!",
+             text: "{{ message|safe }}",
+             icon: "success"
+         });
+     {% endfor %}
+ });
+            </script>
 
-                <script>
-                       document.addEventListener('DOMContentLoaded', function() {
-            {% for message in messages %}
-                Swal.fire({
-                    title: "Good job!",
-                    text: "{{ message|safe }}",
-                    icon: "success"
-                });
-            {% endfor %}
-        });
-                </script>
-
-                {% endif %}
-
-
-
-
-
+            {% endif %}
 
 
             <h3 class="text-center">🌟 Bienvenue sur PlatForum 🌟</h3>
@@ -114,6 +108,21 @@
 
     </div>
 
+</div>
+
+
+<div class="container rounded p-5">
+
+    <div class="row justify-content-around">
+
+        <div class="col-4 shadow-lg rounded">
+            <h2><a class="nav-link" href="{% url 'landing:documentation-forum' %}" target="_blank">Documentation générale</a></h2>
+
+        </div>
+        <div class="col-4 shadow-lg rounded">
+            <h2><a class="nav-link" href="{% url 'landing:admin-documentation' %}" target="_blank">Documentation créateurs</a></h2>
+        </div>
+    </div>
 </div>
 
 

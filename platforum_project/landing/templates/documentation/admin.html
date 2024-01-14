@@ -1,0 +1,95 @@
+{% extends "base_site.html" %}
+{% load static %}
+
+{% block title %}documentation admin{% endblock %}
+
+{% block body %}
+
+<div class="container shadow-lg rounded border p-5">
+    <div class="row"></div>
+    <div class="col text-center">
+        <h1 class="mb-5">Pour les Forum Masters</h1>
+        <h2 class="mb-5">L'espace d'administration</h2>
+        <img src="{% static 'doc/creators/navadmin.png' %}" class="rounded mb-5 img-fluid" alt="Menu admin" width="1200"
+             height="auto">
+        <p class="mb-5">
+            Un créateur de forum dispose d'un accès spécial à l'espace administration du forum.
+
+        </p>
+        <hr>
+        <img src="{% static 'doc/creators/ensemble.png' %}" class="rounded mb-5 img-fluid" alt="Vue d'ensemble" width="1200"
+             height="auto">
+        <p class="mb-5">
+            Depuis la vue d'ensemble vous pouvez voir le nombre de membres, de sujets et de messages. Vous pouvez aussi
+            modifier le logo de votre forum.
+
+        </p>
+        <hr>
+        <img src="{% static 'doc/creators/membres.png' %}" class="rounded mb-5 img-fluid" alt="Membres" width="1200"
+             height="auto">
+        <p class="mb-5">
+            Depuis la gestion des membres, vous pouvez désactiver les comptes (mais pas les supprimer). Un membre
+            désactivé ne peut plus participer au forum. Il est aussi possible d'accéder au profil d'un membre (vous
+            pouvez aussi désactiver un compte depuis la page de profil).
+
+        </p>
+        <hr>
+        <img src="{% static 'doc/creators/builder.png' %}" class="rounded mb-5 img-fluid" alt="builder" width="1200"
+             height="auto">
+        <p class="mb-5">
+            Enfin, le constructeur. C'est depuis cette page que vous allez créer et organiser les catégories et
+            sous-catégories.
+
+        </p>
+        <hr>
+        <img src="{% static 'doc/creators/formulaire.png' %}" class="rounded mb-5 img-fluid" alt="form builder" width="1200"
+             height="auto">
+        <p class="mb-5">
+            Depuis le formulaire accessible en bas de page, vous pouvez créer une catégorie avec des sous catégories.<br>
+            <strong>
+                Index permet d'ordonner les catégories et sous-catégories. Donc une catégorie avec un Index de 1 suivra
+                la catégorie avec un index 0.
+                De même pour les sous-catégories.
+
+            </strong>
+
+        </p>
+        <hr>
+        <img src="{% static 'doc/creators/formvalid.png' %}" class="rounded mb-5 img-fluid" alt="form valid" width="1200"
+             height="auto">
+        <p class="mb-5">
+            Voici ce que cela donne une fois le formulaire (de la capture précédente) validé.
+        </p>
+        <hr>
+        <h2 class="mb-5">Autre</h2>
+        <img src="{% static 'doc/creators/pin.png' %}" class="rounded mb-5 img-fluid" alt="Pin action" width="1200"
+             height="auto">
+        <img src="{% static 'doc/creators/pin_ok.png' %}" class="rounded mb-5 img-fluid" alt="Pin ok" width="1200"
+             height="auto">
+        <p class="mb-5">
+            Dans une sous-catégorie le créateur du forum peut "épingler" les discussions pour qu'elles soient en tête de
+            la
+            liste des discussions. Pourquoi ne pas épingler une discussion "Annonces", "Règles" ou autre ? Vous pouvez
+            réaliser l'opération inverse.
+
+        </p>
+        <hr>
+        <img src="{% static 'doc/creators/message.png' %}" class="rounded mb-5 img-fluid" alt="Message" width="1200"
+             height="auto">
+        <p class="mb-5">Le créateur du forum peut aussi gérer les messages de tous les membres (modifier,
+            supprimer).</p>
+        <hr>
+        <img src="{% static 'doc/creators/manage_topic.png' %}" class="rounded mb-5 img-fluid" alt="<Manage discussion"
+             width="1200"
+             height="auto">
+        <p class="mb-5">Depuis une discussion, vous pouvez modifier le sujet, la sous catégorie, ou même la
+            supprimer.</p>
+
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}
