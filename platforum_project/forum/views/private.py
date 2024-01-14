@@ -15,8 +15,23 @@ from platforum_project.func.security import user_permission, verify_active_forum
 
 @login_required
 def signup_forum(request, slug_forum, pk_forum):
+    """
+    Handles user registration for a specific forum.
+
+    This view allows a logged-in user to sign up for a particular forum. If the user is already a member of the forum,
+    they are redirected to their forum profile. Otherwise, they can complete the forum-specific registration form.
+
+    Args:
+        request: The HTTP request object.
+        slug_forum: The slug of the forum.
+        pk_forum: The primary key of the forum.
+
+    Returns:
+        HttpResponse: Renders the forum registration page or redirects to the user's forum profile if registration is
+        successful or if the user is already a member.
+    """
     user: CustomUser = request.user
-    forum = get_object_or_404(Forum, slug=slug_forum, pk=pk_forum)
+    forum = get_object_or_404(Forum, pk=pk_forum)
     account = user.retrieve_forum_account(forum)
     if account:
         return redirect("forum:profile", pk_forum=forum.pk, slug_forum=forum.slug)
@@ -36,6 +51,22 @@ def signup_forum(request, slug_forum, pk_forum):
 
 @login_required
 def start_conversation(request, slug_forum, pk_forum, pk_member):
+    """
+    Starts a private conversation with another forum member.
+
+    This view allows a logged-in user to initiate a private conversation with another member of the forum.
+    The user selects a forum member, enters a message, and starts the conversation.
+
+    Args:
+        request: The HTTP request object.
+        slug_forum: The slug of the forum.
+        pk_forum: The primary key of the forum.
+        pk_member: The primary key of the forum member with whom the conversation is initiated.
+
+    Returns:
+        HttpResponse: Renders the private conversation initiation page or redirects to the conversation
+        if the initiation is successful.
+    """
     user: CustomUser = request.user
     forum = get_object_or_404(Forum, pk=pk_forum)
     verify_active_forum_account(user, forum)
@@ -62,6 +93,21 @@ def start_conversation(request, slug_forum, pk_forum, pk_member):
 
 @login_required
 def personal_messaging(request, slug_forum, pk_forum):
+    """
+    Displays the personal messaging interface for a forum user.
+
+    This view allows a logged-in user to access their personal messaging interface within a forum. It lists the user's
+    own conversations and conversations they are a part of.
+
+    Args:
+        request: The HTTP request object.
+        slug_forum: The slug of the forum.
+        pk_forum: The primary key of the forum.
+
+    Returns:
+        HttpResponse: Renders the personal messaging interface page with context data including the user's conversations
+         and forum details.
+    """
     user: CustomUser = request.user
     forum = get_object_or_404(Forum, pk=pk_forum)
     verify_active_forum_account(user, forum)
@@ -76,6 +122,22 @@ def personal_messaging(request, slug_forum, pk_forum):
 
 @login_required
 def conversation_view(request, slug_forum, pk_forum, slug_conversation, pk_conversation):
+    """
+        Render and handle private conversation view.
+
+        This view renders the private conversation page, allowing users to view and post messages in a private conversation.
+        It verifies the user's active forum account, checks permissions to access the conversation, and handles message posting.
+
+        Args:
+            request: The HTTP request object.
+            slug_forum: The slug of the forum.
+            pk_forum: The primary key of the forum.
+            slug_conversation: The slug of the conversation.
+            pk_conversation: The primary key of the conversation.
+
+        Returns:
+            HttpResponse: Renders the private conversation page with context data.
+        """
     user = request.user
     forum = get_object_or_404(Forum, pk=pk_forum)
     verify_active_forum_account(user, forum)
@@ -107,6 +169,23 @@ def conversation_view(request, slug_forum, pk_forum, slug_conversation, pk_conve
 
 @login_required
 def update_message_conversation(request, slug_forum, pk_forum, slug_conversation, pk_conversation, pk_message):
+    """
+       Render and handle the update of a message within a private conversation.
+
+       This view renders the message update form within a private conversation and handles the message update process.
+       It verifies the user's active forum account, checks permissions to update the message, and updates the message content.
+
+       Args:
+           request: The HTTP request object.
+           slug_forum: The slug of the forum.
+           pk_forum: The primary key of the forum.
+           slug_conversation: The slug of the conversation.
+           pk_conversation: The primary key of the conversation.
+           pk_message: The primary key of the message to be updated.
+
+       Returns:
+           HttpResponse: Renders the message update form with context data.
+       """
     user = request.user
     forum = get_object_or_404(Forum, pk=pk_forum)
     verify_active_forum_account(user, forum)
@@ -129,6 +208,21 @@ def update_message_conversation(request, slug_forum, pk_forum, slug_conversation
 @require_POST
 @login_required
 def delete_message_conversation(request, pk_forum, pk_conversation, pk_message):
+    """
+        Handle the deletion of a message within a private conversation.
+
+        This view handles the deletion of a message within a private conversation. It verifies the user's active forum account,
+        checks permissions to delete the message, and deletes the message from the conversation.
+
+        Args:
+            request: The HTTP request object.
+            pk_forum: The primary key of the forum.
+            pk_conversation: The primary key of the conversation.
+            pk_message: The primary key of the message to be deleted.
+
+        Returns:
+            HttpResponse: Redirects back to the conversation after deleting the message.
+        """
     user = request.user
     forum = get_object_or_404(Forum, pk=pk_forum)
     verify_active_forum_account(user, forum)
@@ -142,6 +236,20 @@ def delete_message_conversation(request, pk_forum, pk_conversation, pk_message):
 
 @login_required
 def profile_forum(request, slug_forum, pk_forum):
+    """
+        Display and update the user's forum profile.
+
+        This view allows users to view and update their forum profile information. It retrieves the user's forum account,
+        displays their profile details, and allows them to update avatar.
+
+        Args:
+            request: The HTTP request object.
+            slug_forum: The slug of the forum (unused in the function but required for URL pattern).
+            pk_forum: The primary key of the forum.
+
+        Returns:
+            HttpResponse: Renders the user's profile page with the ability to update profile information.
+        """
     user = request.user
     forum = get_object_or_404(Forum, pk=pk_forum)
     account = user.retrieve_forum_account(forum)
@@ -161,6 +269,20 @@ def profile_forum(request, slug_forum, pk_forum):
 
 @login_required
 def notifications_view(request, slug_forum, pk_forum):
+    """
+       Display a user's forum notifications.
+
+       This view allows users to view their forum notifications. It retrieves the user's forum account and
+       displays their notifications.
+
+       Args:
+           request: The HTTP request object.
+           slug_forum: The slug of the forum (unused in the function but required for URL pattern).
+           pk_forum: The primary key of the forum.
+
+       Returns:
+           HttpResponse: Renders the user's notifications page with a list of notifications.
+       """
     user = request.user
     forum = get_object_or_404(Forum, pk=pk_forum)
     verify_active_forum_account(user, forum)
@@ -173,6 +295,20 @@ def notifications_view(request, slug_forum, pk_forum):
 @login_required
 @require_POST
 def delete_notifications(request, pk_forum):
+    """
+        Delete a user's forum notifications.
+
+        This view allows users to delete all of their forum notifications.
+        It retrieves the user's forum account, deletes all notifications, resets the notification counter, and redirects
+        to the notifications page.
+
+        Args:
+            request: The HTTP request object.
+            pk_forum: The primary key of the forum.
+
+        Returns:
+            HttpResponse: Redirects to the user's notifications page after deleting all notifications.
+        """
     user = request.user
     forum = get_object_or_404(Forum, pk=pk_forum)
     verify_active_forum_account(user, forum)

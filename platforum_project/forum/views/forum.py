@@ -258,6 +258,23 @@ def update_message(request, slug_forum, pk_forum, pk, slug_sub_category, pk_topi
 @login_required
 @require_POST
 def delete_message(request, pk_forum, pk_topic, pk_message):
+    """
+       Handles the deletion of a specific message within a forum topic.
+
+       This view allows logged-in users to delete their own messages or messages in forums where they have an active
+       account. It first verifies the user's active account status in the forum and checks if the user has permission
+       to delete the message. If authorized, the message is deleted, and the user is redirected back to the topic
+       containing the deleted message.
+
+       Args:
+           request: The HTTP request object for message deletion (POST request).
+           pk_forum: The primary key of the forum.
+           pk_topic: The primary key of the topic.
+           pk_message: The primary key of the message to be deleted.
+
+       Returns:
+           HttpResponse: Redirects to the topic page containing the deleted message.
+       """
     user = request.user
     forum = get_object_or_404(Forum, pk=pk_forum)
     verify_active_forum_account(user, forum)
@@ -270,6 +287,21 @@ def delete_message(request, pk_forum, pk_topic, pk_message):
 
 @login_required
 def members_list_view(request, slug_forum, pk_forum):
+    """
+        Displays a list of active forum members.
+
+        This view allows logged-in users to view a list of active members in a forum. It first verifies the user's
+        active account status in the forum. Users can also perform a search to filter members by username.
+
+        Args:
+            request: The HTTP request object.
+            slug_forum: The slug of the forum (unused in the function but required for URL pattern).
+            pk_forum: The primary key of the forum.
+
+        Returns:
+            HttpResponse: Renders the members list page with context data including the forum, user's account, and
+            the list of active members.
+        """
     user = request.user
     forum = get_object_or_404(Forum, pk=pk_forum)
     verify_active_forum_account(user, forum)
@@ -285,6 +317,22 @@ def members_list_view(request, slug_forum, pk_forum):
 
 @login_required
 def member_view(request, slug_forum, pk_forum, pk_member):
+    """
+        Displays the profile and activity of a forum member.
+
+        This view allows logged-in users to view the profile and recent activity of a specific forum member. It first
+        verifies the user's active account status in the forum and retrieves the member's profile and recent messages.
+
+        Args:
+            request: The HTTP request object.
+            slug_forum: The slug of the forum (unused in the function but required for URL pattern).
+            pk_forum: The primary key of the forum.
+            pk_member: The primary key of the forum member to view.
+
+        Returns:
+            HttpResponse: Renders the member's profile page with context data including the forum, user's account,
+            the member's profile, and recent messages.
+        """
     user: CustomUser = request.user
     forum = get_object_or_404(Forum, pk=pk_forum)
     verify_active_forum_account(user, forum)
@@ -298,6 +346,22 @@ def member_view(request, slug_forum, pk_forum, pk_member):
 
 @login_required
 def query_view(request, slug_forum, pk_forum):
+    """
+        Displays search results for topics and messages within a forum.
+
+        This view allows logged-in users to search for topics and messages within a forum based on a user's query.
+        It first verifies the user's active account status in the forum and then performs the search for topics and messages
+        matching the query.
+
+        Args:
+            request: The HTTP request object.
+            slug_forum: The slug of the forum (unused in the function but required for URL pattern).
+            pk_forum: The primary key of the forum.
+
+        Returns:
+            HttpResponse: Renders the search results page with context data including the forum, user's account,
+            search results for topics and messages.
+        """
     user = request.user
     forum = get_object_or_404(Forum, pk=pk_forum)
     account = user.retrieve_forum_account(forum)
