@@ -64,12 +64,20 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'gabrieltrouve5@gmail.com'
+EMAIL_HOST_USER = 'your@email.com'
 EMAIL_HOST_PASSWORD = env('EMAIL_PW')
-DEFAULT_FROM_EMAIL = 'PlatForum<gabrieltrouve5@gmail.com>'
+DEFAULT_FROM_EMAIL = 'PlatForum<your@email.com>'
 ```
 
-Fichier ```.env``` que je gère avec django-environ.
+```.env``` file that I manage with django-environ.
+
+### Fixture to load
+
+You need to import the fixture ```forum/fixtures/badge.json``` for the project to work correctly.
+
+```
+python manage.py loaddata badge.json
+```
 
 ## Account App
 
