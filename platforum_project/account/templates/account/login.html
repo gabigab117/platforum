@@ -7,8 +7,8 @@
 {% block body %}
 
 <div class="container-fluid">
-    <div class="row justify-content-around mb-5">
-        <div class="col-4 shadow-lg p-2">
+    <div class="row justify-content-center mb-5">
+        <div class="col-md-12 col-lg-6 col-xl-4 shadow-lg p-2">
             <h3 class="text-center">Connexion</h3>
 
             <form method="post">
@@ -20,14 +20,10 @@
             </form>
 
         </div>
-        <div class="col-4 text-center shadow-lg p-2">
-            <img src="{% static 'assets/login-min.png' %}" style="width: 500px; height: auto;" class="circle img-fluid">
-
-        </div>
     </div>
 
-    <div class="row justify-content-start">
-        <div class="col-4">
+    <div class="row justify-content-center">
+        <div class="col-md-12 col-lg-6 col-xl-4">
 
             <button class="btn btn-danger"><a href="{% url 'account:password-reset' %}" class="index-link">Nouveau mot de passe</a></button>
         </div>

@@ -8,7 +8,7 @@
 
 <div class="container-fluid">
     <div class="row justify-content-around">
-        <div class="col-6 shadow-lg">
+        <div class="col-md-12 col-lg-6 col-xl-4 shadow-lg p-2">
             <h3 class="text-center">Créer son forum</h3>
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
@@ -18,10 +18,7 @@
                 </div>
             </form>
         </div>
-        <div class="col-4 text-center shadow-lg">
-            <img src="{% static 'assets/header.png' %}" style="width: 500px; height: auto;">
 
-        </div>
     </div>
 </div>
 {% endblock %}

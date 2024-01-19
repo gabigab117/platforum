@@ -8,7 +8,7 @@
 
 <div class="container-fluid">
     <div class="row justify-content-around">
-        <div class="col-4 shadow-lg p-3">
+        <div class="col-md-12 col-lg-6 col-xl-4 shadow-lg p-3">
             <h3 class="text-center">Inscription</h3>
             <form method="post">
                 {% csrf_token %}
@@ -18,10 +18,7 @@
                 </div>
             </form>
         </div>
-        <div class="col-4 text-center shadow-lg">
-            <img src="{% static 'assets/login-min.png' %}" style="width: 500px; height: auto;" class="circle img-fluid">
 
-        </div>
     </div>
 </div>
 {% endblock %}
