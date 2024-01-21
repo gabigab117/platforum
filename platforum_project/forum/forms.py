@@ -113,7 +113,11 @@ class CategoryForm(forms.ModelForm):
 class SubCategoryForm(forms.ModelForm):
     class Meta:
         model = SubCategory
-        fields = ["name", "index"]
+        fields = ["category", "name", "index"]
+
+    def __init__(self, forum, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["category"].queryset = Category.objects.filter(forum=forum)
 
 
 class ConversationForm(forms.ModelForm):

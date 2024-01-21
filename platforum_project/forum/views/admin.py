@@ -343,12 +343,12 @@ def update_subcategory_view(request, slug_forum, pk_forum, pk_subcategory):
     subcategory = get_object_or_404(SubCategory, pk=pk_subcategory)
 
     if request.method == "POST":
-        form = SubCategoryForm(request.POST, instance=subcategory)
+        form = SubCategoryForm(forum, request.POST, instance=subcategory)
         if form.is_valid():
             form.save()
             return redirect("forum:builder", slug_forum=forum.slug, pk_forum=pk_forum)
     else:
-        form = SubCategoryForm(instance=subcategory)
+        form = SubCategoryForm(forum, instance=subcategory)
     return render(request, "admin-forum/subcategory-update.html", context={"forum": forum, "account": account,
                                                                            "subcategory": subcategory, "form": form})
 
