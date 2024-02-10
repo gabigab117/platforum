@@ -24,14 +24,15 @@ def forums_list_view(request):
             HttpResponse: Renders the forums list page with context data including the list of forums, which may be
             filtered based on a search query.
         """
-    forums = Forum.objects.all()
+    support = Forum.objects.first()
+    forums = Forum.objects.all()[1:]
 
     search = request.GET.get("rechercher-forum")
     if search:
         forums = Forum.objects.filter(
             Q(name__icontains=search) | Q(theme__name__icontains=search) | Q(description__icontains=search)
         )
-    return render(request, "landing/forums-list.html", context={"forums": forums})
+    return render(request, "landing/forums-list.html", context={"forums": forums, "support": support})
 
 
 @login_required

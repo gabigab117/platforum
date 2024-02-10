@@ -103,7 +103,12 @@
 {% block body %}{% endblock %}
 
 <div class="container-fluid text-center mt-auto p-5">
-    <footer>Je suis le footer</footer>
+    <footer><p>© 2024 PyForum - Tous droits réservés
+        {% if request.user.is_superuser %}
+        -
+        <a href="{% url 'admin:index' %}">Administration avancée</a> -
+        <a href="{% url 'sav:legal' %}" target="_blank">Confidentialité</a>
+        {% endif %}</p></footer>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"

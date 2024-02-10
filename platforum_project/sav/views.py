@@ -26,3 +26,7 @@ def contact_view(request):
         form = ContactForm(initial={"email": user.email}) if user.is_authenticated else ContactForm()
 
     return render(request, "sav/contact.html", context={"form": form})
+
+
+def legal_view(request):
+    return render(request, "sav/legal.html")

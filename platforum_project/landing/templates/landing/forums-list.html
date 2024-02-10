@@ -9,9 +9,31 @@
     <div class="row text-center"><h2>Liste des forums</h2></div>
 </div>
 
+
+<div class="container rounded  p-5">
+
+    <div class="row justify-content-center text-center">
+        <h3>Forum Support</h3>
+
+
+        <div class="col-lg-4 col-md-12 m-2 p-2 shadow-lg">
+            <a href="{{ support.get_absolute_url }}">
+                <img src="{{ support.thumbnail_url }}" width="100" height="auto" class="rounded">
+            </a>
+            <h3>{{ support.name }}</h3>
+            <p>{{ support.description }}</p>
+
+        </div>
+
+
+    </div>
+
+</div>
+<hr>
 <div class="container rounded  p-5">
 
     <div class="row justify-content-center">
+        {% if forums %}
         {% for forum in forums %}
         <div class="col-lg-4 col-md-12 m-2 p-2 shadow-lg text-center">
             <a href="{{ forum.get_absolute_url }}">
@@ -22,7 +44,9 @@
 
         </div>
         {% endfor %}
-
+        {% else %}
+        Pas encore de forums.
+        {% endif %}
 
     </div>
 
