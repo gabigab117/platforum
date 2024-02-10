@@ -161,3 +161,9 @@ cython_debug/
 
 mediafiles/**/*.png
 mediafiles/**/*.jpg
+platforum_project/account/migrations
+platforum_project/forum/migrations
+platforum_project/landing/migrations
+platforum_project/sav/migrations
+
+
