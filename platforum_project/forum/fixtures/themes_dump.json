@@ -1,1 +1,142 @@
-[{"model": "forum.theme", "pk": 1, "fields": {"name": "Actualités et Événements"}}, {"model": "forum.theme", "pk": 2, "fields": {"name": "Science et Technologie"}}, {"model": "forum.theme", "pk": 3, "fields": {"name": "Santé et Bien-être"}}, {"model": "forum.theme", "pk": 4, "fields": {"name": "Arts et Loisirs"}}, {"model": "forum.theme", "pk": 5, "fields": {"name": "Éducation et Apprentissage"}}, {"model": "forum.theme", "pk": 6, "fields": {"name": "Voyages et Culture"}}, {"model": "forum.theme", "pk": 7, "fields": {"name": "Gastronomie et Cuisine"}}, {"model": "forum.theme", "pk": 8, "fields": {"name": "Sport et Activités Physiques"}}, {"model": "forum.theme", "pk": 9, "fields": {"name": "Informatique et Jeux Vidéo"}}, {"model": "forum.theme", "pk": 10, "fields": {"name": "Cinéma et Télévision"}}, {"model": "forum.theme", "pk": 11, "fields": {"name": "Littérature et Écriture"}}, {"model": "forum.theme", "pk": 12, "fields": {"name": "Musique et Spectacles"}}, {"model": "forum.theme", "pk": 13, "fields": {"name": "Développement Personnel"}}, {"model": "forum.theme", "pk": 14, "fields": {"name": "Écologie et Environnement"}}, {"model": "forum.theme", "pk": 15, "fields": {"name": "Économie et Finance"}}, {"model": "forum.theme", "pk": 16, "fields": {"name": "Mode et Beauté"}}, {"model": "forum.theme", "pk": 17, "fields": {"name": "Bricolage et Jardinage"}}, {"model": "forum.theme", "pk": 18, "fields": {"name": "Animaux et Nature"}}, {"model": "forum.theme", "pk": 19, "fields": {"name": "Politique et Société"}}, {"model": "forum.theme", "pk": 20, "fields": {"name": "Relations et Communauté"}}, {"model": "forum.theme", "pk": 21, "fields": {"name": "dev"}}, {"model": "forum.theme", "pk": 22, "fields": {"name": "dev"}}, {"model": "forum.theme", "pk": 23, "fields": {"name": "dev"}}, {"model": "forum.theme", "pk": 24, "fields": {"name": "dev"}}, {"model": "forum.theme", "pk": 25, "fields": {"name": "dev"}}, {"model": "forum.theme", "pk": 26, "fields": {"name": "dev"}}, {"model": "forum.theme", "pk": 27, "fields": {"name": "dev"}}, {"model": "forum.theme", "pk": 28, "fields": {"name": "dev"}}]
+[
+  {
+    "model": "forum.theme",
+    "pk": 1,
+    "fields": {
+      "name": "Actualités et Événements"
+    }
+  },
+  {
+    "model": "forum.theme",
+    "pk": 2,
+    "fields": {
+      "name": "Science et Technologie"
+    }
+  },
+  {
+    "model": "forum.theme",
+    "pk": 3,
+    "fields": {
+      "name": "Santé et Bien-être"
+    }
+  },
+  {
+    "model": "forum.theme",
+    "pk": 4,
+    "fields": {
+      "name": "Arts et Loisirs"
+    }
+  },
+  {
+    "model": "forum.theme",
+    "pk": 5,
+    "fields": {
+      "name": "Éducation et Apprentissage"
+    }
+  },
+  {
+    "model": "forum.theme",
+    "pk": 6,
+    "fields": {
+      "name": "Voyages et Culture"
+    }
+  },
+  {
+    "model": "forum.theme",
+    "pk": 7,
+    "fields": {
+      "name": "Gastronomie et Cuisine"
+    }
+  },
+  {
+    "model": "forum.theme",
+    "pk": 8,
+    "fields": {
+      "name": "Sport et Activités Physiques"
+    }
+  },
+  {
+    "model": "forum.theme",
+    "pk": 9,
+    "fields": {
+      "name": "Informatique et Jeux Vidéo"
+    }
+  },
+  {
+    "model": "forum.theme",
+    "pk": 10,
+    "fields": {
+      "name": "Cinéma et Télévision"
+    }
+  },
+  {
+    "model": "forum.theme",
+    "pk": 11,
+    "fields": {
+      "name": "Littérature et Écriture"
+    }
+  },
+  {
+    "model": "forum.theme",
+    "pk": 12,
+    "fields": {
+      "name": "Musique et Spectacles"
+    }
+  },
+  {
+    "model": "forum.theme",
+    "pk": 13,
+    "fields": {
+      "name": "Développement Personnel"
+    }
+  },
+  {
+    "model": "forum.theme",
+    "pk": 14,
+    "fields": {
+      "name": "Écologie et Environnement"
+    }
+  },
+  {
+    "model": "forum.theme",
+    "pk": 15,
+    "fields": {
+      "name": "Économie et Finance"
+    }
+  },
+  {
+    "model": "forum.theme",
+    "pk": 16,
+    "fields": {
+      "name": "Mode et Beauté"
+    }
+  },
+  {
+    "model": "forum.theme",
+    "pk": 17,
+    "fields": {
+      "name": "Bricolage et Jardinage"
+    }
+  },
+  {
+    "model": "forum.theme",
+    "pk": 18,
+    "fields": {
+      "name": "Animaux et Nature"
+    }
+  },
+  {
+    "model": "forum.theme",
+    "pk": 19,
+    "fields": {
+      "name": "Politique et Société"
+    }
+  },
+  {
+    "model": "forum.theme",
+    "pk": 20,
+    "fields": {
+      "name": "Relations et Communauté"
+    }
+  }
+]
