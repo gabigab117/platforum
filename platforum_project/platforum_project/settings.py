@@ -205,7 +205,7 @@ DEFAULT_FROM_EMAIL = 'PlatForum<gabrieltrouve5@gmail.com>'
 
 # Recaptcha
 SILENCED_SYSTEM_CHECKS = ['django_recaptcha.recaptcha_test_key_error']
-RECAPTCHA_PUBLIC_KEY = env("RECAPTCHA_PUBLIC_KEY ")
+RECAPTCHA_PUBLIC_KEY = env("RECAPTCHA_PUBLIC_KEY")
 RECAPTCHA_PRIVATE_KEY = env("RECAPTCHA_PRIVATE_KEY")
 
 
