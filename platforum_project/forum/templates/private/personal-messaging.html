@@ -51,8 +51,7 @@
     <div class="card text-center shadow-lg">
         <div class="card-header row fw-bold mx-0" style="background-color: rgba(136, 204, 136);">
             <div class="col-4">Sujets</div>
-            <div class="col-4">Messages</div>
-            <div class="col-4">Dernier message par</div>
+            <div class="col-4">Dernier message</div>
 
 
         </div>
@@ -61,10 +60,10 @@
 
         <div class="row border-bottom p-2 mx-0">
             <div class="justify-content-between d-flex">
-                <div class="col-4"><a class="topic-link"
-                                      href="{% url 'forum:conversation' slug_forum=forum.slug pk_forum=forum.pk slug_conversation=conversation.slug pk_conversation=conversation.pk %}">{{ conversation.subject }}</a></div>
-                <div class="col-4">{{ conversation.number_of_messages }}</div>
-                <div class="col-4">{{ conversation.last_message }}</div>
+                <div class="col-6"><a class="topic-link"
+                                      href="{% url 'forum:conversation' slug_forum=forum.slug pk_forum=forum.pk slug_conversation=conversation.slug pk_conversation=conversation.pk %}">{{ conversation.subject }}</a>
+                <br><span class="badge bg-secondary">Messages : {{ conversation.number_of_messages }}</span></div>
+                <div class="col-6">{{ conversation.last_message }}</div>
 
             </div>
         </div>
