@@ -27,9 +27,9 @@
     <div class="card text-center shadow-lg mb-5">
         <div class="card-header row fw-bold mx-0" style="background-color: rgba(255, 218, 185, 1);">
             <div class="col-1"></div>
-            <div class="col-4">Sujets épinglés</div>
-            <div class="col-4">Messages</div>
-            <div class="col-3">Dernier message par</div>
+            <div class="col-6">Sujets épinglés</div>
+
+            <div class="col-5">Dernier message par</div>
 
 
         </div>
@@ -47,13 +47,13 @@
                 </form>
                     {% endif %}
                 </div>
-                <div class="col-4 justify-content-center d-flex">
+                <div class="col-6 d-flex flex-column align-items-center">
                     <a class="topic-link"
-                                      href="{% url 'forum:topic' slug_forum=forum.slug pk_forum=forum.pk pk=sub_category.pk slug_sub_category=sub_category.slug pk_topic=pin_topic.pk slug_topic=pin_topic.slug %}">{{ pin_topic.title }}</a>
-
+                              href="{% url 'forum:topic' slug_forum=forum.slug pk_forum=forum.pk pk=sub_category.pk slug_sub_category=sub_category.slug pk_topic=pin_topic.pk slug_topic=pin_topic.slug %}">{{ pin_topic.title }}</a>
+                    <p><span class="badge bg-secondary">Messages : {{ pin_topic.number_of_messages }}</span></p>
                 </div>
-                <div class="col-4">{{ pin_topic.number_of_messages }}</div>
-                <div class="col-3">{{ pin_topic.last_message }}</div>
+
+                <div class="col-5">{{ pin_topic.last_message }}</div>
 
             </div>
         </div>
@@ -67,9 +67,8 @@
     <div class="card text-center shadow-lg">
         <div class="card-header row fw-bold mx-0" style="background-color: rgba(136, 204, 136);">
             <div class="col-1"></div>
-            <div class="col-4">Sujets</div>
-            <div class="col-4">Messages</div>
-            <div class="col-3">Dernier message par</div>
+            <div class="col-6">Sujets</div>
+            <div class="col-5">Dernier message par</div>
 
 
         </div>
@@ -87,14 +86,14 @@
                     {% endif %}
 
                 </div>
-                <div class="col-4 justify-content-center d-flex">
+                <div class="col-6 d-flex flex-column align-items-center">
 
                     <a class="topic-link"
                                       href="{% url 'forum:topic' slug_forum=forum.slug pk_forum=forum.pk pk=sub_category.pk slug_sub_category=sub_category.slug pk_topic=topic.pk slug_topic=topic.slug %}">{{ topic.title }}</a>
-
+                    <span class="badge bg-secondary">Messages : {{ topic.number_of_messages }}</span>
                 </div>
-                <div class="col-4">{{ topic.number_of_messages }}</div>
-                <div class="col-3">{{ topic.last_message }}</div>
+
+                <div class="col-5">{{ topic.last_message }}</div>
 
             </div>
         </div>
