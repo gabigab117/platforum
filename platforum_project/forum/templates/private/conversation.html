@@ -8,12 +8,12 @@
 
 <div class="container p-5 mb-4">
     <div class="row justify-content-between">
-        <div class="col-4 shadow-lg">
+        <div class="col-sm-12 col-md-4 shadow-lg mb-2">
             <h2>Conversation</h2>
             <h3 style="color: green;">{{ conversation.subject }}</h3>
             <a href="{% url 'forum:private-messaging' slug_forum=forum.slug pk_forum=forum.pk %}"><img src="{% static 'assets/return.png' %}" height="40" width="auto"></a>
         </div>
-        <div class="col-4 shadow-lg">
+        <div class="col-md-4 col-sm-12 shadow-lg">
             <p><strong>Initiée par</strong> <span style="color: red;">{{ conversation.account.user.username }}</span></p>
             <p><strong>Avec</strong> {% for contact in contacts %}<span style="color: blue;">{{ contact.user.username }}</span> {% endfor %}</p>
         </div>

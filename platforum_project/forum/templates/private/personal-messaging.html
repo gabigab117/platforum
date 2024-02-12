@@ -20,9 +20,8 @@
     {% if my_conversations %}
     <div class="card text-center shadow-lg mb-5">
         <div class="card-header row fw-bold mx-0" style="background-color: rgba(255, 218, 185, 1);">
-            <div class="col-4">Sujets</div>
-            <div class="col-4">Messages</div>
-            <div class="col-4">Dernier message par</div>
+            <div class="col-6">Sujets</div>
+            <div class="col-6">Dernier message</div>
 
 
         </div>
@@ -31,10 +30,12 @@
 
         <div class="row border-bottom p-2 mx-0">
             <div class="justify-content-between d-flex">
-                <div class="col-4"><a class="topic-link"
-                                      href="{% url 'forum:conversation' slug_forum=forum.slug pk_forum=forum.pk slug_conversation=my_conversation.slug pk_conversation=my_conversation.pk %}">{{ my_conversation.subject }}</a></div>
-                <div class="col-4">{{ my_conversation.number_of_messages }}</div>
-                <div class="col-4">{{ my_conversation.last_message }}</div>
+                <div class="col-6"><a class="topic-link"
+                                      href="{% url 'forum:conversation' slug_forum=forum.slug pk_forum=forum.pk slug_conversation=my_conversation.slug pk_conversation=my_conversation.pk %}">{{ my_conversation.subject }}</a>
+                    <br><span class="badge bg-secondary">Messages : {{ my_conversation.number_of_messages }}</span>
+                </div>
+
+                <div class="col-6">{{ my_conversation.last_message }}</div>
 
             </div>
         </div>

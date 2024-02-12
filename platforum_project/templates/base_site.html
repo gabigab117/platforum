@@ -30,11 +30,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'landing:forums-list' %}">Voir les forums</a>
                 </li>
-                {% if request.user.is_superuser %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'admin:index' %}">Administration</a>
-                </li>
-                {% endif %}
+
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'forum:create-forum' %}">Créer son forum</a>
                 </li>
