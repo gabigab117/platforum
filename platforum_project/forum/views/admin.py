@@ -5,7 +5,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 
 from account.models import CustomUser
-from forum.forms import CreateCategory, CategoryForm, SubCategoryForm, ForumUpdateThumbnail, TopicUpdateForm
+from forum.forms import CreateCategory, CategoryForm, SubCategoryForm, ForumUpdateThumbnail, TopicUpdateForm, \
+    NewSubCategoryForm
 from forum.models import Forum, Topic, ForumAccount, Category, SubCategory, Message
 from platforum_project.func.security import verify_forum_master_status
 
@@ -216,14 +217,14 @@ def add_sub_category(request, slug_forum, pk_forum, pk_category):
     verify_forum_master_status(account)
 
     if request.method == "POST":
-        form = SubCategoryForm(request.POST)
+        form = NewSubCategoryForm(request.POST)
         if form.is_valid():
             sub_category = form.save(commit=False)
             sub_category.category = category
             sub_category.save()
             return redirect("forum:builder", slug_forum=forum.slug, pk_forum=forum.pk)
     else:
-        form = SubCategoryForm()
+        form = NewSubCategoryForm()
     return render(request, "admin-forum/add-sub-category.html", context={"forum": forum, "account": account,
                                                                          "category": category, "form": form})
 

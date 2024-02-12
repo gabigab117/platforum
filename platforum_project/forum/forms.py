@@ -116,8 +116,15 @@ class SubCategoryForm(forms.ModelForm):
         fields = ["category", "name", "index"]
 
     def __init__(self, forum, *args, **kwargs):
+        # Extrait l'argument 'forum' de kwargs s'il est présent, sinon None
         super().__init__(*args, **kwargs)
-        self.fields["category"].queryset = Category.objects.filter(forum=forum)
+        self.fields['category'].queryset = Category.objects.filter(forum=forum)
+
+
+class NewSubCategoryForm(forms.ModelForm):
+    class Meta:
+        model = SubCategory
+        fields = ["name", "index"]
 
 
 class ConversationForm(forms.ModelForm):
