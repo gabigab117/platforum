@@ -1,6 +1,7 @@
 from django import forms
 
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
+from django.core.exceptions import ValidationError
 from django_recaptcha.fields import ReCaptchaField
 
 from forum.models import Forum, Topic, Message, ForumAccount, Category, SubCategory, Conversation
@@ -71,6 +72,17 @@ class CreateCategory(forms.Form):
     index_4 = forms.IntegerField(label="Index 4", required=False)
     sub_5 = forms.CharField(max_length=40, label="Sous-catégorie 5", required=False)
     index_5 = forms.IntegerField(label="Index 5", required=False)
+
+    def clean(self):
+        clean_data = super().clean()
+        for i in range(1, 6):
+            sub_category_name = clean_data[f"sub_{i}"]
+            index = clean_data[f"index_{i}"]
+            if sub_category_name and not index:
+                raise ValidationError("Merci de renseigner un index si vous ajoutez une sous catégorie")
+            if index and not sub_category_name:
+                raise ValidationError("Merci de renseigner un nom de sous-catégorie si vous spécifiez un index")
+        return clean_data
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
