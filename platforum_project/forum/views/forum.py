@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from django.db import transaction
 from django.views.decorators.http import require_POST
 from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404, redirect
@@ -104,11 +105,12 @@ def add_topic(request, slug_forum, pk_forum, pk, slug_sub_category):
     if request.method == "POST":
         form = CreateTopic(request.POST)
         if form.is_valid():
-            topic = form.save(commit=False)
-            topic.account = account
-            topic.sub_category = sub_category
-            topic.save()
-            Message.objects.create(message=form.cleaned_data["message"], account=account, topic=topic)
+            with transaction.atomic():
+                topic = form.save(commit=False)
+                topic.account = account
+                topic.sub_category = sub_category
+                topic.save()
+                Message.objects.create(message=form.cleaned_data["message"], account=account, topic=topic)
             return redirect(topic)
 
     else:

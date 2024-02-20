@@ -1,9 +1,8 @@
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import PermissionDenied, ObjectDoesNotExist
 from django.core.paginator import Paginator
-from django.forms import model_to_dict
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
+from django.db import transaction
 
 from account.models import CustomUser
 from forum.models import Conversation, Forum, Message, ForumAccount, Notification
@@ -76,13 +75,14 @@ def start_conversation(request, slug_forum, pk_forum, pk_member):
     if request.method == "POST":
         form = ConversationForm(request.POST)
         if form.is_valid():
-            conversation = form.save(commit=False)
-            conversation.account = account
-            conversation.forum = forum
-            conversation.save()
-            conversation.contacts.add(member)
-            Message.objects.create(message=form.cleaned_data["message"], account=account, conversation=conversation,
-                                   personal=True)
+            with transaction.atomic():
+                conversation = form.save(commit=False)
+                conversation.account = account
+                conversation.forum = forum
+                conversation.save()
+                conversation.contacts.add(member)
+                Message.objects.create(message=form.cleaned_data["message"], account=account, conversation=conversation,
+                                       personal=True)
             return redirect(conversation)
     else:
         form = ConversationForm()

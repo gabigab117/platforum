@@ -1,4 +1,5 @@
 from forum.models import ForumAccount, Category, SubCategory, Topic, Message
+from django.db import transaction
 
 
 def create_forum_with_data(form, user):
@@ -17,12 +18,13 @@ def create_forum_with_data(form, user):
         Returns:
             Forum: The newly created forum object with initial test data.
         """
-    forum = form.save(commit=False)
-    forum.forum_master = user
-    forum.save()
-    forum_account = ForumAccount.objects.create(forum=forum, user=user, forum_master=True)
-    category = Category.create_test_category(forum)
-    sub_category = SubCategory.create_test_subcategory(category)
-    topic = Topic.create_topic_test(sub_category, forum_account)
-    Message.message_test(topic, forum_account)
+    with transaction.atomic():
+        forum = form.save(commit=False)
+        forum.forum_master = user
+        forum.save()
+        forum_account = ForumAccount.objects.create(forum=forum, user=user, forum_master=True)
+        category = Category.create_test_category(forum)
+        sub_category = SubCategory.create_test_subcategory(category)
+        topic = Topic.create_topic_test(sub_category, forum_account)
+        Message.message_test(topic, forum_account)
     return forum
