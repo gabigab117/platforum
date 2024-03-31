@@ -162,3 +162,40 @@ search = request.GET.get("query")
             Q(message__icontains=search) | Q(topic__title__icontains=search)
         )
 ```
+
+# .env file
+
+```ENV=DEV```
+Explanation: Specifies the environment the application is running in. In this case, it's set to "DEV" which commonly
+stands for development.
+
+
+```SECRET_KEY=```
+Explanation: The secret key is used by Django to provide cryptographic signing. It's essential for the security of your
+Django application. This should be kept secret and unique for each environment.
+
+
+```DEBUG=```
+Explanation: Controls whether debugging mode is enabled or not. In a development environment, it's typically set to "
+True" to display detailed error pages with debugging information.
+
+
+```ALLOWED_HOSTS=```
+Explanation: Specifies which host/domain names are allowed to access the Django application. In this case, only requests
+from the local machine (localhost) are permitted.
+
+
+```
+EMAIL_ID=
+EMAIL_PW=
+```
+Explanation: Credentials for sending emails. "EMAIL_ID" typically represents the email address used for sending emails,
+while "EMAIL_PW" is the corresponding password.
+
+
+```
+RECAPTCHA_PUBLIC_KEY=
+RECAPTCHA_PRIVATE_KEY=
+```
+Explanation: Public and private keys for integrating Google reCAPTCHA, which helps prevent automated abuse of your
+website. These keys are provided by Google reCAPTCHA service and are used to verify reCAPTCHA responses from users.
