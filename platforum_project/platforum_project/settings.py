@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',
     'django_recaptcha',
+    'django_extensions'
 ]
 
 MIDDLEWARE = [
